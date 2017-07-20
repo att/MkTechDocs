@@ -7,6 +7,7 @@ Looks like no changes have been committed.
 {% for m in gitMessages %}
 
 {% if not m.mergeCommit %}
+<p>
 **Date**: {{ m.date }}<br />
 **Author**: {{ m.author }}<br />
 **Message**: {{ m.message }}<br />

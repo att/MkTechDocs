@@ -14,4 +14,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-gVersions = [("1.0", "2017-04-17", "-1", "-1")]
+gVersions = [("0.9", "2017-07-20", "b3fcbe9b33a914331887ad97ac703655b86bddcf", "")]
