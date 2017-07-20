@@ -10,6 +10,6 @@ Features:
 4. Agile and Continuous Integration friendly
 5. Use it for building and maintaining large documentation projects or simply to transform and preview a set of documents in a variety of formats.
 
-Fully documented here: [https://att.github.io/mktechdocs](https://jsseidel.github.io/mktechdocs)
+Fully documented here: [https://att.github.io/MkTechDocs](https://att.github.io/MkTechDocs)
 
 Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
