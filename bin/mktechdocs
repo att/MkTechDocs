@@ -1,0 +1,126 @@
+#!/usr/bin/env python
+
+# Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+##
+# This script initializes new MkTechDocs projects.
+#
+# --------------------- -------------------------------------------------
+# Example usage         `install_deps_macos_py.sh`
+#
+# Arguments             init "Some name"<br />
+#                       Creates a new MkTechDocs project directory<br />
+#                       `somename` and populates it with starter project<br />
+#                       files.
+#
+# Special exit values   None
+# --------------------- -------------------------------------------------
+#
+
+from __future__ import print_function
+from subprocess import call
+import os
+import sys
+import re
+
+# A simple string list of all possible commands
+COMMANDS=["init"]
+
+# print more easily to stderr
+def eprint(*args, **kwargs):
+	print(*args, file=sys.stderr, **kwargs)
+
+def usage():
+	eprint("Usage: mktechdocs <command> [command args]")
+	eprint("    Available Commands:")
+	eprint("        init <project title>")
+	eprint("See MkTechDocs documentation for a complete list of")
+	eprint("commands and command-arguments.")
+
+##
+# COMMAND ACTIONS
+#
+# Each command should have functions:
+#     def do_<command>()
+#     def checkargs_<command>()
+#
+
+# init
+def check_args_init():
+	if len(sys.argv) != 3:
+		eprint("Error: init needs a project title")
+		return False
+	return True
+
+def do_init():
+	prettyTitle = sys.argv[2]
+	title = re.sub("[\s]", "", sys.argv[2].lower())
+	
+	if not os.path.exists("./" + title):
+		os.makedirs("./" + title)
+	
+	with open("./" + title + "/" + title + ".md", "w") as f:
+		f.write("```comment\nThis is your master document. Include all your subdocuments in the\ninclude block below.\n```\n\n")
+		f.write("```{.include heading-level=0}\nsomefile.md\n```\n")
+
+	with open(os.environ['MKTECHDOCSHOME'] + "/lib/makefile_template", "r") as f:
+		contents = f.read()
+
+	contents = re.sub("~~TITLE~~", prettyTitle, contents)
+	contents = re.sub("~~OUTPUT_FILE_NAME~~", title, contents)
+
+	with open("./" + title + "/makefile", "w") as f:
+		f.write(contents)
+
+	# Generate templates
+	with open("./" + title + "/header.html", "w") as f:
+		f.write("<h1>Header content</h1>\n")
+	
+	with open("./" + title + "/landing.html", "w") as f:
+		f.write("<p>Landing page content. This template is used only in multi-page mode. It is used within index.html.</p>\n")
+	
+	with open("./" + title + "/footer.html", "w") as f:
+		f.write("<p>Footer content</p>\n")
+
+	# Make a template renderer
+	with open(os.environ['MKTECHDOCSHOME'] + "/lib/page.renderer", "r") as f:
+		contents = f.read()
+	
+	with open("./" + title + "/page.renderer", "w") as f:
+		f.write(contents)
+
+	call(["chmod", "+x", "./" + title + "/page.renderer"])
+
+	print("Project " + prettyTitle + " created in ./" + title)
+
+	return 0
+
+# Entry
+def process_command():
+	if len(sys.argv) == 1:
+		eprint("Nothing to do!")
+		usage()
+		sys.exit(0)
+	
+	if not sys.argv[1] in COMMANDS:
+		eprint("Unrecognized command: " + sys.argv[1])
+		usage()
+		sys.exit(1)
+
+	# Call an appropriate function
+	eval("check_args_" + sys.argv[1])() and eval("do_" + sys.argv[1])()
+
+if __name__ == "__main__":
+	process_command()

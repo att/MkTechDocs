@@ -1,0 +1,451 @@
+/****************************************************************************************
+ * Adapted from: https://gist.github.com/killercup/5917178
+
+
+ Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+html, body {
+  padding: 0;
+  margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 16px;
+	line-height: 1.5;
+	color: #24292e;
+	background-color: #fff
+}
+
+div#wrapper {
+  width: 1024px;
+  margin: 0 auto;
+}
+
+div#header {
+  padding: 5px 10px;
+}
+
+.backtomain {
+	margin: 5px 5px;
+	text-size=80%;
+	text-align=center;
+}
+
+div#navbar {
+  float: left;
+  width: 280px;
+  padding: 10px;
+  /*height: 640px;
+  overflow-y: auto;*/
+}
+
+div#content {
+  float: right;
+  width: 704px;
+  padding: 10px;
+  /*height: 640px;
+  overflow-y: auto;*/
+}
+
+div#footer {
+  clear: both;
+  padding: 5px 10px;
+}
+
+a {
+	color: #0366d6;
+	text-decoration: none
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#toggleLink {
+	font-size: 75%;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+	display: block;
+	margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin: 0 0 1em 0;
+  font-weight: normal;
+}
+
+h1:after, h2:after, h3:after, h4:after, h5:after, h6:after {
+    content:' ';
+    display:block;
+    border-bottom:1px solid #dddddd;
+}
+
+h5, h6 {
+	font-size: 100%;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 150%;
+}
+
+h2 {
+  font-size: 130%;
+}
+
+h3 {
+  font-size: 120%;
+}
+
+h4 {
+  font-size: 110%;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 100%;
+  color: black;
+  background-color: #f4f4f5;
+  border-radius: 5px;
+  padding: .5em .5em; 
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  background-color: #f4f4f5;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 1em;
+  padding: 0 0 0 0.25em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+ol ol {
+	margin-left: 2em;
+}
+
+ol li {
+	margin-left: .33em;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure, .caption {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+	font-size: 90%;
+	font-weight: normal;
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+	font-size: 80%;
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+  text-align: left;
+}
+
+.date {
+  font-size: 1.2em;
+  text-align: left;
+}
+	
+#TOC {
+		font-size: 100%;
+		background-color: #fff;
+}
+
+#TOC ul li {
+	margin: 0.33em;
+}
+
+#TOC ul {
+	list-style: none;
+  margin-left: 0;
+	margin-bottom: 0;
+}
+
+#TOC ul ul {
+  margin-left: 1em;
+	margin-bottom: 0;
+}
+
+#TOC ul ul ul {
+  margin-left: 1em;
+	margin-bottom: 0;
+}
+
+#TOC ul ul ul ul {
+  margin-left: 1em;
+	margin-bottom: 0;
+}
+
+#TOC ul ul ul ul ul {
+  margin-left: 1em;
+	margin-bottom: 0;
+}
+
+.tip {
+  font-family: sans-serif;
+  font-size: 100%;
+  background-color: #fff;
+	border: 1px solid #dddddd;  
+  border-radius: 5px;
+  padding: 1em 1em; 
+}
+
+.note {
+  font-family: sans-serif;
+  font-size: 100%;
+  background-color: #fff;
+	border: 1px solid #dddddd;  
+  border-radius: 5px;
+  padding: 1em 1em; 
+}
+
+ul ul ul ul, ol ol ol ol {
+  margin-left: 3em;
+	margin-bottom: 0;
+}
+
+ul ul ul ul ul, ol ol ol ol ol {
+  margin: .3em 0;
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+    font-size: 90%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 90%;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+}

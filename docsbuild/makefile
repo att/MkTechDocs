@@ -1,0 +1,447 @@
+# MkTechDocs Makefile                                                       
+
+# Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#############################################################################
+# SIMPLE CONFIGURATION
+
+TITLE=MkTechDocs Installation and Usage Guide
+OUTPUT_FILE_NAME=mktechdocsiug
+# pdf, pdffloat, html, htmlsimple, cssframes, htmlmulti, markdown, docx
+FORMAT=cssframes
+# Style only applies to HTML format. Custom requires updating the CUSTOM_CSS
+# variable below with a path to your custom CSS.
+# archwiki, github, custom
+HTML_STYLE=custom
+PDF_MAIN_FONT=FreeSans
+PDF_MONO_FONT=FreeMono
+TABLE_OF_CONTENTS_MAIN_DEPTH=3
+TABLE_OF_CONTENTS_SUB_DEPTH=6
+SECTION_NUMBERS=yes
+TITLE_PAGE=title-page.md
+
+# END SIMPLE CONFIGURATION
+#############################################################################
+
+#############################################################################
+# ADVANCED CONFIGURATION
+
+BUILD_SCRIPT=build.sh
+
+PAGE_RENDERER=page.renderer
+#PYT_RENDERER=myrenderer.py
+
+EXTERNAL_DEPS_GENERATOR=
+CUSTOM_CSS=mktechdocs.css
+CUSTOM_TEMPLATE=
+
+# END ADVANCED CONFIGURATION
+#############################################################################
+
+
+
+
+#############################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#############################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#############################################################################
+#                                                                           #
+#                       FOR ADVANCED USERS ONLY                             #
+#                                                                           #
+#############################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#############################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#############################################################################
+
+#############################################################################
+# Misc variable setup
+
+TEXLISTINGS=$(MKTECHDOCSHOME)/lib/listings.tex
+TEXTEMPLATE=$(MKTECHDOCSHOME)/lib/template.tex
+
+SECTIONNUMBERS=
+ifeq ($(SECTION_NUMBERS), yes)
+	SECTIONNUMBERS=-N -V numbersections=1
+endif
+
+TABLEOFCONTENTSMAIN=--toc --toc-depth=$(TABLE_OF_CONTENTS_MAIN_DEPTH)
+ifeq ($(TABLE_OF_CONTENTS_MAIN_DEPTH), "")
+	TABLEOFCONTENTSMAIN=
+endif
+
+TABLEOFCONTENTSSUB=--toc --toc-depth=$(TABLE_OF_CONTENTS_SUB_DEPTH)
+ifeq ($(TABLE_OF_CONTENTS_SUB_DEPTH), "")
+	TABLEOFCONTENTSSUB=
+endif
+
+PANDOCPDFINC=$(SECTIONNUMBERS) --listings -H $(TEXLISTINGS) --template=$(TEXTEMPLATE) --latex-engine=xelatex -f markdown -t latex $(TABLEOFCONTENTSMAIN) -V geometry:margin=1in -V mainfont="$(PDF_MAIN_FONT)" -V monofont="$(PDF_MONO_FONT)"
+PANDOCHTMLINC=$(SECTIONNUMBERS) -s --ascii --highlight-style tango -f markdown --wrap=preserve
+
+PLANTUML_FORMAT=eps
+ifeq ($(FORMAT), html)
+	PLANTUML_FORMAT=png
+else ifeq ($(FORMAT), htmlsimple)
+	PLANTUML_FORMAT=png
+else ifeq ($(FORMAT), cssframes)
+	PLANTUML_FORMAT=png
+else ifeq ($(FORMAT), htmlmulti)
+	PLANTUML_FORMAT=png
+else ifeq ($(FORMAT), markdown)
+	PLANTUML_FORMAT=png
+else ifeq ($(FORMAT), docx)
+	PLANTUML_FORMAT=eps
+endif
+
+FILTERS=-F $(MKTECHDOCSHOME)/bin/flt-include.py -F $(MKTECHDOCSHOME)/bin/flt-comment-block.py -F $(MKTECHDOCSHOME)/bin/flt-comment.py -F $(MKTECHDOCSHOME)/bin/flt-plantuml.py -M umlformat=$(PLANTUML_FORMAT) -F $(MKTECHDOCSHOME)/bin/flt-notetip.py -F $(MKTECHDOCSHOME)/bin/flt-include-code.py
+
+SHELL:=/bin/bash
+TEMP_FILE:=$(shell mktemp)
+
+ARCH=$(shell uname)
+SEDI=-i .bak
+ifeq ($(ARCH), Linux)
+	SEDI=-i.bak
+endif
+
+OUTPUTEXT=html
+ifeq ($(FORMAT), pdf)
+	OUTPUTEXT=pdf
+else ifeq ($(FORMAT), pdffloat)
+	OUTPUTEXT=pdf
+else ifeq ($(FORMAT), html)
+	OUTPUTEXT=html
+else ifeq ($(FORMAT), htmlsimple)
+	OUTPUTEXT=html
+else ifeq ($(FORMAT), cssframes)
+	OUTPUTEXT=html
+else ifeq ($(FORMAT), htmlmulti)
+	OUTPUTEXT=htmlmulti
+else ifeq ($(FORMAT), markdown)
+	OUTPUTEXT=md
+else ifeq ($(FORMAT), docx)
+	OUTPUTEXT=docx
+endif
+
+TEMPLATE=$(MKTECHDOCSHOME)/lib/basic_template.html
+ifneq ($(CUSTOM_TEMPLATE),)
+	TEMPLATE=$(CUSTOM_TEMPLATE)
+else ifeq ($(FORMAT), cssframes)
+	TEMPLATE=$(MKTECHDOCSHOME)/lib/css_frame_template.html
+else ifeq ($(FORMAT), htmlmulti)
+	TEMPLATE=$(MKTECHDOCSHOME)/lib/page_multipage.html
+endif
+
+CSS=
+ifeq ($(HTML_STYLE), archwiki)
+	CSS=$(MKTECHDOCSHOME)/lib/archwiki.css
+else ifeq ($(HTML_STYLE), github)
+	CSS=$(MKTECHDOCSHOME)/lib/github.css
+else ifeq ($(HTML_STYLE), custom)
+	CSS=$(CUSTOM_CSS)
+endif
+
+TITLEPAGE=$(basename $(TITLE_PAGE))
+
+#PANDOC=$(MKTECHDOCSHOME)/bin/pd
+PANDOC=pandoc
+
+OUTPUTDIR=$(OUTPUT_FILE_NAME)_pages
+
+#############################################################################
+# Files lists
+
+GROOVY_FILES=$(shell ls *.groovy 2>/dev/null)
+TEMP1=$(GROOVY_FILES:.groovy=.class)
+CLASSES=$(TEMP1:%=build/%)
+
+DOCS=$(shell ls *.pyt *.gt *.md 2>/dev/null | grep -v README.md)
+TEMP2=$(DOCS:.gt=.md)
+TEMP3=$(TEMP2:.pyt=.md)
+MDDEPOBJS=$(TEMP3:%=build/%)
+PREMDDEPOBJS=$(MDDEPOBJS:.md=.pmd)
+DEPENDS=$(PREMDDEPOBJS:.pmd=.pmd.d)
+
+TEMP4=$(TEMP3:%=build/%)
+HTMLDEPOBJS=$(TEMP4:.md=.html)
+
+HTMLTEMPS=$(shell ls *.htmlt 2>/dev/null)
+TEMP5=$(HTMLTEMPS:.htmlt=.html)
+HTMLTEMPSDEPOBJS=$(TEMP5:%=build/%)
+
+#############################################################################
+# Rules
+
+# all: run deps rule first by itself to build dependencies
+all: depspresent $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).$(OUTPUTEXT)
+
+# PDF Output
+# 
+# Styles available:
+#
+#   pdffloat: Allow xelatex to "float" figures and diagrams so that they are
+#             not necessarily near where the figures are mentioned.
+#        pdf: Do NOT allow xelatex to float figures and diagrams. They will
+#             appear inline, as close as possible to where they appear in
+#             the markdown.
+# 
+$(OUTPUTDIR)/$(OUTPUT_FILE_NAME).pdf: preprocess $(CLASSES) build/$(OUTPUT_FILE_NAME).md outputdir
+ifeq ($(FORMAT), pdf)
+	$(info Building main document: $@)	
+	@-(cd build ;\
+		$(PANDOC) $(PANDOCPDFINC) -F flt-strip-pages-from-links.py $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md > ./$(OUTPUT_FILE_NAME).tex ;\
+		sed $(SEDI) 's/\\begin{figure}/\\begin{figure}\[H\]/g' ./$(OUTPUT_FILE_NAME).tex ;\
+		echo "creating pdf, pass 1" ;\
+		xelatex -halt-on-error -interaction nonstopmode -output-directory . ./$(OUTPUT_FILE_NAME).tex 1>xelatex1.out 2>&1 ;\
+		echo "creating pdf, pass 2" ;\
+		xelatex -halt-on-error -interaction nonstopmode -output-directory . ./$(OUTPUT_FILE_NAME).tex 1>xelatex2.out 2>&1 ;\
+		echo "creating pdf, pass 3" ;\
+		xelatex -halt-on-error -interaction nonstopmode -output-directory . ./$(OUTPUT_FILE_NAME).tex 1>xelatex3.out 2>&1)
+	@cp build/$(OUTPUT_FILE_NAME).pdf $(OUTPUTDIR)/. 
+else ifeq ($(FORMAT), pdffloat)
+	$(info Building main document: $@)	
+	@(cd build ; $(PANDOC) $(PANDOCPDFINC) -F flt-strip-pages-from-links.py -o ../$@ $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md)
+endif
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
+	$(info Done.)	
+
+# HTML Output
+#
+$(OUTPUTDIR)/$(OUTPUT_FILE_NAME).html: preprocess outputdir $(CLASSES) $(HTMLTEMPSDEPOBJS) build/$(OUTPUT_FILE_NAME).md
+ifeq ($(FORMAT), cssframes)
+	$(info Building main document $(OUTPUT_FILE_NAME) -> index.pyt)
+	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py $(OUTPUT_FILE_NAME).md $(TABLEOFCONTENTSMAIN) --template $(TEMPLATE) -o index.pyt)
+	$(info Rendering index.html with $(PAGE_RENDERER))
+	@(cd build ;\
+		if [[ -r ../footer.html ]] ; then echo "Copying footer.html to build" ; cp ../footer.html . ; fi ;\
+		if [[ -r ../header.html ]] ; then echo "Copying header.html to build" ; cp ../header.html . ; fi ;\
+		if [[ -r ../landing.html ]] ; then echo "Copying landing.html to build" ; cp ../landing.html . ; fi ;\
+		escape-jinja-brackets.sh index.pyt ;\
+	  ../$(PAGE_RENDERER) index.pyt > ../$(OUTPUTDIR)/index.html ;\
+	 )
+else ifeq ($(FORMAT), htmlsimple)
+	$(info Building main document: $(OUTPUT_FILE_NAME) -> index.html)
+	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t html $(OUTPUT_FILE_NAME).md -o ../$(OUTPUTDIR)/index.html)
+else ifeq ($(FORMAT), html)
+	$(info Building main document: $(OUTPUT_FILE_NAME) -> index.html)
+	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t html --template $(TEMPLATE) --css archwiki.css -V "pagetitle:$(TITLE)" -V "title:$(TITLE)" $(OUTPUT_FILE_NAME).md $(TABLEOFCONTENTSMAIN) -o ../$(OUTPUTDIR)/index.html)
+endif
+ifneq ($(FORMAT), htmlsimple)
+	$(info Copying CSS)
+	@cp $(CSS) $(OUTPUT_FILE_NAME)_pages/mktechdocs.css
+endif
+	$(info Copying other files, if any)
+	@if [[ `ls build/*.png 2>/dev/null` ]] ; then\
+	     cp build/*.png $(OUTPUTDIR)/. 2>/dev/null ;\
+	 fi
+	@if [[ `ls build/*.svg 2>/dev/null` ]] ; then\
+	     cp build/*.svg $(OUTPUTDIR)/. 2>/dev/null ;\
+	 fi
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
+	$(info Done.)	
+
+# Multiple HTML page output
+$(OUTPUTDIR)/$(OUTPUT_FILE_NAME).htmlmulti: depspresent outputdir $(HTMLTEMPSDEPOBJS) $(HTMLDEPOBJS) 
+	$(info Building HTML dependency list and creating index template)	
+	@(cd build ;\
+	  $(PANDOC) $(PANDOCHTMLINC) -F flt-include-doc-map.py -f markdown -t html --template $(MKTECHDOCSHOME)/lib/main_multipage.html $(TABLEOFCONTENTSMAIN) $(OUTPUT_FILE_NAME).pmd 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > index.pyt ;\
+		if [[ -r ../footer.html ]] ; then echo "Copying footer.html to build" ; cp ../footer.html . ; fi ;\
+		if [[ -r ../header.html ]] ; then echo "Copying header.html to build" ; cp ../header.html . ; fi ;\
+		if [[ -r ../landing.html ]] ; then echo "Copying landing.html to build" ; cp ../landing.html . ; fi ;\
+	  echo Rendering index template with $$(basename ../$(PAGE_RENDERER)) ;\
+		escape-jinja-brackets.sh index.pyt ;\
+	  ../$(PAGE_RENDERER) index.pyt > ../$(OUTPUTDIR)/index.html ;\
+	 )
+	$(info Working on html . . .)	
+	@(cd build ;\
+	  HEADERDELTA=0 ;\
+	  cat 2cp.txt | sed 's/\.html//' | while read f ; do \
+	 		 echo "Building $$f template" ;\
+			 if [[ "$(SECTION_NUMBERS)" == "yes" ]] ; then \
+	     	$(PANDOC) $(PANDOCHTMLINC) -f markdown -t html --number-offset=$$HEADERDELTA $(TABLEOFCONTENTSSUB) --template $(TEMPLATE) $$f.md -o $$f.pyt ;\
+			 else \
+	     	$(PANDOC) $(PANDOCHTMLINC) -f markdown -t html $(TABLEOFCONTENTSSUB) --template $(TEMPLATE) $$f.md -o $$f.pyt ;\
+			 fi ;\
+	 		 echo "Rendering $$f template with $$(basename ../$(PAGE_RENDERER))" ;\
+			 escape-jinja-brackets.sh $$f.pyt ;\
+			 ../$(PAGE_RENDERER) $$f.pyt > ../$(OUTPUTDIR)/$$f.html ;\
+		   ((HEADERDELTA=HEADERDELTA+1)) ;\
+	  done ;\
+	 )
+	$(info Copying CSS)
+	@cp $(CSS) $(OUTPUT_FILE_NAME)_pages/mktechdocs.css
+	$(info Copying other files, if any)
+	@if [[ `ls build/*.png 2>/dev/null` ]] ; then\
+	     cp build/*.png $(OUTPUTDIR)/. 2>/dev/null ;\
+	 fi
+	@if [[ `ls build/*.svg 2>/dev/null` ]] ; then\
+	     cp build/*.svg $(OUTPUTDIR)/. 2>/dev/null ;\
+	 fi
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
+	$(info Done.)	
+
+
+# Markdown Output
+#
+# Notes:
+#  A single markdown document, processed by pandoc (and therefore cleaned up for
+#  consistency).
+#
+$(OUTPUTDIR)/$(OUTPUT_FILE_NAME).md: preprocess outputdir $(CLASSES) build/$(OUTPUT_FILE_NAME).md
+	$(info Building main markdown document: $@)
+	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t markdown $(OUTPUT_FILE_NAME).md -o ../$@)
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
+	$(info Done.)	
+
+# MS Word Output
+#
+# Notes:
+#  A single MS Word document, processed by pandoc (and therefore cleaned up for
+#  consistency).
+#
+$(OUTPUTDIR)/$(OUTPUT_FILE_NAME).docx: preprocess outputdir $(CLASSES) build/$(OUTPUT_FILE_NAME).md
+	$(info Building main docx document: $@)
+	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t docx $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md -o ../$@)
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
+	$(info Done.)	
+
+# This will build all the .md files in the build directory
+preprocess: $(MDDEPOBJS)
+
+# This will exit if the dependencies don't exist
+depspresent:
+	@for f in $(DEPENDS) ; do\
+	     if [[ ! -r $$f ]] ; then\
+			     echo "Missing dependency $$f. Run 'make deps' first." ;\
+					 exit 1 ;\
+			 fi ;\
+	 done
+
+# This sanity checks the build environment
+saneenv:
+	@$(MKTECHDOCSHOME)/bin/check_build_env.sh
+
+# Create dependencies
+deps: saneenv build $(CLASSES) $(PREMDDEPOBJS)
+
+# Create the build directory
+build:
+	$(info Preparing build directory)
+	@mkdir -p build
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
+
+# Create the output directory
+outputdir:
+	$(info Creating output directory)
+	@mkdir -p $(OUTPUTDIR)
+
+# Compile all groovy files
+build/%.class: %.groovy
+	$(info Building class for $< and adding to build)
+	@cg -d build $<
+
+# The titlepage is special because pandoc will remove the '% blah' strings and leave it blank,
+# so we don't want it preprocessed
+build/$(TITLEPAGE).md: build/$(TITLEPAGE).pmd
+	$(info Processing $(TITLE_PAGE))
+	@cp build/$(TITLEPAGE).pmd build/$(TITLEPAGE).md
+
+# Turn a finalized .md file into an .html by running it through filter list
+build/%.html: build/%.md
+	$(info Processing '$<' with pandoc)
+	@cd build ; $(PANDOC) -f markdown -t html -s -V "pagetitle:$(TITLE)" -V "title:$(TITLE)" -M filename=$< --template $(TEMPLATE) $(FILTERS) $(notdir $<) -o $(notdir $@)
+
+# Turn a pre-process .pmd file into an .md by running it through filter list
+build/%.md: build/%.pmd
+	$(info Processing '$<' with pandoc)
+	@cd build ; $(PANDOC) -f markdown -t markdown $(FILTERS) $(notdir $<) -o $(notdir $@)
+
+# Add a raw (unprocessed) .md file to the build directory by preprocessing through the
+# flt_get_includes to generate dependencies
+build/%.pmd: %.md
+	$(info Adding '$<' to build)
+	@cp $< $@
+	@$(PANDOC) -f markdown -t markdown --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
+	@for f in `cat $@.dT` ;\
+	     do printf "build/$$f " ;\
+	 done | awk '{print "build/$<: " $$0}' > $@.d
+	@rm -f $@.dT
+
+# Add a raw (unprocessed) groovy template file to the build directory by preprocessing through the
+# flt_get_includes to generate dependencies
+build/%.pmd: %.gt
+	$(info Groovy processing '$<' and adding to build)
+	@$(MKTECHDOCSHOME)/bin/groovy/gtp $< > $@
+	@$(PANDOC) -f markdown -t markdown --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
+	@for f in `cat $@.dT` ;\
+	     do printf "build/$$f " ;\
+	 done | awk '{print "$(basename $@).md: " $$0}' > $@.d
+	@rm -f $@.dT
+
+# Add a raw (unprocessed) jinja template file to the build directory by preprocessing through the
+# flt_get_includes to generate dependencies
+build/%.pmd: %.pyt
+ifeq ($(PYT_RENDERER),)
+	$(info Processing '$<' with $(basename $<).renderer and adding to build)
+	@$(basename $<).renderer $< > $@
+else
+	$(info Processing '$<' with $(PYT_RENDERER) and adding to build)
+	@$(PYT_RENDERER) $< > $@
+endif
+	@$(PANDOC) -f markdown -t markdown --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
+	@for f in `cat $@.dT` ;\
+	    do printf "build/$$f " ;\
+	 done | awk '{print "$(basename $@).md: " $$0}' > $@.d
+	@rm -f $@.dT
+
+# Add a raw (unprocessed) jinja htmlt template file to the build directory
+build/%.html: %.htmlt
+ifeq ($(PYT_RENDERER),)
+	$(info Processing '$<' with $(basename $<).renderer and adding to build)
+	@$(basename $<).renderer $< > $@
+else
+	$(info Processing '$<' with $(PYT_RENDERER) and adding to build)
+	@$(PYT_RENDERER) $< > $@
+endif
+
+ifneq ($(EXTERNAL_DEPS_GENERATOR),)
+$(shell $(EXTERNAL_DEPS_GENERATOR) > ext_deps.mk)
+include ext_deps.mk
+endif
+
+# Clean up
+clean:
+	rm -rf build ext_deps.mk
+
+# Really clean up
+distclean: clean
+	rm -rf $(OUTPUT_FILE_NAME)_pages $(OUTPUT_FILE_NAME).pdf
+	rm -f ../docs/*
+
+# Dependencies
+-include $(DEPENDS)

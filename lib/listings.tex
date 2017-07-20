@@ -1,0 +1,40 @@
+% Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
+%
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+%
+%       http://www.apache.org/licenses/LICENSE-2.0
+%
+% Unless required by applicable law or agreed to in writing, software
+% distributed under the License is distributed on an "AS IS" BASIS,
+% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the License for the specific language governing permissions and
+% limitations under the License.
+
+% Contents of listings-setup.tex
+% From http://tex.stackexchange.com/questions/179926/pandoc-markdown-to-pdf-without-cutting-off-code-block-lines-that-are-too-long
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily,
+    numbers=left,
+    keywordstyle=\color[rgb]{0.13,0.29,0.53}\bfseries,
+    stringstyle=\color[rgb]{0.31,0.60,0.02},
+    commentstyle=\color[rgb]{0.56,0.35,0.01}\itshape,
+    numberstyle=\footnotesize,
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color[RGB]{248,248,248},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    breakautoindent=true,
+    escapeinside={\%*}{*)},
+    linewidth=\textwidth,
+    basewidth=0.5em,
+}
