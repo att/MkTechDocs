@@ -29,7 +29,7 @@ from mktechdocslib import GitCommitDB, render_mktechdocs_jinja2_template
 def render():
 	(versString, date, fcid, lcid) = gVersions[0]
 	
-	messages = GitCommitDB(fcid, lcid).messages
+	messages = GitCommitDB(fcid, lcid, [], ["[doc]"]).messages
 	
 	varDictionary = {"gitMessages":messages,
 	                 "numCommits":len(messages),

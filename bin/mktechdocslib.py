@@ -113,11 +113,11 @@ class GitCommitMessage:
 # of a document
 #
 class GitCommitDB:
-	def __init__(self, fcid="", lcid="", mustNotContainList=[]):
+	def __init__(self, fcid="", lcid="", mustNotContainList=[], mustContainList=[]):
 		self.firstCommitID = fcid
 		self.lastCommitID = lcid
 		self.messages = []
-		self.buildDB(mustNotContainList)
+		self.buildDB(mustNotContainList, mustContainList)
    
 	def __str__(self):
 		rv = ""
@@ -142,7 +142,7 @@ class GitCommitDB:
 
 		return str(stdout)
 
-	def buildDB(self, mustNotContainList):
+	def buildDB(self, mustNotContainList, mustContainList):
 		lines = self._getCommitMessages().split('\n')
 		idx = 0
 
@@ -194,6 +194,12 @@ class GitCommitDB:
 				if message.find(w) != -1:
 					forbidden = True
 					break
+
+			if not forbidden:
+				for w in mustContainList:
+					if message.find(w) == -1:
+						forbidden = True
+						break
 
 			if keepCommits and not forbidden:
 				self.messages.append(GitCommitMessage(id, mergeID, author, date, message))
