@@ -437,6 +437,7 @@ endif
 # Clean up
 clean:
 	rm -rf build ext_deps.mk
+	rm -rf $(OUTPUT_FILE_NAME)_pages $(OUTPUT_FILE_NAME).pdf
 
 # Really clean up
 distclean: clean
