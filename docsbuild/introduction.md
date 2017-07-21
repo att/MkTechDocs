@@ -2,7 +2,7 @@
 
 ## What is it?
 
-**MkTechDocs** is an open framework for collating and transforming markdown. It can be used for managing large complex technical documentation projects with dependencies, writing a novel, or too easily and quickly combine and transform existing Markdown files into a styled webpage or PDF document.
+**MkTechDocs** is an open framework for collating and transforming markdown. It can be used for managing large complex technical documentation projects with dependencies, writing a novel, or to easily and quickly combine and transform existing Markdown files into a styled webpage or PDF document.
 
 ## Features
 
