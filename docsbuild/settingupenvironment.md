@@ -4,7 +4,7 @@ Please export the following variables. Here is an example in Bash:
 
 ```bash
 # MkTechDocs libraries and scripts require the following variable:
-export MKTECHDOCSHOME=/home/mylogin/MkTechDocs
+export MKTECHDOCSHOME=/path/to/cloned/repo/MkTechDocs
 
 # Make sure the MkTechDocs bin directory is in your path:
 export PATH=$PATH:$MKTECHDOCSHOME/bin
