@@ -25,7 +25,7 @@
 
 ## Can I see an example?
 
-You're looking at one! Now, check out the source in the `docs` directory to see what a MkTechDocs project looks like. Start with `mktechdocsiug.md`. That's the master document.
+You're looking at one! Now, check out the source in the `docsbuild` directory to see what a MkTechDocs project looks like. Start with `mktechdocsiug.md`. That's the master document.
 
 ## Supported architectures
 
