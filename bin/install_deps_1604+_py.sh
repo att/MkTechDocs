@@ -117,4 +117,8 @@ fi
 echo "Finished without error."
 echo
 echo "You might also want to install groovy (2+) and gradle (3+) to support Groovy templates."
+echo 
+echo "Ubuntu 16.04 LTS ships with a buggy TeX package named titlesec, consider updating it if"
+echo "you plan to create PDFs with MkTechDocs. See the following:"
+echo "    https://att.github.io/MkTechDocs/#a-note-about-titlesec"
 
