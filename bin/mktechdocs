@@ -18,9 +18,9 @@
 # This script initializes new MkTechDocs projects.
 #
 # --------------------- -------------------------------------------------
-# Example usage         `install_deps_macos_py.sh`
+# Example usage         `mktechdocs init "Some Project Name"`
 #
-# Arguments             init "Some name"<br />
+# Arguments             init "Project Name"<br />
 #                       Creates a new MkTechDocs project directory<br />
 #                       `somename` and populates it with starter project<br />
 #                       files.
