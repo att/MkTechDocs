@@ -60,3 +60,18 @@ Python seems ok.
 ```
 
 If you get errors, examine the output of the installation script to see where something went wrong.
+
+## A note about titlesec
+
+MkTechDocs uses a TeX package named `titlesec` to do various things with PDF section numbers (e.g. 6.1.3.2). Unfortunately, Ubuntu 16.04 LTS ships with a buggy version of this package, which causes section numbers to be empty in various situations, so replacing it will be necessary if you plan to use section numbering in PDF documents. To replace it, first download the latest titlesec from `https://www.ctan.org/tex-archive/macros/latex/contrib/titlesec`.
+
+Now:
+
+```bash
+unzip titlesec.zip
+sudo rm -rf /usr/share/texlive/texmf-dist/tex/latex/titlesec
+sudo mkdir /usr/share/texlive/texmf-dist/tex/latex/titlesec
+sudo cp -r titlesec/* /usr/share/texlive/texmf-dist/tex/latex/titlesec/.
+```
+
+Section numbering should work as expected.

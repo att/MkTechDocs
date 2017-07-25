@@ -1,3 +1,4 @@
 mktechdocsiug_pages
 *.pyc
 build
+*GroovyPandoc*jar
