@@ -67,9 +67,7 @@ Note the `heading-level=0` attribute. This tells MkTechDocs that the current hea
 
 ### Sub documents
 
-Every sub document you include should start with a heading level of 1 (i.e. &lt;H1&gt;). That is, every sub document should stand on its own as a Markdown document regardless of how it is included in your master document.
-
-MkTechDocs automatically increases the heading level of included documents (even multi-level recursive includes, where a document includes another document that includes another document, and so on). The heading-level adjustments will work provided that you give MkTechDocs a hint about the current heading level at the point of inclusion, as we have already seen:
+Every sub document you include should start with a heading level of 1 (i.e. &lt;H1&gt;). MkTechDocs automatically increases the heading level of included documents (even multi-level recursive includes, where a document includes another document that includes another document, and so on). The heading-level adjustments will work provided that you give MkTechDocs a hint about the current heading level at the point of inclusion, as we have already seen:
 
     ### A level three header
     
