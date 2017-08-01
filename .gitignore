@@ -2,3 +2,4 @@ mktechdocsiug_pages
 *.pyc
 build
 *GroovyPandoc*jar
+.DS_Store
