@@ -24,7 +24,7 @@
 # Arguments             None
 #
 # Special exit values   1 Problem with build environment<br />
-#                       2 No problems with build environment
+#                       0 No problems with build environment
 # --------------------- -------------------------------------------------
 #
 
