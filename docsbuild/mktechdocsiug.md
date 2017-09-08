@@ -14,12 +14,11 @@ templates.md
 doc-versions.md
 groovy.md
 team-documentation.md
-advanced.md
 download.md
 settingupenvironment.md
 runningfilters.md
 scripts.md
-why-mktechdocs.md
+addendum.md
 changes.md
 ```
 
