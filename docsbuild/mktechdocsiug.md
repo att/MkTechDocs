@@ -19,6 +19,7 @@ download.md
 settingupenvironment.md
 runningfilters.md
 scripts.md
+why-mktechdocs.md
 changes.md
 ```
 
