@@ -71,3 +71,6 @@ The MkTechDocs build process is complex. The following is a step-by-step guide t
 	1. Create a jinja2 template for the main page and render using `page.renderer` in order to include header, footer, and landing content.
 1. Copy all output files and CSS (if any) to the output directory.
 
+## Contact
+
+MkTechDocs was built and is maintained by [Spencer Seidel](http://www.spencerseidel.com).
