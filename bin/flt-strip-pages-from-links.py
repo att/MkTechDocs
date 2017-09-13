@@ -15,7 +15,7 @@
 # limitations under the License.
 
 ##
-# This filter turns things like this:
+# This filter turns links like this:
 # 
 #     [foo link](somepage.html#some-heading)
 # 
