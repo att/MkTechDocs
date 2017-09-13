@@ -1,5 +1,6 @@
 # Addendum
 
+
 ## Understanding the build process
 
 The MkTechDocs build process is complex. The following is a step-by-step guide towards understanding how it works.
