@@ -180,9 +180,8 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#mktechdocs"><span class="toc-section-number">15.8</span> <code>mktechdocs</code></a></li>
 </ul></li>
 <li><a href="#addendum"><span class="toc-section-number">16</span> Addendum</a><ul>
-<li><a href="#how-mktechdocs-evolved"><span class="toc-section-number">16.1</span> How MkTechDocs evolved</a></li>
-<li><a href="#understanding-the-build-process"><span class="toc-section-number">16.2</span> Understanding the build process</a></li>
-<li><a href="#contact"><span class="toc-section-number">16.3</span> Contact</a></li>
+<li><a href="#understanding-the-build-process"><span class="toc-section-number">16.1</span> Understanding the build process</a></li>
+<li><a href="#contact"><span class="toc-section-number">16.2</span> Contact</a></li>
 </ul></li>
 <li><a href="#document-change-log"><span class="toc-section-number">17</span> Document change log</a></li>
 </ul>
@@ -1872,56 +1871,7 @@ use.</p>
 </tbody>
 </table>
 <h1 id="addendum"><span class="header-section-number">16</span> Addendum</h1>
-<h2 id="how-mktechdocs-evolved"><span class="header-section-number">16.1</span> How MkTechDocs evolved</h2>
-<p>MkTechDocs was inspired by a complex, ad-hoc build script for a large
-(300+ pages) PDF deployment guide. That proof of concept used a variety
-of tools, such as LaTeX, DocBook and Textile. The content was contained
-in an enormous Groovy template master document. In addition, it had
-non-negotiable dependencies on several proprietary Java and Groovy
-classes.</p>
-<p>There were a couple of problems. First, the system was fragile. Subtle
-changes broke the build and debugging build issues was difficult.
-Second, the build system and content were tightly coupled. Third, there
-was no easy way for developers to contribute to the documentation.</p>
-<p>A new system was clearly needed, but which one? Any new system had to
-duplicate the existing document exactly, down to the section numbers,
-for one thing. The new system would have to use Groovy and/or Java
-because of the dependencies. Finally, and most importantly, an urgent
-need was arising for developers to contribute documentation about their
-own components.</p>
-<p>Although there are many technical documentation systems out there, none
-of them were a good fit. The biggest hurdles were:</p>
-<ol style="list-style-type: decimal">
-<li>The need for a robust templating system -- much of the deployment
-guide was generated programatically by enumerating dependencies,
-including bits of configuration YAML, code, etc.</li>
-<li>Incorporating existing Groovy and Java libraries in order to do the
-above.</li>
-<li>Letting developers contribute documentation</li>
-<li>The system needed to be completely open to any and all configuration
-changes we might need to make that affected how the output was
-styled.</li>
-</ol>
-<p>The first version of MkTechDocs solved theses problems by:</p>
-<ol style="list-style-type: decimal">
-<li>Using Groovy pandoc filters</li>
-<li>Using Groovy templates</li>
-<li>Modularizing the build so that:
-<ol style="list-style-type: lower-alpha">
-<li>errors would be easier to identify and fix</li>
-<li>developers who contributed documentation would edit only their
-modules</li>
-</ol></li>
-<li>Using CodeCloud (Gerrit would work as well) to allow a single
-repository master (i.e. editor) monitor changes and subsequent
-merges</li>
-</ol>
-<p>There remained an issue. Groovy was s-l-o-w. Builds took upwards of
-twenty minutes.</p>
-<p>To solve this problem, MkTechDocs migrated to Python filters and
-templates (via Jinja2). This decreased build times by an order of
-magnitude. Now, MkTechDocs supports both.</p>
-<h2 id="understanding-the-build-process"><span class="header-section-number">16.2</span> Understanding the build process</h2>
+<h2 id="understanding-the-build-process"><span class="header-section-number">16.1</span> Understanding the build process</h2>
 <p>The MkTechDocs build process is complex. The following is a step-by-step
 guide towards understanding how it works.</p>
 <ol style="list-style-type: decimal">
@@ -1968,7 +1918,7 @@ content.</li>
 </ol></li>
 <li>Copy all output files and CSS (if any) to the output directory.</li>
 </ol>
-<h2 id="contact"><span class="header-section-number">16.3</span> Contact</h2>
+<h2 id="contact"><span class="header-section-number">16.2</span> Contact</h2>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer
 Seidel</a>.</p>
 <h1 id="document-change-log"><span class="header-section-number">17</span> Document change log</h1>

@@ -1,56 +1,5 @@
 # Addendum
 
-## How MkTechDocs evolved
-
-MkTechDocs was inspired by a complex, ad-hoc build script for a large (300+
-pages) PDF deployment guide. That proof of concept used a variety of tools,
-such as LaTeX, DocBook and Textile. The content was contained in an enormous
-Groovy template master document. In addition, it had non-negotiable
-dependencies on several proprietary Java and Groovy classes.
-
-There were a couple of problems. First, the system was fragile. Subtle
-changes broke the build and debugging build issues was difficult.
-Second, the build system and content were tightly coupled. Third, there
-was no easy way for developers to contribute to the documentation. 
-
-A new system was clearly needed, but which one? Any new system had to
-duplicate the existing document exactly, down to the section numbers,
-for one thing. The new system would have to use Groovy and/or Java
-because of the dependencies. Finally, and most importantly, an urgent
-need was arising for developers to contribute documentation about their
-own components.
-
-Although there are many technical documentation systems out there, none
-of them were a good fit. The biggest hurdles were:
-
-1. The need for a robust templating system -- much of the deployment
-  guide was generated programatically by enumerating dependencies,
-  including bits of configuration YAML, code, etc.
-2. Incorporating existing Groovy and Java libraries in order to do
-  the above.
-3. Letting developers contribute documentation
-4. The system needed to be completely open to any and all configuration
-  changes we might need to make that affected how the output was styled.
-
-The first version of MkTechDocs solved theses problems by:
-
-1. Using Groovy pandoc filters
-2. Using Groovy templates
-3. Modularizing the build so that:
-    a. errors would be easier to identify and fix
-    b. developers who contributed documentation would edit only their
-      modules
-4. Using CodeCloud (Gerrit would work as well) to allow a single
-  repository master (i.e. editor) monitor changes and subsequent
-	merges
-
-There remained an issue. Groovy was s-l-o-w. Builds took upwards of
-twenty minutes.
-
-To solve this problem, MkTechDocs migrated to Python filters and
-templates (via Jinja2). This decreased build times by an order of
-magnitude.  Now, MkTechDocs supports both.
-
 ## Understanding the build process
 
 The MkTechDocs build process is complex. The following is a step-by-step guide towards understanding how it works.
