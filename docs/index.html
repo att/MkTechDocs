@@ -1132,16 +1132,16 @@ component for that particular step. E.g. <code>overview/mycomponent.md</code>,
 <p>For example, suppose a VM named <code>vm-inventory</code> exists in some YAML
 configuration file:</p>
 <div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">location:</span>
-  <span class="fu">description:</span><span class="at"> &gt;</span>
+  <span class="fu">description:</span> &gt;
     This is a sample description of a particular location
   <span class="fu">vm-deployments:</span>
          .
          .
          .
     <span class="fu">vm-inventory:</span>
-      <span class="fu">vm-config:</span><span class="at"> vmi.cfg</span>
-      <span class="fu">release:</span><span class="at"> 1.234</span>
-      <span class="fu">notes:</span><span class="at"> Some notes about this particular VM</span>
+      <span class="fu">vm-config:</span> vmi.cfg
+      <span class="fu">release:</span> 1.234
+      <span class="fu">notes:</span> Some notes about this particular VM
         .
         .
         .</code></pre></div>
@@ -1252,7 +1252,7 @@ Date:   Mon Mar 6 16:21:17 2017 -0500
 <span class="kw">def</span> render():
     messages <span class="op">=</span> GitCommitDB(<span class="st">&quot;f9b3edfb5194a2be0456d26d742043677948d5ea&quot;</span>, <span class="st">&quot;20de5c8bf2a53efe54a71ae06e5b0b2a813d5176&quot;</span>).messages
     varDictionary <span class="op">=</span> {<span class="st">&quot;gitMessages&quot;</span>:messages,
-                     <span class="st">&quot;numCommits&quot;</span>:<span class="bu">len</span>(messages)}
+                     <span class="co">&quot;numCommits&quot;</span>:<span class="bu">len</span>(messages)}
     
     <span class="cf">if</span> <span class="kw">not</span> os.path.isfile(sys.argv[<span class="dv">1</span>]):
         sys.stderr.write(<span class="st">&quot;Cannot find &quot;</span> <span class="op">+</span> sys.argv[<span class="dv">1</span>] <span class="op">+</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
@@ -1353,9 +1353,9 @@ Or, if you prefer to store the versions in reverse order:
     messages <span class="op">=</span> GitCommitDB(fcid, lcid).messages
     
     varDictionary <span class="op">=</span> {<span class="st">&quot;gitMessages&quot;</span>:messages,
-                     <span class="st">&quot;numCommits&quot;</span>:<span class="bu">len</span>(messages),
-                     <span class="st">&quot;versString&quot;</span>:versString,
-                     <span class="st">&quot;date&quot;</span>:date}
+                     <span class="co">&quot;numCommits&quot;</span>:<span class="bu">len</span>(messages),
+                     <span class="co">&quot;versString&quot;</span>:versString,
+                     <span class="co">&quot;date&quot;</span>:date}
     
     <span class="cf">if</span> <span class="kw">not</span> os.path.isfile(sys.argv[<span class="dv">1</span>]):
         sys.stderr.write(<span class="st">&quot;Cannot find &quot;</span> <span class="op">+</span> sys.argv[<span class="dv">1</span>] <span class="op">+</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
@@ -1382,8 +1382,9 @@ Or, if you prefer to store the versions in reverse order:
 <p>Install MkTechDocs dependencies using the (admittedly imperfect)
 installation script. Consider the script more of a guide.</p>
 <p>Examine the contents of the <code>$MKTECHDOCSHOME/bin/install_deps*sh</code> script
-appropriate for your architecture. For Groovy support, please also see
-the <code>install_deps*sh</code> scripts in the <code>bin/groovy</code> directory. The install
+appropriate for your architecture (Ubuntu, Arch, Fedora, and macOS are
+currently supported). For Groovy support, please also see the
+<code>install_deps*sh</code> scripts in the <code>bin/groovy</code> directory. The install
 script simply tries to install the various dependencies using an
 architecture-appropriate package manager and in some cases checks
 version numbers of installed binaries. You can also install the

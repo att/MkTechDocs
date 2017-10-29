@@ -16,7 +16,7 @@ export PYTHONPATH=$MKTECHDOCSHOME/bin
 
 Install MkTechDocs dependencies using the (admittedly imperfect) installation script. Consider the script more of a guide.
 
-Examine the contents of the `$MKTECHDOCSHOME/bin/install_deps*sh` script appropriate for your architecture. For Groovy support, please also see the `install_deps*sh` scripts in the `bin/groovy` directory. The install script simply tries to install the various dependencies using an architecture-appropriate package manager and in some cases checks version numbers of installed binaries. You can also install the dependencies manually.
+Examine the contents of the `$MKTECHDOCSHOME/bin/install_deps*sh` script appropriate for your architecture (Ubuntu, Arch, Fedora, and macOS are currently supported). For Groovy support, please also see the `install_deps*sh` scripts in the `bin/groovy` directory. The install script simply tries to install the various dependencies using an architecture-appropriate package manager and in some cases checks version numbers of installed binaries. You can also install the dependencies manually.
 
 ```{.include heading-level=2}
 dependencies.md
