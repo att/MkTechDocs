@@ -58,16 +58,18 @@ if ! exit_ok ; then
 	exit
 fi
 
-(cd $MKTECHDOCSHOME/lib/groovy-pandoc
+(
+  cd groovy-pandoc
 
-gradle build
+  gradle build
 
-if ! exit_ok ; then
-	echo "The gradle build failed. Bailing out."
-	exit
-fi)
+  if ! exit_ok ; then
+    echo "The gradle build failed. Bailing out."
+    exit
+  fi
 
-cp $MKTECHDOCSHOME/lib/groovy-pandoc/build/libs/GroovyPandoc-0.*.jar $MKTECHDOCSHOME/lib/.
+  cp ./build/libs/GroovyPandoc-0.*.jar $MKTECHDOCSHOME/lib/.
+)
 
 if ! exit_ok ; then
 	echo "Couldn't copy GroovyPandoc*jar. Is MKTECHDOCSHOME set correctly? Bailing out."
@@ -75,4 +77,4 @@ if ! exit_ok ; then
 fi
 
 echo "Finished without error."
-echo "You might want to remove $MKTECHDOCSHOME/lib/groovy-pandoc directory."
+echo "You might want to remove the ./groovy-pandoc directory."
