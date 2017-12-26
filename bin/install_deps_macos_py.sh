@@ -78,7 +78,8 @@ fi
 brew install pandoc \
              graphviz \
              plantuml \
-             Caskroom/cask/mactex
+             Caskroom/cask/mactex \
+             coreutils
 
 if ! exit_ok ; then
 	echo "The installation failed. Bailing out."
@@ -110,6 +111,10 @@ echo
 echo "E.g."
 echo "    export PATH=$PATH:/usr/local/texlive/2016/bin/x86_64-darwin/"
 echo
+echo "Please add the following location to your PATH environment variable like:"
+echo
+echo "PATH=\"/usr/local/opt/coreutils/libexec/gnubin:$PATH\""
+echo 
 echo "You also might want to install groovy (2+) and gradle (3+) if you"
 echo "need Groovy templates."
 
