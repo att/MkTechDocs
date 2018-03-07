@@ -75,8 +75,7 @@ fi
 # that are already installed, so there is
 # no need to edit things out unless you
 # don't want something installed.
-brew install pandoc \
-             graphviz \
+brew install graphviz \
              plantuml \
              Caskroom/cask/mactex \
              coreutils
@@ -105,11 +104,21 @@ if ! exit_ok ; then
 	exit
 fi
 
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "!                  INSTALLATION IS NOT COMPLETE                        !"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo
+echo "THING ONE"
+echo "-----------------"
+echo
 echo "Please add the following location to your PATH environment variable:"
-echo "/usr/local/texlive/2016/bin/x86_64-darwin/"
+echo "    /usr/local/texlive/2017/bin/x86_64-darwin/"
 echo
 echo "E.g."
-echo "    export PATH=$PATH:/usr/local/texlive/2016/bin/x86_64-darwin/"
+echo "    export PATH=$PATH:/usr/local/texlive/2017/bin/x86_64-darwin/"
+echo
+echo "THING TWO"
+echo "-----------------"
 echo
 echo "Please add the following location to your PATH environment variable like:"
 echo
@@ -117,6 +126,12 @@ echo "PATH=\"/usr/local/opt/coreutils/libexec/gnubin:$PATH\""
 echo 
 echo "You also might want to install groovy (2+) and gradle (3+) if you"
 echo "need Groovy templates."
-
-
-echo "Finished without error."
+echo
+echo "THING THREE"
+echo "-----------------"
+echo
+echo "Please install pandoc manually from the following release. MkTechDocs"
+echo "doesn't yet support 2.X versions of pandoc."
+echo
+echo "    https://github.com/jgm/pandoc/releases/download/1.19.2/pandoc-1.19.2-osx.pkg"
+echo
