@@ -29,7 +29,8 @@ PDF_MONO_FONT=Courier
 TABLE_OF_CONTENTS_MAIN_DEPTH=6
 TABLE_OF_CONTENTS_SUB_DEPTH=6
 SECTION_NUMBERS=yes
-TITLE_PAGE=title-page.md
+TITLE_PAGE=
+IMAGES=
 
 # END SIMPLE CONFIGURATION
 #############################################################################
@@ -199,6 +200,9 @@ all: depspresent $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).$(OUTPUTEXT)
 # 
 #		OLD: sed $(SEDI) 's/\[htbp\]/\[H\]/g' ./$(OUTPUT_FILE_NAME).tex 
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).pdf: preprocess $(CLASSES) build/$(OUTPUT_FILE_NAME).md outputdir
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) build/.
+endif
 ifeq ($(FORMAT), pdf)
 	$(info Building main document: $@)	
 	@-(cd build ;\
@@ -223,6 +227,9 @@ endif
 # HTML Output
 #
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).html: preprocess outputdir $(CLASSES) $(HTMLTEMPSDEPOBJS) build/$(OUTPUT_FILE_NAME).md
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) $(OUTPUTDIR)/.
+endif
 ifeq ($(FORMAT), cssframes)
 	$(info Building main document $(OUTPUT_FILE_NAME) -> index.pyt)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py $(OUTPUT_FILE_NAME).md $(TABLEOFCONTENTSMAIN) --template $(TEMPLATE) -o index.pyt)
