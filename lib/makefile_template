@@ -266,6 +266,9 @@ endif
 
 # Multiple HTML page output
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).htmlmulti: depspresent outputdir $(HTMLTEMPSDEPOBJS) $(HTMLDEPOBJS) 
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) $(OUTPUTDIR)/.
+endif
 	$(info Building HTML dependency list and creating index template)	
 	@(cd build ;\
 	  $(PANDOC) $(PANDOCHTMLINC) -F flt-include-doc-map.py -f markdown -t html --template $(MKTECHDOCSHOME)/lib/main_multipage.html $(TABLEOFCONTENTSMAIN) $(OUTPUT_FILE_NAME).pmd 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > index.pyt ;\
@@ -314,6 +317,9 @@ endif
 #  consistency).
 #
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).md: preprocess outputdir $(CLASSES) build/$(OUTPUT_FILE_NAME).md
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) $(OUTPUTDIR)/.
+endif
 	$(info Building main markdown document: $@)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t markdown $(OUTPUT_FILE_NAME).md -o ../$@)
 ifneq ($(BUILD_SCRIPT),)
@@ -328,6 +334,9 @@ endif
 #  consistency).
 #
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).docx: preprocess outputdir $(CLASSES) build/$(OUTPUT_FILE_NAME).md
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) build/.
+endif
 	$(info Building main docx document: $@)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t docx $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md -o ../$@)
 ifneq ($(BUILD_SCRIPT),)
