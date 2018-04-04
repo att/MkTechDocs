@@ -81,3 +81,32 @@ Now, regardless of how many included documents appear in `myincludedoc.md` and i
 Creating every sub document such that it can exist on its own has the added benefit of allowing you to assemble different combinations of documents for different audiences. For example, you might want to build a small section of a much larger document as a standalone PDF.
 ```
 
+#### Images
+
+If you want to include images in your project document, include them inline using standard Markdown:
+
+E.g.
+
+    ```
+    Please click to [the following link](images/smiley.png) to see a smiley.
+        
+    Or let's include it inline with a title underneath:
+     
+    ![Smiley](images/smiley.png)
+    ```
+
+And here's what the code above looks like after rendering:
+ 
+<hr />
+
+Please refer to [the following link](images/smiley.png) to see a smiley.
+
+Or let's include it inline with a title underneath:
+
+![Smiley](images/smiley.png)
+
+<hr />
+
+
+Then, tell MkTechDocs where your images directory is in the [configuration section](configuration-options.html#simple-configuration) of your project makefile.
+

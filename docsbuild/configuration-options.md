@@ -18,6 +18,7 @@ For the majority of relatively simple documents and websites, the simple configu
 |`TABLE_OF_CONTENTS_SUB_DEPTH`|1-6|The maximum number heading-level depth to count as a section number in sub documents for the `htmlmulti` format.|
 |`SECTION_NUMBERS`|yes,no|Include section numbers in headings and tables of content.|
 |`TITLE_PAGE`|Any. No spaces or puncutation.|See the [title pages](title-pages.html#title-pages) section for more information. Applies only to `pdf` and `pdffloat` output `FORMAT`s.|
+|`IMAGES`|Path to directory relative to project.|See the [Images](the-basics.html#images) section for more information. Applies to all formats.|
 
 ## Advanced configuration
 

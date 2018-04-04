@@ -23,5 +23,5 @@ if [[ "$1" == "pre" ]] ; then
     #cp -r ./img $BUILD_DIR/.
 elif [[ "$1" == "post" ]] ; then
     echo "Copying output to public_html..."
-    cp ./mktechdocsiug_pages/* ../docs/.
+    cp -r ./mktechdocsiug_pages/* ../docs/.
 fi

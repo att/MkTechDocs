@@ -16,7 +16,6 @@
 
 #############################################################################
 # SIMPLE CONFIGURATION
-
 TITLE=MkTechDocs Installation and Usage Guide
 OUTPUT_FILE_NAME=mktechdocsiug
 # pdf, pdffloat, html, htmlsimple, cssframes, htmlmulti, markdown, docx
@@ -25,12 +24,13 @@ FORMAT=cssframes
 # variable below with a path to your custom CSS.
 # archwiki, github, custom
 HTML_STYLE=custom
-PDF_MAIN_FONT=FreeSans
-PDF_MONO_FONT=FreeMono
+PDF_MAIN_FONT=Verdana
+PDF_MONO_FONT=Monaco
 TABLE_OF_CONTENTS_MAIN_DEPTH=3
 TABLE_OF_CONTENTS_SUB_DEPTH=6
 SECTION_NUMBERS=yes
 TITLE_PAGE=title-page.md
+IMAGES=./images
 
 # END SIMPLE CONFIGURATION
 #############################################################################
@@ -79,12 +79,12 @@ ifeq ($(SECTION_NUMBERS), yes)
 endif
 
 TABLEOFCONTENTSMAIN=--toc --toc-depth=$(TABLE_OF_CONTENTS_MAIN_DEPTH)
-ifeq ($(TABLE_OF_CONTENTS_MAIN_DEPTH), "")
+ifeq ($(TABLE_OF_CONTENTS_MAIN_DEPTH),)
 	TABLEOFCONTENTSMAIN=
 endif
 
 TABLEOFCONTENTSSUB=--toc --toc-depth=$(TABLE_OF_CONTENTS_SUB_DEPTH)
-ifeq ($(TABLE_OF_CONTENTS_SUB_DEPTH), "")
+ifeq ($(TABLE_OF_CONTENTS_SUB_DEPTH),)
 	TABLEOFCONTENTSSUB=
 endif
 
@@ -198,7 +198,11 @@ all: depspresent $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).$(OUTPUTEXT)
 #             appear inline, as close as possible to where they appear in
 #             the markdown.
 # 
+#		OLD: sed $(SEDI) 's/\[htbp\]/\[H\]/g' ./$(OUTPUT_FILE_NAME).tex 
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).pdf: preprocess $(CLASSES) build/$(OUTPUT_FILE_NAME).md outputdir
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) build/.
+endif
 ifeq ($(FORMAT), pdf)
 	$(info Building main document: $@)	
 	@-(cd build ;\
@@ -216,13 +220,16 @@ else ifeq ($(FORMAT), pdffloat)
 	@(cd build ; $(PANDOC) $(PANDOCPDFINC) -F flt-strip-pages-from-links.py -o ../$@ $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md)
 endif
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
 # HTML Output
 #
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).html: preprocess outputdir $(CLASSES) $(HTMLTEMPSDEPOBJS) build/$(OUTPUT_FILE_NAME).md
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) $(OUTPUTDIR)/.
+endif
 ifeq ($(FORMAT), cssframes)
 	$(info Building main document $(OUTPUT_FILE_NAME) -> index.pyt)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py $(OUTPUT_FILE_NAME).md $(TABLEOFCONTENTSMAIN) --template $(TEMPLATE) -o index.pyt)
@@ -253,12 +260,15 @@ endif
 	     cp build/*.svg $(OUTPUTDIR)/. 2>/dev/null ;\
 	 fi
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
 # Multiple HTML page output
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).htmlmulti: depspresent outputdir $(HTMLTEMPSDEPOBJS) $(HTMLDEPOBJS) 
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) $(OUTPUTDIR)/.
+endif
 	$(info Building HTML dependency list and creating index template)	
 	@(cd build ;\
 	  $(PANDOC) $(PANDOCHTMLINC) -F flt-include-doc-map.py -f markdown -t html --template $(MKTECHDOCSHOME)/lib/main_multipage.html $(TABLEOFCONTENTSMAIN) $(OUTPUT_FILE_NAME).pmd 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > index.pyt ;\
@@ -295,7 +305,7 @@ $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).htmlmulti: depspresent outputdir $(HTMLTEMPSDEP
 	     cp build/*.svg $(OUTPUTDIR)/. 2>/dev/null ;\
 	 fi
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -307,10 +317,13 @@ endif
 #  consistency).
 #
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).md: preprocess outputdir $(CLASSES) build/$(OUTPUT_FILE_NAME).md
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) $(OUTPUTDIR)/.
+endif
 	$(info Building main markdown document: $@)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t markdown $(OUTPUT_FILE_NAME).md -o ../$@)
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -321,10 +334,13 @@ endif
 #  consistency).
 #
 $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).docx: preprocess outputdir $(CLASSES) build/$(OUTPUT_FILE_NAME).md
+ifneq ($(IMAGES),)
+	@cp -r $(IMAGES) build/.
+endif
 	$(info Building main docx document: $@)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t docx $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md -o ../$@)
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -351,14 +367,14 @@ deps: saneenv build $(CLASSES) $(PREMDDEPOBJS)
 build:
 	$(info Preparing build directory)
 	@mkdir -p build
-ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
-endif
 
 # Create the output directory
 outputdir:
 	$(info Creating output directory)
 	@mkdir -p $(OUTPUTDIR)
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
+endif
 
 # Compile all groovy files
 build/%.class: %.groovy
@@ -374,21 +390,28 @@ build/$(TITLEPAGE).md: build/$(TITLEPAGE).pmd
 # Turn a finalized .md file into an .html by running it through filter list
 build/%.html: build/%.md
 	$(info Processing '$<' with pandoc)
-	@cd build ; $(PANDOC) -f markdown -t html -s -V "pagetitle:$(TITLE)" -V "title:$(TITLE)" -M filename=$< --template $(TEMPLATE) $(FILTERS) $(notdir $<) -o $(notdir $@)
+	@cd build ; $(PANDOC) --wrap=none -f markdown -t html -s -V "pagetitle:$(TITLE)" -V "title:$(TITLE)" -M filename=$< --template $(TEMPLATE) $(FILTERS) $(notdir $<) -o $(notdir $@)
 
 # Turn a pre-process .pmd file into an .md by running it through filter list
 build/%.md: build/%.pmd
 	$(info Processing '$<' with pandoc)
-	@cd build ; $(PANDOC) -f markdown -t markdown $(FILTERS) $(notdir $<) -o $(notdir $@)
+	@cd build ; $(PANDOC) --wrap=none -f markdown -t markdown $(FILTERS) $(notdir $<) -o $(notdir $@)
 
 # Add a raw (unprocessed) .md file to the build directory by preprocessing through the
 # flt_get_includes to generate dependencies
 build/%.pmd: %.md
 	$(info Adding '$<' to build)
 	@cp $< $@
-	@$(PANDOC) -f markdown -t markdown --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
-	@for f in `cat $@.dT` ;\
-	     do printf "build/$$f " ;\
+	@$(PANDOC) -f markdown -t markdown --wrap=none --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
+	@P=`realpath .` ;\
+	 for f in `cat $@.dT` ; do \
+		 RP=`realpath $$f` ;\
+		 DIR=`dirname $$RP` ;\
+		 if [[ "$$P" != "$$DIR" ]] ; then \
+			 printf "$$f " ;\
+		 else \
+	     printf "build/$$f " ;\
+		 fi ;\
 	 done | awk '{print "build/$<: " $$0}' > $@.d
 	@rm -f $@.dT
 
@@ -397,7 +420,7 @@ build/%.pmd: %.md
 build/%.pmd: %.gt
 	$(info Groovy processing '$<' and adding to build)
 	@$(MKTECHDOCSHOME)/bin/groovy/gtp $< > $@
-	@$(PANDOC) -f markdown -t markdown --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
+	@$(PANDOC) -f markdown -t markdown --wrap=none --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
 	@for f in `cat $@.dT` ;\
 	     do printf "build/$$f " ;\
 	 done | awk '{print "$(basename $@).md: " $$0}' > $@.d
@@ -413,7 +436,7 @@ else
 	$(info Processing '$<' with $(PYT_RENDERER) and adding to build)
 	@$(PYT_RENDERER) $< > $@
 endif
-	@$(PANDOC) -f markdown -t markdown --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
+	@$(PANDOC) -f markdown -t markdown --wrap=none --filter flt-get-includes.py $@ 1>/dev/null 2>$@.dT
 	@for f in `cat $@.dT` ;\
 	    do printf "build/$$f " ;\
 	 done | awk '{print "$(basename $@).md: " $$0}' > $@.d
@@ -437,12 +460,10 @@ endif
 # Clean up
 clean:
 	rm -rf build ext_deps.mk
-	rm -rf $(OUTPUT_FILE_NAME)_pages $(OUTPUT_FILE_NAME).pdf
 
 # Really clean up
 distclean: clean
 	rm -rf $(OUTPUT_FILE_NAME)_pages $(OUTPUT_FILE_NAME).pdf
-	rm -f ../docs/*
 
 # Dependencies
 -include $(DEPENDS)
