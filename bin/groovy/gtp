@@ -19,4 +19,6 @@
 # the correct CLASSPATH
 #
 
-CLASSPATH=`$MKTECHDOCSHOME/bin/groovy/get_classpath` $MKTECHDOCSHOME/bin/groovy/gt_preprocess.groovy $@
+PRGDIR=$(dirname $0)
+
+GROOVY_TEMPLATE_FULL_PATH=$PRGDIR/$1 GROOVY_TEMPLATE=$1 CLASSPATH=`$MKTECHDOCSHOME/bin/groovy/get_classpath` $MKTECHDOCSHOME/bin/groovy/gt_preprocess.groovy $@
