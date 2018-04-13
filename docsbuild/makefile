@@ -185,7 +185,6 @@ HTMLTEMPSDEPOBJS=$(TEMP5:%=build/%)
 #############################################################################
 # Rules
 
-# all: run deps rule first by itself to build dependencies
 all: depspresent $(OUTPUTDIR)/$(OUTPUT_FILE_NAME).$(OUTPUTEXT)
 
 # PDF Output
@@ -220,7 +219,7 @@ else ifeq ($(FORMAT), pdffloat)
 	@(cd build ; $(PANDOC) $(PANDOCPDFINC) -F flt-strip-pages-from-links.py -o ../$@ $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md)
 endif
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -260,7 +259,7 @@ endif
 	     cp build/*.svg $(OUTPUTDIR)/. 2>/dev/null ;\
 	 fi
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -305,7 +304,7 @@ endif
 	     cp build/*.svg $(OUTPUTDIR)/. 2>/dev/null ;\
 	 fi
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -323,7 +322,7 @@ endif
 	$(info Building main markdown document: $@)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t markdown $(OUTPUT_FILE_NAME).md -o ../$@)
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
 
@@ -340,9 +339,16 @@ endif
 	$(info Building main docx document: $@)
 	@(cd build ; $(PANDOC) $(PANDOCHTMLINC) -F flt-strip-pages-from-links.py -t docx $(TITLE_PAGE) $(OUTPUT_FILE_NAME).md -o ../$@)
 ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
 endif
 	$(info Done.)	
+
+prebuild:
+ifneq ($(BUILD_SCRIPT),)
+	@$(BUILD_SCRIPT) pre `pwd`/build `pwd`/$(OUTPUTDIR)
+else
+  $(info No pre-build script defined, so skipping pre-build activities.)
+endif
 
 # This will build all the .md files in the build directory
 preprocess: $(MDDEPOBJS)
@@ -361,7 +367,7 @@ saneenv:
 	@$(MKTECHDOCSHOME)/bin/check_build_env.sh
 
 # Create dependencies
-deps: saneenv build $(CLASSES) $(PREMDDEPOBJS)
+deps: saneenv prebuild build $(CLASSES) $(PREMDDEPOBJS)
 
 # Create the build directory
 build:
@@ -372,9 +378,6 @@ build:
 outputdir:
 	$(info Creating output directory)
 	@mkdir -p $(OUTPUTDIR)
-ifneq ($(BUILD_SCRIPT),)
-	@$(BUILD_SCRIPT) post `pwd`/build `pwd`/$(OUTPUTDIR)
-endif
 
 # Compile all groovy files
 build/%.class: %.groovy

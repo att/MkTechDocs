@@ -19,9 +19,8 @@ BUILD_DIR=$2
 OUT_DIR=$3
 
 if [[ "$1" == "pre" ]] ; then
-    echo "Nop"
-    #cp -r ./img $BUILD_DIR/.
+	echo "Pre-build activities: NOP"
 elif [[ "$1" == "post" ]] ; then
-    echo "Copying output to public_html..."
-    cp -r ./mktechdocsiug_pages/* ../docs/.
+  echo "Post-build activities: Copying output to public_html..."
+  cp -r ./mktechdocsiug_pages/* ../docs/.
 fi
