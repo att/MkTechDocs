@@ -82,17 +82,17 @@ read -r MAJ MIN <<< "$VERS"
 if [[ "$VERS" == "" ]] ; then
 	echo
 	echo "Please download and install pandoc. Then run this script again."
-	echo "https://github.com/jgm/pandoc/releases/download/2.0.5/pandoc-2.0.5-1-amd64.deb"
+	echo "https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
 	exit
-elif ((MAJ < 2)) || (((MAJ == 1)) && ((MIN < 18))); then
+elif ((MAJ == 2)) || (((MAJ == 1)) && ((MIN < 18))); then
 	echo
 	echo
-	echo "The version of pandoc currently installed (${MAJ}.${MIN}) needs to be updated to version > 1.18"
+	echo "The version of pandoc currently installed (${MAJ}.${MIN}) needs to be updated or downgraded to version > 1.19"
 	echo "in order to run MkTechDocs. Please do the following:"
 	echo
 	echo "    sudo apt remove --purge pandoc"
 	echo "    wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
-	echo "    sudo dpkg -i pandoc-1.19.2.1-1-amd64.deb" 
+	echo "    sudo apt install ./pandoc-1.19.2.1-1-amd64.deb" 
 	echo
 	echo "Then, run this script again. You can also visit the github pandoc page and install"
 	echo "any other version that is appropriate, so long as the version is at least 1.18."
