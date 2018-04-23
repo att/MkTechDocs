@@ -1,0 +1,234 @@
+#!/usr/bin/env bash
+
+# Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#############################################################################
+# mtechdocs
+#
+# This script is used to build MkTechDocs projects
+#############################################################################
+
+# We need to know where MkTechDocs is installed above all else
+if [[ "$MKTECHDOCSHOME" == "" ]] ; then
+  echo "Please point MKTECHDOCSHOME to your MkTechDocs installation directory and try again."
+  echo "E.g."
+  echo "        export MKTECHDOCSHOME=~/MkTechDocs"
+  exit 1
+fi
+
+#############################################################################
+# STATIC VALUES
+#############################################################################
+
+# For color output
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[1;33m'
+export NC='\033[0m'
+
+# The pandoc filter list
+FILTERS="-F $MKTECHDOCSHOME/bin/flt-include.py -F $MKTECHDOCSHOME/bin/flt-comment-block.py -F $MKTECHDOCSHOME/bin/flt-comment.py -F $MKTECHDOCSHOME/bin/flt-plantuml.py -M umlformat=svg -F $MKTECHDOCSHOME/bin/flt-notetip.py -F $MKTECHDOCSHOME/bin/flt-include-code.py"
+
+#############################################################################
+# FUNCTIONS
+#############################################################################
+
+#
+# Echoes color messages
+#
+function clog {
+  TYPE=$1
+  MSG=$2
+
+  COL=
+  TYPEOUT=
+  case "$TYPE" in
+    #INFO)
+    #  COL=$GREEN
+    #  TYPEOUT="[INFO]"
+    #  ;;
+    ERROR)
+      COL=$RED
+      TYPEOUT="[ERROR]"
+      MSG=" $MSG"
+      ;;
+    WARN)
+      COL=$YELLOW
+      TYPEOUT="[WARN]"
+      MSG=" $MSG"
+      ;;
+  esac
+
+  echo -e "${COL}${TYPEOUT}${NC}$MSG"
+}
+
+#
+# Checks build environment and exits if something isn't right.
+#
+function check_build_env {
+  # Java 8
+
+  if [[ $(java -version 2>&1 | grep 1.8) == "" ]] ; then
+  	clog ERROR "Can't find Java 8 (1.8)."
+  	exit 1
+  fi
+
+  # Executables
+
+  #for exe in pandoc pd groovyc cg gtp flt_get_includes.groovy plantuml xelatex ; do
+  for exe in pandoc flt-get-includes.py plantuml xelatex ; do
+  	if [[ $(which $exe) == "" ]] ; then
+      clog ERROR "Can't find $exe. Did you add $MKTECHDOCSHOME/bin to your PATH? Did you install all the dependencies?"
+  		exit 1
+  	fi
+  done
+
+  clog INFO "Build environment looks good."
+}
+
+#
+# Called with $?, this function checks if the last command exited normally.
+# If not, issues a error and exits
+#
+function normal_exit {
+  RV=$1
+  if [[ "$RV" != "0" ]] ; then
+    clog ERROR "Command failed. Build stopped."
+    exit $RV
+  fi
+}
+
+#
+# Boolean function that returns false if a user doesn't answer in the
+# affirmative
+#
+function confirm {
+  CONFIRM_MSG=$1
+  read -p "$CONFIRM_MSG [y/N]" -n 1 -r
+  echo
+  [[ $REPLY =~ ^[Yy]$ ]]
+}
+
+#
+# Creates and populates a new project
+#
+function create_new_project {
+  DIR=$1
+
+  if [[ -d $DIR ]] ; then
+    clog ERROR "$DIR already exists. Giving up."
+    exit 1
+  fi
+
+  mkdir -p $DIR
+
+  pushd $DIR 1>/dev/null 2>&1
+
+  clog INFO "Generating master.md"
+
+  cat <<EOF > master.md
+\`\`\`comment
+This is your master document. Include all your subdocuments in the
+include block below.
+\`\`\`
+
+\`\`\`{.include heading-level=0}
+subdocument.md
+\`\`\`
+EOF
+  
+  clog INFO "Generating subdocument.md"
+  
+  cat <<EOF > subdocument.md
+# Heading One
+
+My markup goes here.
+EOF
+
+  popd
+}
+
+#############################################################################
+# MAIN
+#############################################################################
+
+# We need a project directory and configuration file
+PROJECT_DIR=$1
+CFG=$2
+
+if [[ ! -r $CFG ]] ; then
+  clog ERROR "Can't find configuration file '$CFG'"
+  exit 1
+fi
+
+if [[ ! -d $PROJECT_DIR ]] ; then
+  clog ERROR "Can't find specified project path '$PROJECT_DIR'"
+  if confirm "Create and initialize new MkTechDocs project in $PROJECT_DIR?" ; then
+    clog INFO "Creating new project $PROJECT_DIR"
+    create_new_project $PROJECT_DIR
+  else
+    clog INFO "Goodbye"
+  fi
+  exit 1
+fi
+
+# Check our build environment
+check_build_env
+
+# Change our current working directory to the given project directory
+pushd $PROJECT_DIR 1>/dev/null 2>&1
+normal_exit $?
+
+# First, we render all templates in the current directory
+ls *.pyt | sed 's/\.pyt//' | while read template ; do
+  clog INFO "building $template.md"
+  $template.renderer $template.pyt > $template.md
+done
+
+ls *.htmlt | sed 's/\.htmlt//' | while read template ; do
+  clog INFO "building $template.html"
+  $template.renderer $template.htmlt > $template.html
+  normal_exit $?
+done
+
+clog INFO "Building main template index.pyt"
+pandoc -s --ascii --highlight-style tango -f markdown --wrap=preserve -f markdown -t html --template $MKTECHDOCSHOME/lib/css_frame_template.html -N -V numbersections=1 --toc --toc-depth=6 $FILTERS title-page.md mktechdocsiug.md > index.pyt
+normal_exit $?
+
+clog INFO "Fixing jinja brackets"
+escape-jinja-brackets.sh index.pyt
+normal_exit $?
+
+clog INFO "Rendering index.html"
+page.renderer index.pyt > index.html
+normal_exit $?
+
+# Clean up all the temporary build files
+
+ls *.pyt | sed 's/\.pyt//' | while read template ; do
+  clog INFO "Removing temporary file $template.md"
+  rm -f $template.md
+done
+
+ls *.htmlt | sed 's/\.htmlt//' | while read template ; do
+  clog INFO "Removing temporary file $template.html"
+  rm -f $template.html
+done
+
+clog INFO "removing temporary uml and index.pyt"
+rm -f *.uml index.pyt
+
+popd
+normal_exit $?

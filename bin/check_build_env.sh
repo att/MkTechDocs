@@ -45,7 +45,7 @@ fi
 # Executables
 
 #for exe in pandoc pd groovyc cg gtp flt_get_includes.groovy plantuml xelatex ; do
-for exe in pandoc flt-get-includes.py plantuml xelatex ; do
+for exe in foo pandoc flt-get-includes.py plantuml xelatex ; do
 	if [[ $(which $exe) == "" ]] ; then
 		cat <<EOF
 Can't find $exe. Did you add $MKTECHDOCSHOME/bin to your PATH? Did you install all the
