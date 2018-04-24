@@ -162,6 +162,8 @@ function cleanup {
   if [[ "$KEEP_TEMP_FILES" != "true" ]] ; then
     clog INFO "Removing old temporary build files"
     
+    rm -f plantuml-*.uml plantuml-*.eps plantuml-*.svg $OUTPUT_FILE_NAME_BASE_ARG.pyt $OUTPUT_FILE_NAME_BASE_ARG.tex $OUTPUT_FILE_NAME_BASE_ARG.aux $OUTPUT_FILE_NAME_BASE_ARG.log $OUTPUT_FILE_NAME_BASE_ARG.toc $OUTPUT_FILE_NAME_BASE_ARG.out xelatex*.out
+    
     ls *.pyt 2>/dev/null | sed 's/\.pyt//' | while read template ; do
       rm -f $template.md
     done
@@ -173,8 +175,6 @@ function cleanup {
     ls *.htmlt 2>/dev/null | sed 's/\.htmlt//' | while read template ; do
       rm -f $template.html
     done
-
-    rm -f plantuml-*.uml plantuml-*.eps plantuml-*.svg $OUTPUT_FILE_NAME_BASE_ARG.pyt $OUTPUT_FILE_NAME_BASE_ARG.tex $OUTPUT_FILE_NAME_BASE_ARG.aux $OUTPUT_FILE_NAME_BASE_ARG.log $OUTPUT_FILE_NAME_BASE_ARG.toc $OUTPUT_FILE_NAME_BASE_ARG.out xelatex*.out
   fi
 }
 
@@ -186,6 +186,22 @@ function cleanup {
 CFG=$1
 PROJECT_DIR=$2
 
+if [[ "$CFG" == "help" ]] ; then
+  echo "Usage: mtechdocs [help|clean|init]"
+  echo "  help : Display this help message"
+  echo "  clean: Remove temporary build files"
+  echo "  init : Create a new MkTechDocs project in the current directory"
+  echo
+  echo "Usage: mtechdocs"
+  echo "  Builds the MkTechDocs project in the current directory. Assumes"
+  echo "  that a mktechdocs.conf file and master.md file are present."
+  echo
+  echo "Usage: mtechdocs <config> <directory>"
+  echo "  Builds the MkTechDocs project in the given directory using the"
+  echo "  given configuration."
+  exit 0
+fi
+
 if [[ "$CFG" == "init" ]] ; then
   PROJECT_DIR=.
   if confirm "Create and initialize new MkTechDocs project in the current directory?" ; then
@@ -196,6 +212,11 @@ if [[ "$CFG" == "init" ]] ; then
     clog INFO "Goodbye"
     exit 0
   fi
+fi
+
+if [[ "$CFG" == "clean" ]] ; then
+  cleanup
+  exit 0
 fi
 
 if [[ "$PROJECT_DIR" == "" ]] ; then
@@ -216,12 +237,12 @@ if [[ ! -d $PROJECT_DIR ]] ; then
   exit 1
 fi
 
-# Check our build environment
-check_build_env
-
 # Change our current working directory to the given project directory
 pushd $PROJECT_DIR 1>/dev/null 2>&1
 normal_exit $?
+
+# Check our build environment
+check_build_env
 
 # Source our configuration file
 . $CFG
@@ -238,6 +259,121 @@ if [[ "$BUILD_SCRIPT" != "" ]] ; then
     clog ERROR "$BUILD_SCRIPT is not executable. Giving up."
     exit 1
   fi
+fi
+
+# Set up a title page if needed
+TITLE_PAGE_ARG=
+if [[ "$TITLE_PAGE" != "" ]] ; then
+  TITLE_PAGE_ARG="$TITLE_PAGE"
+fi
+
+# Set up output file name
+OUTPUT_FILE_NAME_BASE_ARG=
+if [[ "$OUTPUT_FILE_NAME_BASE" != "" ]] ; then
+  OUTPUT_FILE_NAME_BASE_ARG="$OUTPUT_FILE_NAME_BASE"
+fi
+
+# Remove and then create an output dir so we can put output files there
+clog INFO "Removing old ${OUTPUT_FILE_NAME_BASE_ARG}_pages (if it exists)"
+rm -rf ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+normal_exit $?
+
+clog INFO "Creating ${OUTPUT_FILE_NAME_BASE_ARG}_pages for output"
+mkdir -p ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+normal_exit $?
+
+# Set up some variables based on FORMAT.
+TEMPLATE_ARG=
+UML_FORMAT=svg
+case $FORMAT in
+  cssframes)
+    TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/css_frame_template.html"
+  ;;  
+  html)
+    TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/basic_template.html"
+  ;;
+  htmlsimple)
+    TEMPLATE_ARG=
+  ;;
+  htmlmulti)
+    # NOP
+  ;;
+  pdf|pdffloat)
+    UML_FORMAT=eps
+  ;;
+  markdown)
+    # NOP
+  ;;
+  docx)
+    # NOP
+  ;;
+  *)
+    clog ERROR "Sorry, FORMAT $FORMAT is not supported."
+    exit 1
+  ;;
+esac
+
+# Setup the pandoc filter list with correct UML output format
+FILTERS="-F $MKTECHDOCSHOME/bin/flt-include.py -F $MKTECHDOCSHOME/bin/flt-comment-block.py -F $MKTECHDOCSHOME/bin/flt-comment.py -F $MKTECHDOCSHOME/bin/flt-plantuml.py -M umlformat=$UML_FORMAT -F $MKTECHDOCSHOME/bin/flt-notetip.py -F $MKTECHDOCSHOME/bin/flt-include-code.py"
+
+# Override template setup if the user specifies their own template
+if [[ "$CUSTOM_TEMPLATE" != "" ]] ; then
+  if [[ ! -r $CUSTOM_TEMPLATE ]] ; then
+    clog ERROR "Can't find custom template $CUSTOM_TEMPLATE. Giving up."
+    exit 1
+  fi
+
+  clog INFO "Setting up customized template"
+  TEMPLATE_ARG="--template $CUSTOM_TEMPLATE"
+fi
+
+# Set up style information
+if [[ "$TEMPLATE_ARG" == "" && "$HTML_STYLE" != "" ]] ; then
+  clog INFO "Ignoring HTML_STYLE."
+fi
+
+HTML_STYLE_FILE=
+case $HTML_STYLE in
+  archwiki)
+    HTML_STYLE_FILE=$MKTECHDOCSHOME/lib/archwiki.css
+  ;;
+  github)
+    HTML_STYLE_FILE=$MKTECHDOCSHOME/lib/github.css
+  ;;
+  custom)
+    if [[ ! -r $CUSTOM_CSS ]] ; then
+      clog ERROR "When using custom css file, you must supply a readable file in CUSTOM_CSS."
+      exit 1
+    fi
+    HTML_STYLE_FILE=$CUSTOM_CSS
+  ;;
+  *)
+    if [[ "$TEMPLATE_ARG" != "" ]] ; then
+      clog ERROR "Don't understand HTML_STYLE value of $HTML_STYLE."
+      exit 1
+    fi
+esac
+
+if [[ "$HTML_STYLE_FILE" != "" ]] ; then
+  cp -i $HTML_STYLE_FILE ${OUTPUT_FILE_NAME_BASE_ARG}_pages/mktechdocs.css
+  normal_exit $?
+fi
+
+# Set up table of contents
+TOC_MAIN_ARG=
+if [[ "$TABLE_OF_CONTENTS_MAIN_DEPTH" != "" ]] ; then
+  TOC_MAIN_ARG="--toc --toc-depth=$TABLE_OF_CONTENTS_MAIN_DEPTH"
+fi
+
+TOC_SUB_ARG=
+if [[ "$TABLE_OF_CONTENTS_SUB_DEPTH" != "" ]] ; then
+  TOC_SUB_ARG="--toc --toc-depth=$TABLE_OF_CONTENTS_SUB_DEPTH"
+fi
+
+# Set up section numbering
+SECTION_NUMBERS_ARG=
+if [[ "$SECTION_NUMBERS" == "true" ]] ; then
+  SECTION_NUMBERS_ARG="-V numbersections=1"
 fi
 
 # Render all templates (if we have any) in the current directory
@@ -271,110 +407,18 @@ if [[ "$N" != "0" ]] ; then
   [[ $? != 0 ]] && exit $?
 fi
 
-# Set up a title page if needed
-TITLE_PAGE_ARG=
-if [[ "$TITLE_PAGE" != "" ]] ; then
-  TITLE_PAGE_ARG="$TITLE_PAGE"
-fi
-
-# Set up output file name
-OUTPUT_FILE_NAME_BASE_ARG=
-if [[ "$OUTPUT_FILE_NAME_BASE" != "" ]] ; then
-  OUTPUT_FILE_NAME_BASE_ARG="$OUTPUT_FILE_NAME_BASE"
-fi
-
-# Set up some variables based on FORMAT.
-TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/css_frame_template.html"
-PDF=false
-UML_FORMAT=svg
-case $FORMAT in
-  html)
-    TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/basic_template.html"
-  ;;
-  htmlsimple)
-    TEMPLATE_ARG=
-  ;;
-  pdf|pdffloat)
-    PDF=true
-    UML_FORMAT=eps
-  ;;
-esac
-
-# Setup the pandoc filter list with correct UML output format
-FILTERS="-F $MKTECHDOCSHOME/bin/flt-include.py -F $MKTECHDOCSHOME/bin/flt-comment-block.py -F $MKTECHDOCSHOME/bin/flt-comment.py -F $MKTECHDOCSHOME/bin/flt-plantuml.py -M umlformat=$UML_FORMAT -F $MKTECHDOCSHOME/bin/flt-notetip.py -F $MKTECHDOCSHOME/bin/flt-include-code.py"
-
-# Override that if the user specifies their own template
-if [[ "$CUSTOM_TEMPLATE" != "" ]] ; then
-  if [[ ! -r $CUSTOM_TEMPLATE ]] ; then
-    clog ERROR "Can't find custom template $CUSTOM_TEMPLATE. Giving up."
-    exit 1
+#############################################################################
+# PDF OUTPUT 
+#############################################################################
+if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
+  clog INFO "Building main tex $OUTPUT_FILE_NAME_BASE_ARG.tex"
+  pandoc $FILTERS -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE --latex-engine=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_MAIN_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
+  if [[ "$FORMAT" == "pdf" ]] ; then
+    clog INFO "Fixing floating diagrams to appear inline." 
+    sed -i "" 's/\\begin{figure}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
+    normal_exit $?
   fi
 
-  clog INFO "Setting up customized template"
-  TEMPLATE_ARG="--template $CUSTOM_TEMPLATE"
-fi
-
-# Remove and then create an output dir so we can put output files there
-clog INFO "Removing old ${OUTPUT_FILE_NAME_BASE_ARG}_pages (if it exists)"
-rm -rf ${OUTPUT_FILE_NAME_BASE_ARG}_pages
-normal_exit $?
-
-clog INFO "Creating ${OUTPUT_FILE_NAME_BASE_ARG}_pages for output"
-mkdir -p ${OUTPUT_FILE_NAME_BASE_ARG}_pages
-normal_exit $?
-
-# Set up style information
-if [[ "$TEMPLATE_ARG" == "" && "$HTML_STYLE" != "" ]] ; then
-  clog ERROR "Can't use styles with htmlsimple format."
-  exit 1
-fi
-
-HTML_STYLE_FILE=
-case $HTML_STYLE in
-  archwiki)
-    HTML_STYLE_FILE=$MKTECHDOCSHOME/lib/archwiki.css
-  ;;
-  github)
-    HTML_STYLE_FILE=$MKTECHDOCSHOME/lib/github.css
-  ;;
-  custom)
-    if [[ ! -r $CUSTOM_CSS ]] ; then
-      clog ERROR "When using custom css file, you must supply a readable file in CUSTOM_CSS."
-      exit 1
-    fi
-    HTML_STYLE_FILE=$CUSTOM_CSS
-  ;;
-  *)
-    clog ERROR "Don't understand HTML_STYLE value of $HTML_STYLE."
-    exit 1
-esac
-
-if [[ "$HTML_STYLE_FILE" != "" ]] ; then
-  cp -i $HTML_STYLE_FILE ${OUTPUT_FILE_NAME_BASE_ARG}_pages/mktechdocs.css
-  normal_exit $?
-fi
-
-# Set up table of contents
-TOC_ARG=
-if [[ "$TABLE_OF_CONTENTS_MAIN_DEPTH" != "" ]] ; then
-  TOC_ARG="--toc --toc-depth=$TABLE_OF_CONTENTS_MAIN_DEPTH"
-fi
-
-# This is for multihtml output, which isn't yet supported
-#TABLE_OF_CONTENTS_SUB_DEPTH=6
-
-# Set up section numbering
-SECTION_NUMBERS_ARG=
-if [[ "$SECTION_NUMBERS" == "true" ]] ; then
-  SECTION_NUMBERS_ARG="-V numbersections=1"
-fi
-
-if [[ "$PDF" == "true" ]] ; then
-  # PDF OUTPUT
-  pandoc $FILTERS -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE --latex-engine=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
-  clog INFO "Fixing floating diagrams." 
-  sed -i "" 's/\\begin{figure}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
-  normal_exit $?
   clog INFO "Creating pdf, pass 1"
   xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex1.out 2>&1
   normal_exit $?
@@ -386,19 +430,82 @@ if [[ "$PDF" == "true" ]] ; then
   normal_exit $?
   mv $OUTPUT_FILE_NAME_BASE_ARG.pdf ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.pdf 
   normal_exit $?
-else
-  # HTML OUTPUT
+
+#############################################################################
+# HTML OUTPUT 
+#############################################################################
+elif [[ "$FORMAT" == "html" || "$FORMAT" == "htmlsimple" || "$FORMAT" == "cssframes" ]] ; then
   clog INFO "Building main template $OUTPUT_FILE_NAME_BASE_ARG.pyt"
-  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_ARG $FILTERS $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.pyt
 normal_exit $?
 
   clog INFO "Fixing jinja brackets"
   escape-jinja-brackets.sh $OUTPUT_FILE_NAME_BASE_ARG.pyt
   normal_exit $?
 
-  clog INFO "Rendering $OUTPUT_FILE_NAME_BASE_ARG.html"
-  $MKTECHDOCSHOME/bin/page_renderer.py $OUTPUT_FILE_NAME_BASE_ARG.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.html
+  clog INFO "Rendering index.html"
+  $MKTECHDOCSHOME/bin/page_renderer.py $OUTPUT_FILE_NAME_BASE_ARG.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/index.html
   normal_exit $?
+
+  clog INFO "Copying any necessary files to the output directory"
+  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  if [[ "$IMAGES" != "" ]] ; then
+    if [[ -d $IMAGES ]] ; then
+      cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
+      normal_exit $?
+    fi
+  fi
+#############################################################################
+# HTMLMULTI
+#############################################################################
+elif [[ "$FORMAT" == "htmlmulti" ]] ; then
+  clog INFO "Building main multi-page HTML document."
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $SECTION_NUMBERS_ARG -F flt-include-doc-map.py --template $MKTECHDOCSHOME/lib/main_multipage.html $TOC_MAIN_ARG master.md 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  normal_exit $?
+  
+  clog INFO "Fixing jinja brackets"
+  escape-jinja-brackets.sh $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  normal_exit $?
+  
+  clog INFO "Rendering index.html"
+  $MKTECHDOCSHOME/bin/page_renderer.py $OUTPUT_FILE_NAME_BASE_ARG.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/index.html
+  normal_exit $?
+
+  clog INFO "Working on individual HTML pages"
+  mkdir $$-tmp
+  HEADERDELTA=0
+  cat 2cp.txt | sed 's/\.html//' | while read f ; do
+    clog INFO "Building $f template"
+    if [[ "$SECTION_NUMBERS" == "true" ]] ; then
+      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html --number-offset=$HEADERDELTA $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html $f.md -o $$-tmp/$f.pyt
+    else
+      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html $f.md -o $$-tmp/$f.pyt
+    fi
+    
+    clog INFO "Rendering $f template"
+    escape-jinja-brackets.sh $$-tmp/$f.pyt
+    $MKTECHDOCSHOME/bin/page_renderer.py $$-tmp/$f.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$f.html
+    ((HEADERDELTA=HEADERDELTA+1))
+  done
+
+  rm -f 2cp.txt
+  rm -rf $$-tmp 
+
+  clog INFO "Copying any necessary files to the output directory"
+  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  if [[ "$IMAGES" != "" ]] ; then
+    if [[ -d $IMAGES ]] ; then
+      cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
+      normal_exit $?
+    fi
+  fi
+#############################################################################
+# MARKDOWN OUTPUT
+#############################################################################
+elif [[ "$FORMAT" == "markdown" ]] ; then
+  clog INFO "Building main document $OUTPUT_FILE_NAME_BASE_ARG.md"
+  pandoc -s --ascii --highlight-style tango -f markdown -t markdown --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.md
+normal_exit $?
 
   clog INFO "Copying any necessary files to the output directory"
   cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
@@ -407,6 +514,13 @@ normal_exit $?
     cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
     normal_exit $?
   fi
+#############################################################################
+# DOCS OUTPUT
+#############################################################################
+elif [[ "$FORMAT" == "docx" ]] ; then
+  clog INFO "Building main docx document $OUTPUT_FILE_NAME_BASE_ARG.docx"
+  pandoc -s --ascii --highlight-style tango -f markdown -t docx --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.docx
+normal_exit $?
 fi
 
 # Run any post-build jobs
