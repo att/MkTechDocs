@@ -67,7 +67,7 @@ Let's count to 10:
 Here's the output:
 
 ```
-[~/MkTechDocs/docs]$ gtp testtemplate.gt
+$ gtp testtemplate.gt
 # An example Groovy template
 
 Let's count to 10:
@@ -84,7 +84,7 @@ Let's count to 10:
 10
 
 
-[:~/MkTechDocs]$
+$
 ```
 
 Notice that `gtp` is a standalone template renderer that MkTechDocs uses to render `*.gt` files.

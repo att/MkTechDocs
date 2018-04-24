@@ -43,49 +43,6 @@ location:
 
 Now, we can create a template that loads the YAML containing the list of components, and  looks for files with the same name in the directories listed above. If we find specialized instructions, we output them for a particular stage (e.g. Overview, Undeployment). If we find no specialized instructions, we output some generic ones.
 
-## External dependencies
-
-In the scenario above, we have a template that programatically includes documents when it finds them. This presents a problem: the programmatic includes are invisible to MkTechDocs because MkTechDocs has no way of determining which files will be included by the template.
-
-To solve the problem, we need to supply an external dependency list via the `EXTERNAL_DEPS_GENERATOR` [configuration](configuration.html#advanced-configuration) variable. How do we create this? It's easy.
-
-Suppose our template is named `cfgtempl.pyt`. Since we know that it will look for any and all files in special directories, we need to tell MkTechDocs that the `cfgtempl.md` file that will wind up in the build directory depends on any file found in these special directories. So, we build a script like this and add a reference to our makefile:
-
-```bash
-#!/bin/bash
-
-# Our template name
-T=cfgtempl.pyt
-
-# Get the template's base
-BASE=`basename -s .pyt $T`
-	
-# Print out the target and the first dependency, which is the template itself.
-# Use the .pmd extension because MkTechDocs has a preprocessing build phase that
-# produces .pmd files. These will subsequently be converted into .md files.
-printf "build/$BASE.pmd: $BASE.pyt "
-
-# Now, output every file we find in the following directories
-for d in overview environmental-setup predeployment deployment undeployment upgrading jenkins ; do
-	DEPS=`ls $d/*.md 2>/dev/null`
-	printf "$DEPS "
-done
-``` 
-
-This script will output lines like this:
-
-```
-build/cfgtempl.pmd: cfgtempl.pyt overview/vm-inventory.md environmental-setup/vm-inventory.md predeployment/vm-inventory.md deployment/vm-inventory.md undeployment/vm-inventory.md upgrading/vm-inventory.md jenkins/vm-inventory.md
-```
-
-Next, set the variable in the makefile:
-
-```make
-EXTERNAL_DEPS_GENERATOR=extdeps.sh
-```
-
-Now, when you `make` or `make deps`, MkTechDocs will have the correct dependencies for the cfgtempl.pyt template. A copy of the script above is included with MkTechDocs in `$MKTECHDOCSHOME/lib/sample_ext_dep_generator.sh`.
-
 ## Managing git commit messages
 
 Often, it is useful for your document's audience to understand what has changed from version to version. Rather than keeping track of this manually, in a "change log," for example, you can leverage Git's commit system.

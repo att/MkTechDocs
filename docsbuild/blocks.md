@@ -54,7 +54,7 @@ file1.c
 ```
 
 ```note
-Paths are an issue here. Remember that MkTechDocs projects are built inside the `./build` directory relative to your project directory. Therefore, for files to be included correctly, a full path or a path relative to the build directory must be given.
+Paths are an issue here. Because MkTechDocs projects are built inside your project directory, for files to be included correctly a full path or a path relative to the project directory must be given. MkTechDocs does its best to copy image files and directories to the output directory, but you may need to create a post-build script for more complex operations.
 ```
 
 ## Note

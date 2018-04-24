@@ -9,14 +9,13 @@ In either case, the best way to start is to create a new MkTechDocs project and 
 
 ## The executive summary
 
-The `docsbuild` project is a good example of how to use MkTechDocs to manage your documentation projects effectively. Poke around in the directory, starting with the `mktechdocsiug.md` master document and of course, `makefile`.
+The `docsbuild` project is a good example of how to use MkTechDocs to manage your documentation projects effectively. Poke around in the directory, starting with the `master.md` master document.
 
 If you're impatient, follow the [dependency installation instructions](#setting-up-your-environment) and then build the `$MKTECHDOCSHOME/bin/docsbuild` project (this website):
 
 ```bash
 cd $MKTECHDOCSHOME/docsbuild
-make deps
-make
+mktechdocs2
 ```
 
 ## Markdown
@@ -25,22 +24,24 @@ MkTechDocs uses Markdown exclusively, although support for additional syntaxes m
 
 ## Creating a new project
 
-To create a new MkTechDocs project, `cd` to the directory where you want to create it, and run:
+To create a new MkTechDocs project, `cd` inside the directory where you want to create it and run `mktechdocs2`. For example:
 
 ```bash
-mktechdocs init "My New Project"
+mkdir mynewproject
+cd mynewproject
+mktechdocs2 init
 ```
 
-Here, "My New Project" can be whatever name you choose. In this case, `mktechdocs` will create the following files in `./mynewproject`:
+In this case, `mktechdocs2` will create the following files in `mynewproject`:
 
 | File Name       | Purpose                                                                 |
 |-----------------|-------------------------------------------------------------------------|
 |`footer.html`\*|Custom HTML content MkTechDocs should place in the footer area of HTML output.|
 |`header.html`\*|Custom HTML content MkTechDocs should place in the header area of HTML output.|
 |`landing.html`\*|Custom HTML landing-page content MkTechDocs uses in index.html when creating multi-html-page output.|
-|`makefile`|A customizable GNU makefile used to build your MkTechDocs project.|
-|`mynewproject.md`|A stub master document.|
-|`page.renderer`|A Jinja2 Python template renderer for placing header.html, landing.html, and footer.html in the right place. Normally, you can just leave this alone.|
+|`master.md`|A stub master document.|
+|`subdocument.md`|An example subdocument that's included inside the master.|
+|`mktechdocs.conf`|Project configuration.|
 
 \* NOTE 1: Optional. If you don't need this HTML content, for example, if you're producing PDF content only, you can safely delete these files.
 
@@ -50,7 +51,7 @@ Here, "My New Project" can be whatever name you choose. In this case, `mktechdoc
 
 ### Master document
 
-MkTechDocs projects consist of a "master" document &mdash; a single markdown document that defines your project &mdash; and any number of sub documents. Building a master document is simple:
+MkTechDocs projects consist of a "master" document &mdash; a single markdown document that defines your project, always named `master.md`&mdash; and any number of sub documents. Building a master document is simple:
 
     ```comment
     Define one or more include blocks to include all the major subdocuments that
@@ -96,7 +97,7 @@ E.g.
     ```
 
 And here's what the code above looks like after rendering:
- 
+
 <hr />
 
 Please refer to [the following link](images/smiley.png) to see a smiley.

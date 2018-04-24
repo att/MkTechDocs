@@ -20,12 +20,12 @@
 -   Python and Groovy/Java hooks provide easy access to pre-existing
     code libraries
 -   Jinja2 and Groovy template support is baked in for more complex documentation needs
-- 	Pandoc templates can be customized on a per-project basis
+	 	Pandodc templates can be customized on a per-project basis
 -   Agile and continuous-integration friendly
 
 ## Can I see an example?
 
-You're looking at one! Now, check out the source in the [`docsbuild`](https://github.com/att/MkTechDocs/tree/master/docsbuild) directory to see what a MkTechDocs project looks like. Start with [`mktechdocsiug.md`](https://raw.githubusercontent.com/att/MkTechDocs/master/docsbuild/mktechdocsiug.md). That's the master document.
+You're looking at one! Now, check out the source in the [`docsbuild`](https://github.com/att/MkTechDocs/tree/master/docsbuild) directory to see what a MkTechDocs project looks like. Start with [`master.md`](https://raw.githubusercontent.com/att/MkTechDocs/master/docsbuild/master.md). That's the master document. Every MkTechDocs project has one.
 
 ## Supported architectures
 

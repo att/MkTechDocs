@@ -79,19 +79,6 @@ MD --> FD
 
 Since title pages are only used in PDF documents (currently), you should also set `FORMAT` to `pdf` or `pdffloat`.
 
-Next:
-
-```bash
-make deps
-make
-```
-
-## Using a single template renderer for all templates
-
-As demonstrated, you can create one template renderer for each template, or, if you need to do something more complex, you can build your variable dictionary using a single renderer for all your templates. If you choose to do this, you'll need to set the `PYT_RENDERER` variable in the [Advanced Configuration](configuration-options.html#advanced-configuration) section of your project's makefile.
-
-Note that by default, MkTechDocs passes the name of the template it is trying to process to your renderer as `sys.argv[1]`. In this way, you can create different variable dictionaries for different templates or simply create one for all.
-
 ## Referencing templates in include blocks
 
 MkTechDocs automatically detects `*.pyt` templates and converts them into markdown before processing include blocks. So, if you need to include the contents of a template's output in another markdown file, simply treat the template as if it were markown. For example, if your template's name is `mytemplate.pyt` reference the output in include blocks like:
@@ -102,7 +89,7 @@ MkTechDocs automatically detects `*.pyt` templates and converts them into markdo
 
 ## `footer.html`, `header.html`, and `landing.html` as templates
 
-MkTechDocs will recognize `footer.htmlt`, `header.htmlt`, and `landing.htmlt` as templates and process into corresponding `.html` files, using similarly named renderers. E.g. `footer.renderer`. If you have defined a `PYT_RENDERER` in the [Advanced Configuration](configuration-options.html#advanced-configuration) section of your project's makefile, this will be used instead.
+MkTechDocs will recognize `footer.htmlt`, `header.htmlt`, and `landing.htmlt` as templates and process into corresponding `.html` files, using similarly named renderers. E.g. `footer.renderer`.
 
 ## For more information
 

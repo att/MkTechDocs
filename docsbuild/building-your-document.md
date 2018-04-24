@@ -3,61 +3,38 @@
 To build your new project from scratch with the default configuration (a single CSS-styled HTML page with a navigation sidebar pinned to the left-hand side), simply do:
 
 ``` {.bash}
-make deps
-make
+mktechdocs2
 ```
 
-This will first build dependency lists (because none exist yet) and then build the documents.
+If no errors occur, your new `index.html` HTML page and CSS file should appear in `./myproject/myproject_pages`.
 
-If no errors occur, your new `index.html` HTML page and CSS file should appear in `./mynewproject/mynewproject_pages`.
+Here is the inline help:
 
+```
+$ mktechdocs2 help
+Usage: mtechdocs [help|clean|init]
+  help : Display this help message
+  clean: Remove temporary build files
+  init : Create a new MkTechDocs project in the current directory
 
-Normally, when editing text, you can simply run:
+Usage: mtechdocs
+  Builds the MkTechDocs project in the current directory. Assumes
+  that a mktechdocs.conf file and master.md file are present.
 
-``` bash
-make
+Usage: mtechdocs <config> <directory>
+  Builds the MkTechDocs project in the given directory using the
+  given configuration.
+$
 ```
 
-This is much faster, since `make` will only rebuild the parts of the document that have changed and the documents which those changes have affected. For example, suppose you have a document that includes another document, and you've already run `make deps`:
+## Multiple configurations
 
-document1.md:
-
-    ```{.include heading-level=1}
-    myincludeddoc.md
-    ```
-
-myincludeddoc.md
-
-    # Here is some text
-    
-    Suppose I just edited this text.
-
-Now, if you make changes only in `myincludeddoc.md`, a `make` command will rebuild `myincludeddoc.md` and `document1.md` only, since these are the only files that affected the output. This drastically speeds up build times for large documents.
-
-## Multiple makefiles
-
-Note that a project can have as many makefiles as necessary. For example, if you have a large project and would like to produce a stripped-down version for a particular audience, you can simply create a different master document file and an additional makefile. Then:
+Note that a project can have as many configurations as necessary. For example, if you need to produce a PDF and styled webpage:
 
 ```bash
-make -f myothermakefile.mk deps
-make -f myothermakefile.mk
+mktechdocs2 config1.conf /Users/mylogin/myproject
+mktechdocs2 config2.cong /Users/mylogin/myproject
 ```
-
-## When to build dependencies
-
-Run `make deps` only when you add a new file or add (or remove) an include block from an existing file.
-
-Common sense applies here. If you change your document in such a way that the dependencies would be affected, you should rebuild `deps`. This command doesn't hurt anything, so when in doubt, run it.
-
-## How to reset your build
-
-Often, such as in the case of the "make deps loop" problem described below, you'll want to reset your build to remove any output produced, dependency lists, intermediate files, and so on. To do this:
-
-``` {.bash}
-make distclean
-```
-
-If MkTechDocs seems confused about something, try a reset.
 
 ## Pre- and post-build activities
 
@@ -77,28 +54,12 @@ Here's an example build script that copies a directory of images into the build 
 #!/bin/bash
 
 ACTIVITY=$1
-BUILD_DIR=$2
-OUT_DIR=$3
+OUT_DIR=$2
 
 if [[ "$1" == "pre" ]] ; then
-	echo "Copying ./img to $BUILD_DIR..."
-	cp -r ./img $BUILD_DIR/.
+	echo "Creating some new stuff in ./mystuff..."
 elif [[ "$1" == "post" ]] ; then
-	echo "Copying ./img to $OUT_DIR..."
-	cp -r ./img $OUT_DIR/.
+	echo "Copying ./mystuff to $OUT_DIR..."
+	cp -r ./mystuff $OUT_DIR/.
 fi
 ```
-
-## Troubleshooting build problems
-
-### The make deps loop
-
-Sometimes, particularly if there is an error during a `make deps` command, you will find yourself trapped in the "make deps loop," where `make` tells you to `make deps` even though you've just issued the command. The solution is fortunately easily solved: `make distclean deps`. This forces `make` to clear the `build` directory and start from the beginning.
-
-### Mysterious make error numbers
-
-If you see a mysterious "make error 83" or similar, this usually means that `make` has encountered an error trying to running a Bash command.  Try running the test installation script in the \$MKTECHDOCSHOME/test directory.
-
-## Detailed build-process information
-
-For more detailed information, please see the [understanding the build process](advanced.html#understanding-the-build-process) section.

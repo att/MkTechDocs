@@ -62,12 +62,12 @@ function clog {
       ;;
     ERROR)
       COL=$RED
-      TYPEOUT="[ERROR]"
+      TYPEOUT="[-]"
       MSG=" $MSG"
       ;;
     WARN)
       COL=$YELLOW
-      TYPEOUT="[WARN]"
+      TYPEOUT="[o]"
       MSG=" $MSG"
       ;;
   esac
@@ -150,6 +150,24 @@ EOF
 # Heading One
 
 My markup goes here.
+EOF
+  
+  clog INFO "Generating footer.html"
+  
+  cat <<EOF > footer.html
+<p>footer content</p>
+EOF
+  
+  clog INFO "Generating header.html"
+  
+  cat <<EOF > header.html
+<p>header content</p>
+EOF
+  
+  clog INFO "Generating landing.html"
+  
+  cat <<EOF > header.html
+<p>landing content</p>
 EOF
 
   clog INFO "Copying default configuration options into mktechdocs.conf."
@@ -250,23 +268,6 @@ check_build_env
 # Clean up old, possibly failed builds
 cleanup
 
-# Run any pre-build jobs
-if [[ "$BUILD_SCRIPT" != "" ]] ; then
-  if [[ -e $BUILD_SCRIPT ]] ; then
-    clog INFO "Running pre-build job $BUILD_SCRIPT"
-    $BUILD_SCRIPT pre
-  else
-    clog ERROR "$BUILD_SCRIPT is not executable. Giving up."
-    exit 1
-  fi
-fi
-
-# Set up a title page if needed
-TITLE_PAGE_ARG=
-if [[ "$TITLE_PAGE" != "" ]] ; then
-  TITLE_PAGE_ARG="$TITLE_PAGE"
-fi
-
 # Set up output file name
 OUTPUT_FILE_NAME_BASE_ARG=
 if [[ "$OUTPUT_FILE_NAME_BASE" != "" ]] ; then
@@ -281,6 +282,23 @@ normal_exit $?
 clog INFO "Creating ${OUTPUT_FILE_NAME_BASE_ARG}_pages for output"
 mkdir -p ${OUTPUT_FILE_NAME_BASE_ARG}_pages
 normal_exit $?
+
+# Run any pre-build jobs
+if [[ "$BUILD_SCRIPT" != "" ]] ; then
+  if [[ -e $BUILD_SCRIPT ]] ; then
+    clog INFO "Running pre-build job $BUILD_SCRIPT"
+    $BUILD_SCRIPT pre ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+  else
+    clog ERROR "$BUILD_SCRIPT is not executable. Giving up."
+    exit 1
+  fi
+fi
+
+# Set up a title page if needed
+TITLE_PAGE_ARG=
+if [[ "$TITLE_PAGE" != "" ]] ; then
+  TITLE_PAGE_ARG="$TITLE_PAGE"
+fi
 
 # Set up some variables based on FORMAT.
 TEMPLATE_ARG=
@@ -515,7 +533,7 @@ normal_exit $?
     normal_exit $?
   fi
 #############################################################################
-# DOCS OUTPUT
+# DOCX OUTPUT
 #############################################################################
 elif [[ "$FORMAT" == "docx" ]] ; then
   clog INFO "Building main docx document $OUTPUT_FILE_NAME_BASE_ARG.docx"
@@ -527,7 +545,7 @@ fi
 if [[ "$BUILD_SCRIPT" != "" ]] ; then
   if [[ -e $BUILD_SCRIPT ]] ; then
     clog INFO "Running post-build job $BUILD_SCRIPT"
-    $BUILD_SCRIPT post
+    $BUILD_SCRIPT post ${OUTPUT_FILE_NAME_BASE_ARG}_pages
   else
     clog ERROR "$BUILD_SCRIPT is not executable. Giving up."
     exit 1
