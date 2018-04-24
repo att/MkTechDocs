@@ -221,15 +221,15 @@ Pandodc templates can be customized on a per-project basis</li>
 <p>The <code>docsbuild</code> project is a good example of how to use MkTechDocs to manage your documentation projects effectively. Poke around in the directory, starting with the <code>master.md</code> master document.</p>
 <p>If you're impatient, follow the <a href="#setting-up-your-environment">dependency installation instructions</a> and then build the <code>$MKTECHDOCSHOME/bin/docsbuild</code> project (this website):</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> <span class="va">$MKTECHDOCSHOME</span>/docsbuild
-<span class="ex">mktechdocs2</span></code></pre></div>
+<span class="ex">mktechdocs</span></code></pre></div>
 <h2 id="markdown"><span class="header-section-number">2.2</span> Markdown</h2>
 <p>MkTechDocs uses Markdown exclusively, although support for additional syntaxes may be added in the future. More specifically, it uses standard Markdown syntax <a href="http://pandoc.org/MANUAL.html#pandocs-markdown">with Pandoc extensions</a>. In this documentation, assume that any file with a <code>.md</code> extension is a file that contains Markdown. Markdown is easy to learn, read, and edit and is easily transformable into a myriad of output formats. To use MkTechDocs effectively, take a few minutes to familiarize yourself with <a href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax</a>.</p>
 <h2 id="creating-a-new-project"><span class="header-section-number">2.3</span> Creating a new project</h2>
-<p>To create a new MkTechDocs project, <code>cd</code> inside the directory where you want to create it and run <code>mktechdocs2</code>. For example:</p>
+<p>To create a new MkTechDocs project, <code>cd</code> inside the directory where you want to create it and run <code>mktechdocs</code>. For example:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">mkdir</span> mynewproject
 <span class="bu">cd</span> mynewproject
-<span class="ex">mktechdocs2</span> init</code></pre></div>
-<p>In this case, <code>mktechdocs2</code> will create the following files in <code>mynewproject</code>:</p>
+<span class="ex">mktechdocs</span> init</code></pre></div>
+<p>In this case, <code>mktechdocs</code> will create the following files in <code>mynewproject</code>:</p>
 <table>
 <colgroup>
 <col width="19%" />
@@ -316,10 +316,10 @@ Or let&#39;s include it inline with a title underneath:
 <p>Then, tell MkTechDocs where your images directory is in the <a href="#simple-configuration">configuration section</a> of your project makefile.</p>
 <h1 id="building-your-document"><span class="header-section-number">3</span> Building your document</h1>
 <p>To build your new project from scratch with the default configuration (a single CSS-styled HTML page with a navigation sidebar pinned to the left-hand side), simply do:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mktechdocs2</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mktechdocs</span></code></pre></div>
 <p>If no errors occur, your new <code>index.html</code> HTML page and CSS file should appear in <code>./myproject/myproject_pages</code>.</p>
 <p>Here is the inline help:</p>
-<pre><code>$ mktechdocs2 help
+<pre><code>$ mktechdocs help
 Usage: mtechdocs [help|clean|init]
   help : Display this help message
   clean: Remove temporary build files
@@ -335,8 +335,8 @@ Usage: mtechdocs &lt;config&gt; &lt;directory&gt;
 $</code></pre>
 <h2 id="multiple-configurations"><span class="header-section-number">3.1</span> Multiple configurations</h2>
 <p>Note that a project can have as many configurations as necessary. For example, if you need to produce a PDF and styled webpage:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mktechdocs2</span> config1.conf /Users/mylogin/myproject
-<span class="ex">mktechdocs2</span> config2.cong /Users/mylogin/myproject</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mktechdocs</span> config1.conf /Users/mylogin/myproject
+<span class="ex">mktechdocs</span> config2.cong /Users/mylogin/myproject</code></pre></div>
 <h2 id="pre--and-post-build-activities"><span class="header-section-number">3.2</span> Pre- and post-build activities</h2>
 <p>Suppose you have a set of static images as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.</p>
 <p>Use the <code>BUILD_SCRIPT</code> <a href="#advanced-configuration">configuration</a> variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:</p>
@@ -1509,11 +1509,16 @@ to adapt it for such use.</p>
 <li>The control script is responsible for importing the project configuration and calling <code>pandoc</code> with the correct arguments to build reasonably formatted documents in a variety of formats.</li>
 <li>The &quot;magic&quot; behind it all is <code>pandoc</code> 's Abstract Syntax Tree (AST). Internally, <code>pandoc</code> converts all documents into AST, which can then be converted to JSON, which can then be manipulated by filters.</li>
 <li>MkTechDocs exploits this with a couple of libraries, <a href="https://github.com/jsseidel/groovy-pandoc">GroovyPandoc</a>, for Groovy template integration, and <a href="https://github.com/jgm/pandocfilters">PandocFilters</a>, for Python integration.</li>
-<li>Every time you run <code>mktechdocs2</code>, the control script calls <code>pandoc</code> on your project's master document. Some Bash scripting then takes care of some little details, which you can see for yourself by examining the script.</li>
+<li>Every time you run <code>mktechdocs</code>, the control script calls <code>pandoc</code> on your project's master document. Some Bash scripting then takes care of some little details, which you can see for yourself by examining the script.</li>
 </ol>
 <h2 id="contact"><span class="header-section-number">16.2</span> Contact</h2>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer Seidel</a>.</p>
 <h1 id="document-change-log"><span class="header-section-number">17</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Tue Apr 24 15:58:05 2018 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Updated version to 1.0 and reset document change log [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Tue Apr 24 15:13:25 2018 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
