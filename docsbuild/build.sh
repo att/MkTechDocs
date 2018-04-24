@@ -22,5 +22,5 @@ if [[ "$1" == "pre" ]] ; then
 	echo "Pre-build activities: NOP"
 elif [[ "$1" == "post" ]] ; then
   echo "Post-build activities: Copying output to public_html..."
-  cp -r ./mktechdocsiug_pages/* ../docs/.
+  cp -r ./usage_guide_pages/* ../docs/.
 fi

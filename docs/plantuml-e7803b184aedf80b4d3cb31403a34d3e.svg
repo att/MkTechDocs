@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="112px" preserveAspectRatio="none" style="width:79px;height:112px;" version="1.1" viewBox="0 0 79 112" width="79px" zoomAndPan="magnify"><defs><filter height="300%" id="f1bkhvaf80npb5" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="22" x2="22" y1="38.4883" y2="72.4883"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="59" x2="59" y1="38.4883" y2="72.4883"/><rect fill="#FEFECE" filter="url(#f1bkhvaf80npb5)" height="30.4883" style="stroke: #A80036; stroke-width: 1.5;" width="24" x="8" y="3"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="10" x="15" y="23.5352">A</text><rect fill="#FEFECE" filter="url(#f1bkhvaf80npb5)" height="30.4883" style="stroke: #A80036; stroke-width: 1.5;" width="24" x="8" y="71.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="10" x="15" y="92.0234">A</text><rect fill="#FEFECE" filter="url(#f1bkhvaf80npb5)" height="30.4883" style="stroke: #A80036; stroke-width: 1.5;" width="22" x="46" y="3"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="8" x="53" y="23.5352">B</text><rect fill="#FEFECE" filter="url(#f1bkhvaf80npb5)" height="30.4883" style="stroke: #A80036; stroke-width: 1.5;" width="22" x="46" y="71.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="8" x="53" y="92.0234">B</text><polygon fill="#A80036" points="47,50.4883,57,54.4883,47,58.4883,51,54.4883" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="22" x2="53" y1="54.4883" y2="54.4883"/><!--
+@startuml
+A->B    
+@enduml
+
+PlantUML version 1.2018.01(Sun Jan 28 13:08:22 EST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 1.8.0_161-b12
+Operating System: Mac OS X
+OS Version: 10.13.4
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

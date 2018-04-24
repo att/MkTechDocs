@@ -49,8 +49,8 @@ E.g.
 Produces:
 
 ```{.include-code language=c}
-../file1.h
-../file1.c
+file1.h
+file1.c
 ```
 
 ```note
