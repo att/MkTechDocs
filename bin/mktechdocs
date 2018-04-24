@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env bash
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -14,113 +14,546 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-##
-# This script initializes new MkTechDocs projects.
+#############################################################################
+# mtechdocs
 #
-# --------------------- -------------------------------------------------
-# Example usage         `mktechdocs init "Some Project Name"`
+# This script is used to build MkTechDocs projects
+#############################################################################
+
+# We need to know where MkTechDocs is installed above all else
+if [[ "$MKTECHDOCSHOME" == "" ]] ; then
+  echo "Please point MKTECHDOCSHOME to your MkTechDocs installation directory and try again."
+  echo "E.g."
+  echo "        export MKTECHDOCSHOME=~/MkTechDocs"
+  exit 1
+fi
+
+#############################################################################
+# STATIC VALUES
+#############################################################################
+
+# For color output
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[1;33m'
+export NC='\033[0m'
+
+TEXLISTINGS=$MKTECHDOCSHOME/lib/listings.tex
+TEXTEMPLATE=$MKTECHDOCSHOME/lib/template.tex
+
+#############################################################################
+# FUNCTIONS
+#############################################################################
+
 #
-# Arguments             init "Project Name"<br />
-#                       Creates a new MkTechDocs project directory<br />
-#                       `somename` and populates it with starter project<br />
-#                       files.
+# Echoes color messages
 #
-# Special exit values   None
-# --------------------- -------------------------------------------------
+function clog {
+  TYPE=$1
+  MSG=$2
+
+  COL=
+  TYPEOUT=
+  case "$TYPE" in
+    INFO)
+      COL=$GREEN
+      TYPEOUT="[+]"
+      MSG=" $MSG"
+      ;;
+    ERROR)
+      COL=$RED
+      TYPEOUT="[-]"
+      MSG=" $MSG"
+      ;;
+    WARN)
+      COL=$YELLOW
+      TYPEOUT="[o]"
+      MSG=" $MSG"
+      ;;
+  esac
+
+  echo -e "${COL}${TYPEOUT}${NC}$MSG"
+}
+
 #
-
-from __future__ import print_function
-from subprocess import call
-import os
-import sys
-import re
-
-# A simple string list of all possible commands
-COMMANDS=["init"]
-
-# print more easily to stderr
-def eprint(*args, **kwargs):
-	print(*args, file=sys.stderr, **kwargs)
-
-def usage():
-	eprint("Usage: mktechdocs <command> [command args]")
-	eprint("    Available Commands:")
-	eprint("        init <project title>")
-	eprint("See MkTechDocs documentation for a complete list of")
-	eprint("commands and command-arguments.")
-
-##
-# COMMAND ACTIONS
+# Checks build environment and exits if something isn't right.
 #
-# Each command should have functions:
-#     def do_<command>()
-#     def checkargs_<command>()
+function check_build_env {
+  # Master document
+  if [[ ! -r "master.md" ]] ; then
+    clog ERROR "Cannot find master document master.md"
+    exit 1
+  fi
+
+  # Java 8
+  if [[ $(java -version 2>&1 | grep 1.8) == "" ]] ; then
+    clog ERROR "Can't find Java 8 (1.8)."
+    exit 1
+  fi
+
+  # Executables
+
+  #for exe in pandoc pd groovyc cg gtp flt_get_includes.groovy plantuml xelatex ; do
+  for exe in pandoc flt-get-includes.py plantuml xelatex ; do
+    if [[ $(which $exe) == "" ]] ; then
+      clog ERROR "Can't find $exe. Did you add $MKTECHDOCSHOME/bin to your PATH? Did you install all the dependencies?"
+      exit 1
+    fi
+  done
+
+  clog INFO "Build environment looks good."
+}
+
 #
+# Called with $?, this function checks if the last command exited normally.
+# If not, issues a error and exits
+#
+function normal_exit {
+  RV=$1
+  if [[ "$RV" != "0" ]] ; then
+    clog ERROR "Command failed. Build stopped."
+    exit $RV
+  fi
+}
 
-# init
-def check_args_init():
-	if len(sys.argv) != 3:
-		eprint("Error: init needs a project title")
-		return False
-	return True
+#
+# Boolean function that returns false if a user doesn't answer in the
+# affirmative
+#
+function confirm {
+  CONFIRM_MSG=$1
+  read -p "$CONFIRM_MSG [y/N]" -n 1 -r
+  echo
+  [[ $REPLY =~ ^[Yy]$ ]]
+}
 
-def do_init():
-	prettyTitle = sys.argv[2]
-	title = re.sub("[\s]", "", sys.argv[2].lower())
-	
-	if not os.path.exists("./" + title):
-		os.makedirs("./" + title)
-	
-	with open("./" + title + "/" + title + ".md", "w") as f:
-		f.write("```comment\nThis is your master document. Include all your subdocuments in the\ninclude block below.\n```\n\n")
-		f.write("```{.include heading-level=0}\nsomefile.md\n```\n")
+#
+# Creates and populates a new project
+#
+function create_new_project {
+  clog INFO "Generating master.md"
 
-	with open(os.environ['MKTECHDOCSHOME'] + "/lib/makefile_template", "r") as f:
-		contents = f.read()
+  cat <<EOF > master.md
+\`\`\`comment
+This is your master document. Include all your subdocuments in the
+include block below.
+\`\`\`
 
-	contents = re.sub("~~TITLE~~", prettyTitle, contents)
-	contents = re.sub("~~OUTPUT_FILE_NAME~~", title, contents)
+\`\`\`{.include heading-level=0}
+subdocument.md
+\`\`\`
+EOF
+  
+  clog INFO "Generating subdocument.md"
+  
+  cat <<EOF > subdocument.md
+# Heading One
 
-	with open("./" + title + "/makefile", "w") as f:
-		f.write(contents)
+My markup goes here.
+EOF
+  
+  clog INFO "Generating footer.html"
+  
+  cat <<EOF > footer.html
+<p>footer content</p>
+EOF
+  
+  clog INFO "Generating header.html"
+  
+  cat <<EOF > header.html
+<p>header content</p>
+EOF
+  
+  clog INFO "Generating landing.html"
+  
+  cat <<EOF > header.html
+<p>landing content</p>
+EOF
 
-	# Generate templates
-	with open("./" + title + "/header.html", "w") as f:
-		f.write("<h1>Header content</h1>\n")
-	
-	with open("./" + title + "/landing.html", "w") as f:
-		f.write("<p>Landing page content. This template is used only in multi-page mode. It is used within index.html.</p>\n")
-	
-	with open("./" + title + "/footer.html", "w") as f:
-		f.write("<p>Footer content</p>\n")
+  clog INFO "Copying default configuration options into mktechdocs.conf."
+  cp $MKTECHDOCSHOME/lib/conf ./mktechdocs.conf
+  normal_exit $?
+}
 
-	# Make a template renderer
-	with open(os.environ['MKTECHDOCSHOME'] + "/lib/page.renderer", "r") as f:
-		contents = f.read()
-	
-	with open("./" + title + "/page.renderer", "w") as f:
-		f.write(contents)
+function cleanup {
+  # Clean up all the temporary build files unless keep is specified
+  if [[ "$KEEP_TEMP_FILES" != "true" ]] ; then
+    clog INFO "Removing old temporary build files"
+    
+    rm -f plantuml-*.uml plantuml-*.eps plantuml-*.svg $OUTPUT_FILE_NAME_BASE_ARG.pyt $OUTPUT_FILE_NAME_BASE_ARG.tex $OUTPUT_FILE_NAME_BASE_ARG.aux $OUTPUT_FILE_NAME_BASE_ARG.log $OUTPUT_FILE_NAME_BASE_ARG.toc $OUTPUT_FILE_NAME_BASE_ARG.out xelatex*.out
+    
+    ls *.pyt 2>/dev/null | sed 's/\.pyt//' | while read template ; do
+      rm -f $template.md
+    done
+    
+    ls *.gt 2>/dev/null | sed 's/\.gt//' | while read template ; do
+      rm -f $template.md
+    done
 
-	call(["chmod", "+x", "./" + title + "/page.renderer"])
+    ls *.htmlt 2>/dev/null | sed 's/\.htmlt//' | while read template ; do
+      rm -f $template.html
+    done
+  fi
+}
 
-	print("Project " + prettyTitle + " created in ./" + title)
+#############################################################################
+# MAIN
+#############################################################################
 
-	return 0
+# We need a project directory and configuration file
+CFG=$1
+PROJECT_DIR=$2
 
-# Entry
-def process_command():
-	if len(sys.argv) == 1:
-		eprint("Nothing to do!")
-		usage()
-		sys.exit(0)
-	
-	if not sys.argv[1] in COMMANDS:
-		eprint("Unrecognized command: " + sys.argv[1])
-		usage()
-		sys.exit(1)
+if [[ "$CFG" == "help" ]] ; then
+  echo "Usage: mtechdocs [help|clean|init]"
+  echo "  help : Display this help message"
+  echo "  clean: Remove temporary build files"
+  echo "  init : Create a new MkTechDocs project in the current directory"
+  echo
+  echo "Usage: mtechdocs"
+  echo "  Builds the MkTechDocs project in the current directory. Assumes"
+  echo "  that a mktechdocs.conf file and master.md file are present."
+  echo
+  echo "Usage: mtechdocs <config> <directory>"
+  echo "  Builds the MkTechDocs project in the given directory using the"
+  echo "  given configuration."
+  exit 0
+fi
 
-	# Call an appropriate function
-	eval("check_args_" + sys.argv[1])() and eval("do_" + sys.argv[1])()
+if [[ "$CFG" == "init" ]] ; then
+  PROJECT_DIR=.
+  if confirm "Create and initialize new MkTechDocs project in the current directory?" ; then
+    clog INFO "Creating new project in $PROJECT_DIR"
+    create_new_project $PROJECT_DIR
+    exit 0
+  else
+    clog INFO "Goodbye"
+    exit 0
+  fi
+fi
 
-if __name__ == "__main__":
-	process_command()
+if [[ "$CFG" == "clean" ]] ; then
+  cleanup
+  exit 0
+fi
+
+if [[ "$PROJECT_DIR" == "" ]] ; then
+  PROJECT_DIR=.
+fi
+
+if [[ "$CFG" == "" ]] ; then
+  CFG=mktechdocs.conf
+fi
+
+if [[ ! -r $CFG ]] ; then
+  clog ERROR "Can't find configuration file '$CFG'"
+  exit 1
+fi
+
+if [[ ! -d $PROJECT_DIR ]] ; then
+  clog ERROR "Can't find specified project path '$PROJECT_DIR'"
+  exit 1
+fi
+
+# Change our current working directory to the given project directory
+pushd $PROJECT_DIR 1>/dev/null 2>&1
+normal_exit $?
+
+# Check our build environment
+check_build_env
+
+# Source our configuration file
+. $CFG
+
+# Clean up old, possibly failed builds
+cleanup
+
+# Set up output file name
+OUTPUT_FILE_NAME_BASE_ARG=
+if [[ "$OUTPUT_FILE_NAME_BASE" != "" ]] ; then
+  OUTPUT_FILE_NAME_BASE_ARG="$OUTPUT_FILE_NAME_BASE"
+fi
+
+# Remove and then create an output dir so we can put output files there
+clog INFO "Removing old ${OUTPUT_FILE_NAME_BASE_ARG}_pages (if it exists)"
+rm -rf ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+normal_exit $?
+
+clog INFO "Creating ${OUTPUT_FILE_NAME_BASE_ARG}_pages for output"
+mkdir -p ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+normal_exit $?
+
+# Run any pre-build jobs
+if [[ "$BUILD_SCRIPT" != "" ]] ; then
+  if [[ -e $BUILD_SCRIPT ]] ; then
+    clog INFO "Running pre-build job $BUILD_SCRIPT"
+    $BUILD_SCRIPT pre ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+  else
+    clog ERROR "$BUILD_SCRIPT is not executable. Giving up."
+    exit 1
+  fi
+fi
+
+# Set up a title page if needed
+TITLE_PAGE_ARG=
+if [[ "$TITLE_PAGE" != "" ]] ; then
+  TITLE_PAGE_ARG="$TITLE_PAGE"
+fi
+
+# Set up some variables based on FORMAT.
+TEMPLATE_ARG=
+UML_FORMAT=svg
+case $FORMAT in
+  cssframes)
+    TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/css_frame_template.html"
+  ;;  
+  html)
+    TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/basic_template.html"
+  ;;
+  htmlsimple)
+    TEMPLATE_ARG=
+  ;;
+  htmlmulti)
+    # NOP
+  ;;
+  pdf|pdffloat)
+    UML_FORMAT=eps
+  ;;
+  markdown)
+    # NOP
+  ;;
+  docx)
+    # NOP
+  ;;
+  *)
+    clog ERROR "Sorry, FORMAT $FORMAT is not supported."
+    exit 1
+  ;;
+esac
+
+# Setup the pandoc filter list with correct UML output format
+FILTERS="-F $MKTECHDOCSHOME/bin/flt-include.py -F $MKTECHDOCSHOME/bin/flt-comment-block.py -F $MKTECHDOCSHOME/bin/flt-comment.py -F $MKTECHDOCSHOME/bin/flt-plantuml.py -M umlformat=$UML_FORMAT -F $MKTECHDOCSHOME/bin/flt-notetip.py -F $MKTECHDOCSHOME/bin/flt-include-code.py"
+
+# Override template setup if the user specifies their own template
+if [[ "$CUSTOM_TEMPLATE" != "" ]] ; then
+  if [[ ! -r $CUSTOM_TEMPLATE ]] ; then
+    clog ERROR "Can't find custom template $CUSTOM_TEMPLATE. Giving up."
+    exit 1
+  fi
+
+  clog INFO "Setting up customized template"
+  TEMPLATE_ARG="--template $CUSTOM_TEMPLATE"
+fi
+
+# Set up style information
+if [[ "$TEMPLATE_ARG" == "" && "$HTML_STYLE" != "" ]] ; then
+  clog INFO "Ignoring HTML_STYLE."
+fi
+
+HTML_STYLE_FILE=
+case $HTML_STYLE in
+  archwiki)
+    HTML_STYLE_FILE=$MKTECHDOCSHOME/lib/archwiki.css
+  ;;
+  github)
+    HTML_STYLE_FILE=$MKTECHDOCSHOME/lib/github.css
+  ;;
+  custom)
+    if [[ ! -r $CUSTOM_CSS ]] ; then
+      clog ERROR "When using custom css file, you must supply a readable file in CUSTOM_CSS."
+      exit 1
+    fi
+    HTML_STYLE_FILE=$CUSTOM_CSS
+  ;;
+  *)
+    if [[ "$TEMPLATE_ARG" != "" ]] ; then
+      clog ERROR "Don't understand HTML_STYLE value of $HTML_STYLE."
+      exit 1
+    fi
+esac
+
+if [[ "$HTML_STYLE_FILE" != "" ]] ; then
+  cp -i $HTML_STYLE_FILE ${OUTPUT_FILE_NAME_BASE_ARG}_pages/mktechdocs.css
+  normal_exit $?
+fi
+
+# Set up table of contents
+TOC_MAIN_ARG=
+if [[ "$TABLE_OF_CONTENTS_MAIN_DEPTH" != "" ]] ; then
+  TOC_MAIN_ARG="--toc --toc-depth=$TABLE_OF_CONTENTS_MAIN_DEPTH"
+fi
+
+TOC_SUB_ARG=
+if [[ "$TABLE_OF_CONTENTS_SUB_DEPTH" != "" ]] ; then
+  TOC_SUB_ARG="--toc --toc-depth=$TABLE_OF_CONTENTS_SUB_DEPTH"
+fi
+
+# Set up section numbering
+SECTION_NUMBERS_ARG=
+if [[ "$SECTION_NUMBERS" == "true" ]] ; then
+  SECTION_NUMBERS_ARG="-V numbersections=1"
+fi
+
+# Render all templates (if we have any) in the current directory
+N=$(ls | grep -c *.pyt)
+if [[ "$N" != "0" ]] ; then
+  ls *.pyt | sed 's/\.pyt//' | while read template ; do
+    clog INFO "Rendering $template.pyt => $template.md"
+    $template.renderer $template.pyt > $template.md
+    normal_exit $?
+  done
+  [[ $? != 0 ]] && exit $?
+fi
+
+N=$(ls | grep -c *.htmlt)
+if [[ "$N" != "0" ]] ; then
+  ls *.htmlt | sed 's/\.htmlt//' | while read template ; do
+    clog INFO "Rendering $template.htmlt => $template.html"
+    $template.renderer $template.htmlt > $template.html
+    normal_exit $?
+  done
+  [[ $? != 0 ]] && exit $?
+fi
+
+N=$(ls | grep -c *.gt)
+if [[ "$N" != "0" ]] ; then
+  ls *.gt | sed 's/\.gt//' | while read template ; do
+    clog INFO "Rendering $template.gt => $template.md"
+    gtp $template.gt > $template.md
+    normal_exit $?
+  done
+  [[ $? != 0 ]] && exit $?
+fi
+
+#############################################################################
+# PDF OUTPUT 
+#############################################################################
+if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
+  clog INFO "Building main tex $OUTPUT_FILE_NAME_BASE_ARG.tex"
+  pandoc $FILTERS -F flt-strip-pages-from-links.py -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE --latex-engine=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_MAIN_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
+  if [[ "$FORMAT" == "pdf" ]] ; then
+    clog INFO "Fixing floating diagrams to appear inline." 
+    sed -i "" 's/\\begin{figure}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
+    normal_exit $?
+  fi
+
+  clog INFO "Creating pdf, pass 1"
+  xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex1.out 2>&1
+  normal_exit $?
+  clog INFO "Creating pdf, pass 2"
+  xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex2.out 2>&1
+  normal_exit $?
+  clog INFO "Creating pdf, pass 3"
+  xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex3.out 2>&1
+  normal_exit $?
+  mv $OUTPUT_FILE_NAME_BASE_ARG.pdf ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.pdf 
+  normal_exit $?
+
+#############################################################################
+# HTML OUTPUT 
+#############################################################################
+elif [[ "$FORMAT" == "html" || "$FORMAT" == "htmlsimple" || "$FORMAT" == "cssframes" ]] ; then
+  clog INFO "Building main template $OUTPUT_FILE_NAME_BASE_ARG.pyt"
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+normal_exit $?
+
+  clog INFO "Fixing jinja brackets"
+  escape-jinja-brackets.sh $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  normal_exit $?
+
+  clog INFO "Rendering index.html"
+  $MKTECHDOCSHOME/bin/page_renderer.py $OUTPUT_FILE_NAME_BASE_ARG.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/index.html
+  normal_exit $?
+
+  clog INFO "Copying any necessary files to the output directory"
+  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  if [[ "$IMAGES" != "" ]] ; then
+    if [[ -d $IMAGES ]] ; then
+      cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
+      normal_exit $?
+    fi
+  fi
+#############################################################################
+# HTMLMULTI
+#############################################################################
+elif [[ "$FORMAT" == "htmlmulti" ]] ; then
+  clog INFO "Building main multi-page HTML document."
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $SECTION_NUMBERS_ARG -F flt-include-doc-map.py --template $MKTECHDOCSHOME/lib/main_multipage.html $TOC_MAIN_ARG master.md 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  normal_exit $?
+  
+  clog INFO "Fixing jinja brackets"
+  escape-jinja-brackets.sh $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  normal_exit $?
+  
+  clog INFO "Rendering index.html"
+  $MKTECHDOCSHOME/bin/page_renderer.py $OUTPUT_FILE_NAME_BASE_ARG.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/index.html
+  normal_exit $?
+
+  clog INFO "Working on individual HTML pages"
+  mkdir $$-tmp
+  HEADERDELTA=0
+  cat 2cp.txt | sed 's/\.html//' | while read f ; do
+    clog INFO "Building $f template"
+    if [[ "$SECTION_NUMBERS" == "true" ]] ; then
+      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html --number-offset=$HEADERDELTA $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html $f.md -o $$-tmp/$f.pyt
+    else
+      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html $f.md -o $$-tmp/$f.pyt
+    fi
+    
+    clog INFO "Rendering $f template"
+    escape-jinja-brackets.sh $$-tmp/$f.pyt
+    $MKTECHDOCSHOME/bin/page_renderer.py $$-tmp/$f.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$f.html
+    ((HEADERDELTA=HEADERDELTA+1))
+  done
+
+  rm -f 2cp.txt
+  rm -rf $$-tmp 
+
+  clog INFO "Copying any necessary files to the output directory"
+  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  if [[ "$IMAGES" != "" ]] ; then
+    if [[ -d $IMAGES ]] ; then
+      cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
+      normal_exit $?
+    fi
+  fi
+#############################################################################
+# MARKDOWN OUTPUT
+#############################################################################
+elif [[ "$FORMAT" == "markdown" ]] ; then
+  clog INFO "Building main document $OUTPUT_FILE_NAME_BASE_ARG.md"
+  pandoc -s --ascii --highlight-style tango -f markdown -t markdown --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.md
+normal_exit $?
+
+  clog INFO "Copying any necessary files to the output directory"
+  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  if [[ "$IMAGES" != "" ]] ; then
+    # TBD NEEDS TEST for existence
+    cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
+    normal_exit $?
+  fi
+#############################################################################
+# DOCX OUTPUT
+#############################################################################
+elif [[ "$FORMAT" == "docx" ]] ; then
+  clog INFO "Building main docx document $OUTPUT_FILE_NAME_BASE_ARG.docx"
+  pandoc -s --ascii --highlight-style tango -f markdown -t docx --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.docx
+normal_exit $?
+fi
+
+# Run any post-build jobs
+if [[ "$BUILD_SCRIPT" != "" ]] ; then
+  if [[ -e $BUILD_SCRIPT ]] ; then
+    clog INFO "Running post-build job $BUILD_SCRIPT"
+    $BUILD_SCRIPT post ${OUTPUT_FILE_NAME_BASE_ARG}_pages
+  else
+    clog ERROR "$BUILD_SCRIPT is not executable. Giving up."
+    exit 1
+  fi
+fi
+
+# Clean up old, possibly failed builds
+cleanup
+
+popd
+normal_exit $?

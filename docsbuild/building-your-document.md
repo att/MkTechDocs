@@ -3,7 +3,7 @@
 To build your new project from scratch with the default configuration (a single CSS-styled HTML page with a navigation sidebar pinned to the left-hand side), simply do:
 
 ``` {.bash}
-mktechdocs2
+mktechdocs
 ```
 
 If no errors occur, your new `index.html` HTML page and CSS file should appear in `./myproject/myproject_pages`.
@@ -11,7 +11,7 @@ If no errors occur, your new `index.html` HTML page and CSS file should appear i
 Here is the inline help:
 
 ```
-$ mktechdocs2 help
+$ mktechdocs help
 Usage: mtechdocs [help|clean|init]
   help : Display this help message
   clean: Remove temporary build files
@@ -32,8 +32,8 @@ $
 Note that a project can have as many configurations as necessary. For example, if you need to produce a PDF and styled webpage:
 
 ```bash
-mktechdocs2 config1.conf /Users/mylogin/myproject
-mktechdocs2 config2.cong /Users/mylogin/myproject
+mktechdocs config1.conf /Users/mylogin/myproject
+mktechdocs config2.cong /Users/mylogin/myproject
 ```
 
 ## Pre- and post-build activities

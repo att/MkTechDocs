@@ -15,7 +15,7 @@ If you're impatient, follow the [dependency installation instructions](#setting-
 
 ```bash
 cd $MKTECHDOCSHOME/docsbuild
-mktechdocs2
+mktechdocs
 ```
 
 ## Markdown
@@ -24,15 +24,15 @@ MkTechDocs uses Markdown exclusively, although support for additional syntaxes m
 
 ## Creating a new project
 
-To create a new MkTechDocs project, `cd` inside the directory where you want to create it and run `mktechdocs2`. For example:
+To create a new MkTechDocs project, `cd` inside the directory where you want to create it and run `mktechdocs`. For example:
 
 ```bash
 mkdir mynewproject
 cd mynewproject
-mktechdocs2 init
+mktechdocs init
 ```
 
-In this case, `mktechdocs2` will create the following files in `mynewproject`:
+In this case, `mktechdocs` will create the following files in `mynewproject`:
 
 | File Name       | Purpose                                                                 |
 |-----------------|-------------------------------------------------------------------------|
