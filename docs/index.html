@@ -269,7 +269,7 @@ Pandodc templates can be customized on a per-project basis</li>
 </tbody>
 </table>
 <p>* NOTE 1: Optional. If you don't need this HTML content, for example, if you're producing PDF content only, you can safely delete these files.</p>
-<p>* NOTE 2: If you need more dynamic content in your header, footer, or main content, dates, database information, etc., please read the <a href="templates.html#footer.html-header.html-and-landing.html-as-templates"><code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates section</a></p>
+<p>* NOTE 2: If you need more dynamic content in your header, footer, or main content, dates, database information, etc., please read the <a href="#footer.html-header.html-and-landing.html-as-templates"><code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates section</a></p>
 <h2 id="mktechdocs-projects"><span class="header-section-number">2.4</span> MkTechDocs projects</h2>
 <h3 id="master-document"><span class="header-section-number">2.4.1</span> Master document</h3>
 <p>MkTechDocs projects consist of a &quot;master&quot; document &#8212; a single markdown document that defines your project, always named <code>master.md</code>&#8212; and any number of sub documents. Building a master document is simple:</p>
@@ -313,7 +313,7 @@ Or let&#39;s include it inline with a title underneath:
 <p class="caption">Smiley</p>
 </div>
 <hr />
-<p>Then, tell MkTechDocs where your images directory is in the <a href="configuration-options.html#simple-configuration">configuration section</a> of your project makefile.</p>
+<p>Then, tell MkTechDocs where your images directory is in the <a href="#simple-configuration">configuration section</a> of your project makefile.</p>
 <h1 id="building-your-document"><span class="header-section-number">3</span> Building your document</h1>
 <p>To build your new project from scratch with the default configuration (a single CSS-styled HTML page with a navigation sidebar pinned to the left-hand side), simply do:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mktechdocs2</span></code></pre></div>
@@ -339,7 +339,7 @@ $</code></pre>
 <span class="ex">mktechdocs2</span> config2.cong /Users/mylogin/myproject</code></pre></div>
 <h2 id="pre--and-post-build-activities"><span class="header-section-number">3.2</span> Pre- and post-build activities</h2>
 <p>Suppose you have a set of static images as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.</p>
-<p>Use the <code>BUILD_SCRIPT</code> <a href="configuration.html#advanced-configuration">configuration</a> variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:</p>
+<p>Use the <code>BUILD_SCRIPT</code> <a href="#advanced-configuration">configuration</a> variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:</p>
 <table style="width:83%;">
 <colgroup>
 <col width="15%" />
@@ -444,12 +444,12 @@ $</code></pre>
 <tr class="even">
 <td><code>TITLE_PAGE</code></td>
 <td>Any. No spaces or puncutation.</td>
-<td>See the <a href="title-pages.html#title-pages">title pages</a> section for more information. Applies only to <code>pdf</code> and <code>pdffloat</code> output formats.</td>
+<td>See the <a href="#title-pages">title pages</a> section for more information. Applies only to <code>pdf</code> and <code>pdffloat</code> output formats.</td>
 </tr>
 <tr class="odd">
 <td><code>IMAGES</code></td>
 <td>Path to directory relative to project.</td>
-<td>See the <a href="the-basics.html#images">Images</a> section for more information. Applies to all formats.</td>
+<td>See the <a href="#images">Images</a> section for more information. Applies to all formats.</td>
 </tr>
 </tbody>
 </table>
@@ -472,7 +472,7 @@ $</code></pre>
 <tr class="odd">
 <td><code>BUILD_SCRIPT</code></td>
 <td>Any</td>
-<td>See the <a href="building-your-document.html#pre--and-post-build-activities">Pre- and post-build activities</a> section for for information.</td>
+<td>See the <a href="#pre--and-post-build-activities">Pre- and post-build activities</a> section for for information.</td>
 </tr>
 <tr class="even">
 <td><code>CUSTOM_CSS</code></td>
@@ -482,7 +482,7 @@ $</code></pre>
 <tr class="odd">
 <td><code>CUSTOM_TEMPLATE</code></td>
 <td>Relative path to pandoc template</td>
-<td>If you provide a file path here to a template file, MkTechDocs will use that template instead of one of the defaults. To understand MkTechDocs template files, see the <code>$MKTECHDOCSHOME/*_template.html</code> files. In addition, please see <code>man pandoc</code> -&gt; &quot;Variables set by pandoc&quot; for a listing of pandoc variables available to template files. For more complex use of variables, see the <a href="templates.html#python-templates">Python Templates</a> section.</td>
+<td>If you provide a file path here to a template file, MkTechDocs will use that template instead of one of the defaults. To understand MkTechDocs template files, see the <code>$MKTECHDOCSHOME/*_template.html</code> files. In addition, please see <code>man pandoc</code> -&gt; &quot;Variables set by pandoc&quot; for a listing of pandoc variables available to template files. For more complex use of variables, see the <a href="#python-templates">Python Templates</a> section.</td>
 </tr>
 <tr class="even">
 <td><code>KEEP_TEMP_FILES</code></td>
@@ -507,7 +507,7 @@ author:
 date: January 1, 2001
 ---</code></pre>
 <h2 id="templates"><span class="header-section-number">5.3</span> Templates</h2>
-<p>If your title page requires dynamic content (e.g. non-static date, version number) you can create a Python template to output information as in the above two exmaples. Follow along with the example in <a href="templates.html#python-templates">Python templates</a> section.</p>
+<p>If your title page requires dynamic content (e.g. non-static date, version number) you can create a Python template to output information as in the above two exmaples. Follow along with the example in <a href="#python-templates">Python templates</a> section.</p>
 <h1 id="useful-blocks"><span class="header-section-number">6</span> Useful Blocks</h1>
 <p>MkTechDocs contains built-in blocks that are useful when creating documentation.</p>
 <h2 id="comment"><span class="header-section-number">6.1</span> Comment</h2>
@@ -517,7 +517,7 @@ date: January 1, 2001
 This text will be ignored.
 ```</code></pre>
 <h2 id="include"><span class="header-section-number">6.2</span> Include</h2>
-<p>The <code>include</code> block was introduced in the <a href="the-basics.html#master-document">basics</a> section.</p>
+<p>The <code>include</code> block was introduced in the <a href="#master-document">basics</a> section.</p>
 <table>
 <colgroup>
 <col width="31%" />
@@ -1501,30 +1501,6 @@ to adapt it for such use.</p>
 </tbody>
 </table>
 <h2 id="mktechdocs"><span class="header-section-number">15.8</span> <code>mktechdocs</code></h2>
-<p>This script initializes new MkTechDocs projects.</p>
-<table style="width:99%;">
-<colgroup>
-<col width="30%" />
-<col width="68%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">Example usage</td>
-<td align="left"><code>mktechdocs init &quot;Some Project Name&quot;</code></td>
-</tr>
-<tr class="even">
-<td align="left">Arguments</td>
-<td align="left">init &quot;Project Name&quot;<br />
-Creates a new MkTechDocs project directory<br />
-<code>somename</code> and populates it with starter project<br />
-files.</td>
-</tr>
-<tr class="odd">
-<td align="left">Special exit values</td>
-<td align="left">None</td>
-</tr>
-</tbody>
-</table>
 <h1 id="addendum"><span class="header-section-number">16</span> Addendum</h1>
 <h2 id="understanding-the-build-process"><span class="header-section-number">16.1</span> Understanding the build process</h2>
 <p>The MkTechDocs build process is complex. The following is a step-by-step guide towards understanding how it works.</p>
@@ -1542,46 +1518,6 @@ files.</td>
 <p><strong>Date</strong>: Tue Apr 24 15:13:25 2018 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
 <strong>Message</strong>: Changed build system to remove makefile and updated documentation [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Wed Apr 4 14:04:06 2018 -0400<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Added documentation for how to use images inline in documentation. [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Wed Sep 13 07:48:53 2017 -0400<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Removed section about framework from addendum. Wasn't needed. [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Fri Sep 8 12:38:25 2017 -0400<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Added new section about evolution of the framework and moved advance to addendum [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Tue Aug 1 08:06:50 2017 -0400<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Added links to repo in introduction. [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Sun Jul 30 19:35:08 2017 -0400<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Removed unnecessary explanation from Sub-documents section. [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Tue Jul 25 17:59:26 2017 +0000<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Added information about replacing buggy titlesec TeX package in Ubuntu 16.04 LTS [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Fri Jul 21 09:27:16 2017 -0400<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Updated fake path in the environment section to reflect any path. [doc]
-<br /></p>
-<p>
-<p><strong>Date</strong>: Thu Jul 20 21:55:56 2017 +0000<br />
-<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
-<strong>Message</strong>: Initial doc commit message. Fixed changes to capture 'must contain' word lists. [doc]
 <br /></p>
 </div><!-- content -->
 <div id="footer">
