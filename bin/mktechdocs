@@ -265,7 +265,7 @@ check_build_env
 # Source our configuration file
 . $CFG
 
-# Clean up old, possibly failed builds
+# Clean up old, possibly failed, builds
 cleanup
 
 # Set up output file name
