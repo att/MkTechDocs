@@ -229,7 +229,7 @@ Pandodc templates can be customized on a per-project basis</li>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">mkdir</span> mynewproject
 <span class="bu">cd</span> mynewproject
 <span class="ex">mktechdocs</span> init</code></pre></div>
-<p>In this case, <code>mktechdocs</code> will create the following files in <code>mynewproject</code>:</p>
+<p><code>mktechdocs</code> will create the following files in <code>mynewproject</code>:</p>
 <table>
 <colgroup>
 <col width="19%" />
@@ -336,9 +336,9 @@ $</code></pre>
 <h2 id="multiple-configurations"><span class="header-section-number">3.1</span> Multiple configurations</h2>
 <p>Note that a project can have as many configurations as necessary. For example, if you need to produce a PDF and styled webpage:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">mktechdocs</span> config1.conf /Users/mylogin/myproject
-<span class="ex">mktechdocs</span> config2.cong /Users/mylogin/myproject</code></pre></div>
+<span class="ex">mktechdocs</span> config2.conf /Users/mylogin/myproject</code></pre></div>
 <h2 id="pre--and-post-build-activities"><span class="header-section-number">3.2</span> Pre- and post-build activities</h2>
-<p>Suppose you have a set of static images as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.</p>
+<p>Suppose you have a set of static documents as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.</p>
 <p>Use the <code>BUILD_SCRIPT</code> <a href="#advanced-configuration">configuration</a> variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:</p>
 <table style="width:83%;">
 <colgroup>
@@ -358,10 +358,6 @@ $</code></pre>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>The full path to the build directory.</td>
-</tr>
-<tr class="odd">
-<td>3</td>
 <td>The full path to the output directory.</td>
 </tr>
 </tbody>
@@ -378,6 +374,7 @@ $</code></pre>
     <span class="bu">echo</span> <span class="st">&quot;Copying ./mystuff to </span><span class="va">$OUT_DIR</span><span class="st">...&quot;</span>
     <span class="fu">cp</span> -r ./mystuff <span class="va">$OUT_DIR</span>/.
 <span class="kw">fi</span></code></pre></div>
+<p>You don't need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a <a href="#simple-configuration">configuration option</a> where you can specify the path to your the directory that holds your images.</p>
 <h1 id="configuration"><span class="header-section-number">4</span> Configuration</h1>
 <p>You configure MkTechDocs projects with variables contained in a configuration file in your project directory. By default, the name of this file is <code>mktechdocs.conf</code>, and if you choose to use this name, you won't have to provide the configuration file and directory when you run MkTechDocs.</p>
 <h2 id="simple-configuration"><span class="header-section-number">4.1</span> Simple configuration</h2>
@@ -448,7 +445,7 @@ $</code></pre>
 </tr>
 <tr class="odd">
 <td><code>IMAGES</code></td>
-<td>Path to directory relative to project.</td>
+<td>Path to images directory -- can be absolute or relative to project directory.</td>
 <td>See the <a href="#images">Images</a> section for more information. Applies to all formats.</td>
 </tr>
 </tbody>
@@ -476,12 +473,12 @@ $</code></pre>
 </tr>
 <tr class="even">
 <td><code>CUSTOM_CSS</code></td>
-<td>Relative path to CSS file</td>
+<td>Absolute or relative path to CSS file</td>
 <td>If you provide a file path here to a CSS file, MkTechDocs will copy that file into your *_pages output directory. To understand MkTechDocs CSS, see the <code>$MKTECHDOCSHOME/lib/*.css</code> files.</td>
 </tr>
 <tr class="odd">
 <td><code>CUSTOM_TEMPLATE</code></td>
-<td>Relative path to pandoc template</td>
+<td>Absolute or relative path to pandoc template</td>
 <td>If you provide a file path here to a template file, MkTechDocs will use that template instead of one of the defaults. To understand MkTechDocs template files, see the <code>$MKTECHDOCSHOME/*_template.html</code> files. In addition, please see <code>man pandoc</code> -&gt; &quot;Variables set by pandoc&quot; for a listing of pandoc variables available to template files. For more complex use of variables, see the <a href="#python-templates">Python Templates</a> section.</td>
 </tr>
 <tr class="even">
@@ -622,6 +619,8 @@ A-&gt;B
 ```</code></pre>
 <p>Produces:</p>
 <p><img src="plantuml-e7803b184aedf80b4d3cb31403a34d3e.svg" title="Fig:" alt="My Diagram" /></p>
+<p class="note"><b>Note</b>: TBD: This is currently not working.</p>
+
 <h2 id="tip"><span class="header-section-number">6.6</span> Tip</h2>
 <p><code>tip</code> blocks are used to create documentation &quot;tips&quot; that appear highlighted in documentation text for HTML output formats. For PDF output, the content of the <code>tip</code> block is prepended with &quot;Tip:&quot;.</p>
 <p>E.g.</p>

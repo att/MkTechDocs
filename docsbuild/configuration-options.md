@@ -18,7 +18,7 @@ For the majority of relatively simple documents and websites, the simple configu
 |`TABLE_OF_CONTENTS_SUB_DEPTH`|1-6|The maximum number heading-level depth to count as a section number in sub documents for the `htmlmulti` format.|
 |`SECTION_NUMBERS`|true,false|Include section numbers in headings and tables of content.|
 |`TITLE_PAGE`|Any. No spaces or puncutation.|See the [title pages](title-pages.html#title-pages) section for more information. Applies only to `pdf` and `pdffloat` output formats.|
-|`IMAGES`|Path to directory relative to project.|See the [Images](the-basics.html#images) section for more information. Applies to all formats.|
+|`IMAGES`|Path to images directory -- can be absolute or relative to project directory.|See the [Images](the-basics.html#images) section for more information. Applies to all formats.|
 
 ## Advanced configuration
 
@@ -27,7 +27,7 @@ More complex documents may require finer-grain control over how documents are re
 |Variable Name   |Possible Values                 |Effects                                                  |
 |----------------|--------------------------------|---------------------------------------------------------|
 |`BUILD_SCRIPT`  |Any                             |See the [Pre- and post-build activities](building-your-document.html#pre--and-post-build-activities) section for for information.|
-|`CUSTOM_CSS`|Relative path to CSS file|If you provide a file path here to a CSS file, MkTechDocs will copy that file into your \*\_pages output directory. To understand MkTechDocs CSS, see the `$MKTECHDOCSHOME/lib/*.css` files.|
-|`CUSTOM_TEMPLATE`|Relative path to pandoc template|If you provide a file path here to a template file, MkTechDocs will use that template instead of one of the defaults. To understand MkTechDocs template files, see the `$MKTECHDOCSHOME/*_template.html` files. In addition, please see `man pandoc` -> "Variables set by pandoc" for a listing of pandoc variables available to template files. For more complex use of variables, see the [Python Templates](templates.html#python-templates) section.|
+|`CUSTOM_CSS`|Absolute or relative path to CSS file|If you provide a file path here to a CSS file, MkTechDocs will copy that file into your \*\_pages output directory. To understand MkTechDocs CSS, see the `$MKTECHDOCSHOME/lib/*.css` files.|
+|`CUSTOM_TEMPLATE`|Absolute or relative path to pandoc template|If you provide a file path here to a template file, MkTechDocs will use that template instead of one of the defaults. To understand MkTechDocs template files, see the `$MKTECHDOCSHOME/*_template.html` files. In addition, please see `man pandoc` -> "Variables set by pandoc" for a listing of pandoc variables available to template files. For more complex use of variables, see the [Python Templates](templates.html#python-templates) section.|
 |`KEEP_TEMP_FILES`|true,false|If true, mktechdocs will delete all temporary build files after completing a build.|
 

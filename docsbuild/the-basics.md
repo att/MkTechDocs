@@ -32,7 +32,7 @@ cd mynewproject
 mktechdocs init
 ```
 
-In this case, `mktechdocs` will create the following files in `mynewproject`:
+`mktechdocs` will create the following files in `mynewproject`:
 
 | File Name       | Purpose                                                                 |
 |-----------------|-------------------------------------------------------------------------|

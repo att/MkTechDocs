@@ -33,20 +33,19 @@ Note that a project can have as many configurations as necessary. For example, i
 
 ```bash
 mktechdocs config1.conf /Users/mylogin/myproject
-mktechdocs config2.cong /Users/mylogin/myproject
+mktechdocs config2.conf /Users/mylogin/myproject
 ```
 
 ## Pre- and post-build activities
 
-Suppose you have a set of static images as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.
+Suppose you have a set of static documents as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.
 
 Use the `BUILD_SCRIPT` [configuration](configuration.html#advanced-configuration) variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:
 
 |Argument #|Description                                     |
 |----------|------------------------------------------------|
 |1|The activity being performed. Possible values given by MkTechDocs are `pre` and `post`. These indicate that any pre- or post-build activies should take place.|
-|2|The full path to the build directory.|
-|3|The full path to the output directory.|
+|2|The full path to the output directory.|
 
 Here's an example build script that copies a directory of images into the build and output directories when appropriate:
 
@@ -63,3 +62,5 @@ elif [[ "$1" == "post" ]] ; then
 	cp -r ./mystuff $OUT_DIR/.
 fi
 ```
+
+You don't need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a [configuration option](configuration-options.html#simple-configuration) where you can specify the path to your the directory that holds your images.
