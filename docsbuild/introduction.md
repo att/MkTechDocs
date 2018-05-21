@@ -2,7 +2,7 @@
 
 ## What is it?
 
-**MkTechDocs** is an open framework for collating and transforming markdown. It can be used for managing large complex technical documentation projects with dependencies, producing light documentation, or easily and quickly combining and transforming existing Markdown files into a styled webpage or PDF document.
+**MkTechDocs** is an open framework for collating and transforming markdown. You can use it to manage complex technical documentation projects with dependencies, produce light documentation, or combine and transform existing Markdown files into a styled webpage or PDF document.
 
 ## Features
 
@@ -29,7 +29,7 @@ You're looking at one! Now, check out the source in the [`docsbuild`](https://gi
 
 ## Supported architectures
 
-MkTechDocs currently supports Arch and Ubuntu (16.04+) Linux and macOS. It may work in Windows under Cygwin, MinGW, or Ubuntu Bash for Windows.
+MkTechDocs currently supports Arch and Ubuntu (16.04+,18.04+) Linux and macOS. It may work in Windows under Cygwin, MinGW, or Ubuntu Bash for Windows.
 
 ## Downloading and setting up your environment
 
