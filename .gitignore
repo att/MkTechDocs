@@ -1,4 +1,4 @@
-mktechdocsiug_pages
+usage_guide_pages/
 *.pyc
 build
 *GroovyPandoc*jar
