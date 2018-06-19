@@ -204,7 +204,7 @@ function cleanup {
 CFG=$1
 PROJECT_DIR=$2
 
-if [[ "$CFG" == "help" ]] ; then
+if [[ "$CFG" == "help" || "$CFG" == "--help" || "$CFG" == "-?" || "$CFG" == "?" ]] ; then
   echo "Usage: mtechdocs [help|clean|init]"
   echo "  help : Display this help message"
   echo "  clean: Remove temporary build files"
