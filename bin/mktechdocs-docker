@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PROJECT=$(realpath $1)
+
+docker run -d --name mktechdocs -v $PROJECT:/project mktechdocs-no-groovy:0.0.1
+docker logs mktechdocs
+docker stop mktechdocs
+docker rm mktechdocs
+

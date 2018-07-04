@@ -38,9 +38,6 @@ export GREEN='\033[0;32m'
 export YELLOW='\033[1;33m'
 export NC='\033[0m'
 
-TEXLISTINGS=$MKTECHDOCSHOME/lib/listings.tex
-TEXTEMPLATE=$MKTECHDOCSHOME/lib/template.tex
-
 #############################################################################
 # FUNCTIONS
 #############################################################################
@@ -80,22 +77,19 @@ function clog {
 #
 function check_build_env {
   # Master document
-  if [[ ! -r ./master.md ]] ; then
-    clog ERROR "Cannot find master document $PROJECT_DIR/master.md"
+  if [[ ! -r "master.md" ]] ; then
+    clog ERROR "Cannot find master document master.md"
     exit 1
   fi
 
-	# Don't do this. User might not need java support or is using
-	# openjdk
-  #if [[ $(java -version 2>&1 | grep 1.8) == "" ]] ; then
-  #  clog ERROR "Can't find Java 8 (1.8)."
-  #  exit 1
-  #fi
+  # Java 8
+  if [[ $(java -version 2>&1 | grep 1.8) == "" ]] ; then
+    clog ERROR "Can't find Java 8 (1.8)."
+    exit 1
+  fi
 
   # Executables
-
-  #for exe in pandoc pd groovyc cg gtp flt_get_includes.groovy plantuml xelatex ; do
-  for exe in pandoc flt-get-includes.py plantuml xelatex ; do
+  for exe in pandoc flt-get-includes.py plantuml ; do
     if [[ $(which $exe) == "" ]] ; then
       clog ERROR "Can't find $exe. Did you add $MKTECHDOCSHOME/bin to your PATH? Did you install all the dependencies?"
       exit 1
@@ -256,15 +250,15 @@ if [[ ! -d $PROJECT_DIR ]] ; then
   exit 1
 fi
 
-# Source our configuration file
-. $CFG
-
 # Change our current working directory to the given project directory
 pushd $PROJECT_DIR 1>/dev/null 2>&1
 normal_exit $?
 
 # Check our build environment
 check_build_env
+
+# Source our configuration file
+. $CFG
 
 # Clean up old, possibly failed, builds
 cleanup
@@ -427,33 +421,9 @@ if [[ "$N" != "0" ]] ; then
 fi
 
 #############################################################################
-# PDF OUTPUT 
-#############################################################################
-if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
-  clog INFO "Building main tex $OUTPUT_FILE_NAME_BASE_ARG.tex"
-  pandoc $FILTERS -F flt-strip-pages-from-links.py -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE --latex-engine=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_MAIN_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
-  if [[ "$FORMAT" == "pdf" ]] ; then
-    clog INFO "Fixing floating diagrams to appear inline." 
-    sed -i "" 's/\\begin{figure}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
-    normal_exit $?
-  fi
-
-  clog INFO "Creating pdf, pass 1"
-  xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex1.out 2>&1
-  normal_exit $?
-  clog INFO "Creating pdf, pass 2"
-  xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex2.out 2>&1
-  normal_exit $?
-  clog INFO "Creating pdf, pass 3"
-  xelatex -halt-on-error -interaction nonstopmode -output-directory . $OUTPUT_FILE_NAME_BASE_ARG.tex 1>xelatex3.out 2>&1
-  normal_exit $?
-  mv $OUTPUT_FILE_NAME_BASE_ARG.pdf ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.pdf 
-  normal_exit $?
-
-#############################################################################
 # HTML OUTPUT 
 #############################################################################
-elif [[ "$FORMAT" == "html" || "$FORMAT" == "htmlsimple" || "$FORMAT" == "cssframes" ]] ; then
+if [[ "$FORMAT" == "html" || "$FORMAT" == "htmlsimple" || "$FORMAT" == "cssframes" ]] ; then
   clog INFO "Building main template $OUTPUT_FILE_NAME_BASE_ARG.pyt"
   pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.pyt
 normal_exit $?
