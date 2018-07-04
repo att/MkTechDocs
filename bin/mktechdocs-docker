@@ -2,5 +2,5 @@
 
 PROJECT=$(realpath $1)
 
-docker run --rm -v $PROJECT:/project jsseidel/mktechdocs:0.0.1
+docker run --rm -v $PROJECT:/project jsseidel/mktechdocs
 
