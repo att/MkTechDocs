@@ -12,4 +12,6 @@ Features:
 
 Fully documented here: [https://att.github.io/MkTechDocs](https://att.github.io/MkTechDocs)
 
+`Docker: docker pull jsseidel/mktechdocs:0.0.1`
+
 Copyright (c) 2018 AT&T Intellectual Property. All rights reserved.
