@@ -14,11 +14,11 @@ MD - -> FD
 
 PlantUML version 1.2017.15(Mon Jul 03 12:45:34 EDT 2017)
 (GPL source distribution)
-Java Runtime: Java(TM) SE Runtime Environment
-JVM: Java HotSpot(TM) 64-Bit Server VM
-Java Version: 1.8.0_171-b11
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 10.0.1+10-Ubuntu-3ubuntu1
 Operating System: Linux
-OS Version: 4.15.0-20-generic
+OS Version: 4.15.0-24-generic
 Default Encoding: UTF-8
 Language: en
 Country: US

@@ -9,14 +9,7 @@ In either case, the best way to start is to create a new MkTechDocs project and 
 
 ## The executive summary
 
-The `docsbuild` project is a good example of how to use MkTechDocs to manage your documentation projects effectively. Poke around in the directory, starting with the `master.md` master document.
-
-If you're impatient, follow the [dependency installation instructions](#setting-up-your-environment) and then build the `$MKTECHDOCSHOME/bin/docsbuild` project (this website):
-
-```bash
-cd $MKTECHDOCSHOME/docsbuild
-mktechdocs
-```
+The easiest way to learn how to use MkTechDocs effectively is to study and build the example project on [this GitHub page](https://github.com/jsseidel/ExampleMkTechDocs). Unlike this comprehensive usage guide, the example project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.
 
 ## Markdown
 

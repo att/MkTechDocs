@@ -87,97 +87,98 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#multiple-configurations"><span class="toc-section-number">3.1</span> Multiple configurations</a></li>
 <li><a href="#pre--and-post-build-activities"><span class="toc-section-number">3.2</span> Pre- and post-build activities</a></li>
 </ul></li>
-<li><a href="#configuration"><span class="toc-section-number">4</span> Configuration</a><ul>
-<li><a href="#simple-configuration"><span class="toc-section-number">4.1</span> Simple configuration</a></li>
-<li><a href="#advanced-configuration"><span class="toc-section-number">4.2</span> Advanced configuration</a></li>
+<li><a href="#building-your-document-with-docker"><span class="toc-section-number">4</span> Building your document with Docker</a></li>
+<li><a href="#configuration"><span class="toc-section-number">5</span> Configuration</a><ul>
+<li><a href="#simple-configuration"><span class="toc-section-number">5.1</span> Simple configuration</a></li>
+<li><a href="#advanced-configuration"><span class="toc-section-number">5.2</span> Advanced configuration</a></li>
 </ul></li>
-<li><a href="#title-pages"><span class="toc-section-number">5</span> Title pages</a><ul>
-<li><a href="#title-metadata-block"><span class="toc-section-number">5.1</span> Title metadata block</a></li>
-<li><a href="#yaml-metadata-block"><span class="toc-section-number">5.2</span> YAML metadata block</a></li>
-<li><a href="#templates"><span class="toc-section-number">5.3</span> Templates</a></li>
+<li><a href="#title-pages"><span class="toc-section-number">6</span> Title pages</a><ul>
+<li><a href="#title-metadata-block"><span class="toc-section-number">6.1</span> Title metadata block</a></li>
+<li><a href="#yaml-metadata-block"><span class="toc-section-number">6.2</span> YAML metadata block</a></li>
+<li><a href="#templates"><span class="toc-section-number">6.3</span> Templates</a></li>
 </ul></li>
-<li><a href="#useful-blocks"><span class="toc-section-number">6</span> Useful Blocks</a><ul>
-<li><a href="#comment"><span class="toc-section-number">6.1</span> Comment</a></li>
-<li><a href="#include"><span class="toc-section-number">6.2</span> Include</a></li>
-<li><a href="#include-code"><span class="toc-section-number">6.3</span> Include-code</a></li>
-<li><a href="#note"><span class="toc-section-number">6.4</span> Note</a></li>
-<li><a href="#plantuml"><span class="toc-section-number">6.5</span> Plantuml</a></li>
-<li><a href="#tip"><span class="toc-section-number">6.6</span> Tip</a></li>
+<li><a href="#useful-blocks"><span class="toc-section-number">7</span> Useful Blocks</a><ul>
+<li><a href="#comment"><span class="toc-section-number">7.1</span> Comment</a></li>
+<li><a href="#include"><span class="toc-section-number">7.2</span> Include</a></li>
+<li><a href="#include-code"><span class="toc-section-number">7.3</span> Include-code</a></li>
+<li><a href="#note"><span class="toc-section-number">7.4</span> Note</a></li>
+<li><a href="#plantuml"><span class="toc-section-number">7.5</span> Plantuml</a></li>
+<li><a href="#tip"><span class="toc-section-number">7.6</span> Tip</a></li>
 </ul></li>
-<li><a href="#document-links"><span class="toc-section-number">7</span> Document links</a><ul>
-<li><a href="#pandoc-links"><span class="toc-section-number">7.1</span> Pandoc links</a></li>
-<li><a href="#mktechdocs-links"><span class="toc-section-number">7.2</span> MkTechDocs links</a></li>
+<li><a href="#document-links"><span class="toc-section-number">8</span> Document links</a><ul>
+<li><a href="#pandoc-links"><span class="toc-section-number">8.1</span> Pandoc links</a></li>
+<li><a href="#mktechdocs-links"><span class="toc-section-number">8.2</span> MkTechDocs links</a></li>
 </ul></li>
-<li><a href="#python-templates"><span class="toc-section-number">8</span> Python templates</a><ul>
-<li><a href="#the-template"><span class="toc-section-number">8.1</span> The template</a></li>
-<li><a href="#the-renderer"><span class="toc-section-number">8.2</span> The renderer</a></li>
-<li><a href="#referencing-templates-in-include-blocks"><span class="toc-section-number">8.3</span> Referencing templates in include blocks</a></li>
-<li><a href="#footer.html-header.html-and-landing.html-as-templates"><span class="toc-section-number">8.4</span> <code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates</a></li>
-<li><a href="#for-more-information"><span class="toc-section-number">8.5</span> For more information</a></li>
+<li><a href="#python-templates"><span class="toc-section-number">9</span> Python templates</a><ul>
+<li><a href="#the-template"><span class="toc-section-number">9.1</span> The template</a></li>
+<li><a href="#the-renderer"><span class="toc-section-number">9.2</span> The renderer</a></li>
+<li><a href="#referencing-templates-in-include-blocks"><span class="toc-section-number">9.3</span> Referencing templates in include blocks</a></li>
+<li><a href="#footer.html-header.html-and-landing.html-as-templates"><span class="toc-section-number">9.4</span> <code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates</a></li>
+<li><a href="#for-more-information"><span class="toc-section-number">9.5</span> For more information</a></li>
 </ul></li>
-<li><a href="#managing-document-versions"><span class="toc-section-number">9</span> Managing document versions</a><ul>
-<li><a href="#global_vars"><span class="toc-section-number">9.1</span> <code>global_vars</code></a></li>
+<li><a href="#managing-document-versions"><span class="toc-section-number">10</span> Managing document versions</a><ul>
+<li><a href="#global_vars"><span class="toc-section-number">10.1</span> <code>global_vars</code></a></li>
 </ul></li>
-<li><a href="#incorporating-groovy-code-and-templates"><span class="toc-section-number">10</span> Incorporating Groovy code and templates</a><ul>
-<li><a href="#installation-of-groovy-components"><span class="toc-section-number">10.1</span> Installation of groovy components</a><ul>
-<li><a href="#environment"><span class="toc-section-number">10.1.1</span> Environment</a></li>
-<li><a href="#testing-the-integration"><span class="toc-section-number">10.1.2</span> Testing the integration</a></li>
+<li><a href="#incorporating-groovy-code-and-templates"><span class="toc-section-number">11</span> Incorporating Groovy code and templates</a><ul>
+<li><a href="#installation-of-groovy-components"><span class="toc-section-number">11.1</span> Installation of groovy components</a><ul>
+<li><a href="#environment"><span class="toc-section-number">11.1.1</span> Environment</a></li>
+<li><a href="#testing-the-integration"><span class="toc-section-number">11.1.2</span> Testing the integration</a></li>
 </ul></li>
-<li><a href="#groovy-templates"><span class="toc-section-number">10.2</span> Groovy templates</a></li>
-<li><a href="#groovy-classes"><span class="toc-section-number">10.3</span> Groovy classes</a></li>
-<li><a href="#classpath"><span class="toc-section-number">10.4</span> <code>CLASSPATH</code></a></li>
+<li><a href="#groovy-templates"><span class="toc-section-number">11.2</span> Groovy templates</a></li>
+<li><a href="#groovy-classes"><span class="toc-section-number">11.3</span> Groovy classes</a></li>
+<li><a href="#classpath"><span class="toc-section-number">11.4</span> <code>CLASSPATH</code></a></li>
 </ul></li>
-<li><a href="#team-documentation"><span class="toc-section-number">11</span> Team documentation</a><ul>
-<li><a href="#case-study"><span class="toc-section-number">11.1</span> Case study</a></li>
-<li><a href="#managing-git-commit-messages"><span class="toc-section-number">11.2</span> Managing git commit messages</a><ul>
-<li><a href="#gitcommitdb"><span class="toc-section-number">11.2.1</span> GitCommitDB</a></li>
+<li><a href="#team-documentation"><span class="toc-section-number">12</span> Team documentation</a><ul>
+<li><a href="#case-study"><span class="toc-section-number">12.1</span> Case study</a></li>
+<li><a href="#managing-git-commit-messages"><span class="toc-section-number">12.2</span> Managing git commit messages</a><ul>
+<li><a href="#gitcommitdb"><span class="toc-section-number">12.2.1</span> GitCommitDB</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#download"><span class="toc-section-number">12</span> Download</a></li>
-<li><a href="#setting-up-your-environment"><span class="toc-section-number">13</span> Setting up your environment</a><ul>
-<li><a href="#running-the-dependencies-installation-script"><span class="toc-section-number">13.1</span> Running the dependencies installation script</a><ul>
-<li><a href="#dependencies"><span class="toc-section-number">13.1.1</span> Dependencies</a></li>
+<li><a href="#download"><span class="toc-section-number">13</span> Download</a></li>
+<li><a href="#setting-up-your-environment"><span class="toc-section-number">14</span> Setting up your environment</a><ul>
+<li><a href="#running-the-dependencies-installation-script"><span class="toc-section-number">14.1</span> Running the dependencies installation script</a><ul>
+<li><a href="#dependencies"><span class="toc-section-number">14.1.1</span> Dependencies</a></li>
 </ul></li>
-<li><a href="#testing-your-environment"><span class="toc-section-number">13.2</span> Testing your environment</a></li>
-<li><a href="#a-note-about-titlesec"><span class="toc-section-number">13.3</span> A note about titlesec</a></li>
+<li><a href="#testing-your-environment"><span class="toc-section-number">14.2</span> Testing your environment</a></li>
+<li><a href="#a-note-about-titlesec"><span class="toc-section-number">14.3</span> A note about titlesec</a></li>
 </ul></li>
-<li><a href="#running-filters"><span class="toc-section-number">14</span> Running filters</a><ul>
-<li><a href="#flt-comment-block.py"><span class="toc-section-number">14.1</span> <code>flt-comment-block.py</code></a></li>
-<li><a href="#flt-comment.py"><span class="toc-section-number">14.2</span> <code>flt-comment.py</code></a></li>
-<li><a href="#flt-decrement-header-1.py"><span class="toc-section-number">14.3</span> <code>flt-decrement-header-1.py</code></a></li>
-<li><a href="#flt-decrement-header-2.py"><span class="toc-section-number">14.4</span> <code>flt-decrement-header-2.py</code></a></li>
-<li><a href="#flt-decrement-header-3.py"><span class="toc-section-number">14.5</span> <code>flt-decrement-header-3.py</code></a></li>
-<li><a href="#flt-decrement-header-4.py"><span class="toc-section-number">14.6</span> <code>flt-decrement-header-4.py</code></a></li>
-<li><a href="#flt-decrement-header-5.py"><span class="toc-section-number">14.7</span> <code>flt-decrement-header-5.py</code></a></li>
-<li><a href="#flt-get-includes.py"><span class="toc-section-number">14.8</span> <code>flt-get-includes.py</code></a></li>
-<li><a href="#flt-include-code.py"><span class="toc-section-number">14.9</span> <code>flt-include-code.py</code></a></li>
-<li><a href="#flt-include-doc-map.py"><span class="toc-section-number">14.10</span> <code>flt-include-doc-map.py</code></a></li>
-<li><a href="#flt-include.py"><span class="toc-section-number">14.11</span> <code>flt-include.py</code></a></li>
-<li><a href="#flt-increment-header-1.py"><span class="toc-section-number">14.12</span> <code>flt-increment-header-1.py</code></a></li>
-<li><a href="#flt-increment-header-2.py"><span class="toc-section-number">14.13</span> <code>flt-increment-header-2.py</code></a></li>
-<li><a href="#flt-increment-header-3.py"><span class="toc-section-number">14.14</span> <code>flt-increment-header-3.py</code></a></li>
-<li><a href="#flt-increment-header-4.py"><span class="toc-section-number">14.15</span> <code>flt-increment-header-4.py</code></a></li>
-<li><a href="#flt-increment-header-5.py"><span class="toc-section-number">14.16</span> <code>flt-increment-header-5.py</code></a></li>
-<li><a href="#flt-notetip.py"><span class="toc-section-number">14.17</span> <code>flt-notetip.py</code></a></li>
-<li><a href="#flt-plantuml.py"><span class="toc-section-number">14.18</span> <code>flt-plantuml.py</code></a></li>
-<li><a href="#flt-strip-pages-from-links.py"><span class="toc-section-number">14.19</span> <code>flt-strip-pages-from-links.py</code></a></li>
-<li><a href="#flt-template.py"><span class="toc-section-number">14.20</span> <code>flt-template.py</code></a></li>
+<li><a href="#running-filters"><span class="toc-section-number">15</span> Running filters</a><ul>
+<li><a href="#flt-comment-block.py"><span class="toc-section-number">15.1</span> <code>flt-comment-block.py</code></a></li>
+<li><a href="#flt-comment.py"><span class="toc-section-number">15.2</span> <code>flt-comment.py</code></a></li>
+<li><a href="#flt-decrement-header-1.py"><span class="toc-section-number">15.3</span> <code>flt-decrement-header-1.py</code></a></li>
+<li><a href="#flt-decrement-header-2.py"><span class="toc-section-number">15.4</span> <code>flt-decrement-header-2.py</code></a></li>
+<li><a href="#flt-decrement-header-3.py"><span class="toc-section-number">15.5</span> <code>flt-decrement-header-3.py</code></a></li>
+<li><a href="#flt-decrement-header-4.py"><span class="toc-section-number">15.6</span> <code>flt-decrement-header-4.py</code></a></li>
+<li><a href="#flt-decrement-header-5.py"><span class="toc-section-number">15.7</span> <code>flt-decrement-header-5.py</code></a></li>
+<li><a href="#flt-get-includes.py"><span class="toc-section-number">15.8</span> <code>flt-get-includes.py</code></a></li>
+<li><a href="#flt-include-code.py"><span class="toc-section-number">15.9</span> <code>flt-include-code.py</code></a></li>
+<li><a href="#flt-include-doc-map.py"><span class="toc-section-number">15.10</span> <code>flt-include-doc-map.py</code></a></li>
+<li><a href="#flt-include.py"><span class="toc-section-number">15.11</span> <code>flt-include.py</code></a></li>
+<li><a href="#flt-increment-header-1.py"><span class="toc-section-number">15.12</span> <code>flt-increment-header-1.py</code></a></li>
+<li><a href="#flt-increment-header-2.py"><span class="toc-section-number">15.13</span> <code>flt-increment-header-2.py</code></a></li>
+<li><a href="#flt-increment-header-3.py"><span class="toc-section-number">15.14</span> <code>flt-increment-header-3.py</code></a></li>
+<li><a href="#flt-increment-header-4.py"><span class="toc-section-number">15.15</span> <code>flt-increment-header-4.py</code></a></li>
+<li><a href="#flt-increment-header-5.py"><span class="toc-section-number">15.16</span> <code>flt-increment-header-5.py</code></a></li>
+<li><a href="#flt-notetip.py"><span class="toc-section-number">15.17</span> <code>flt-notetip.py</code></a></li>
+<li><a href="#flt-plantuml.py"><span class="toc-section-number">15.18</span> <code>flt-plantuml.py</code></a></li>
+<li><a href="#flt-strip-pages-from-links.py"><span class="toc-section-number">15.19</span> <code>flt-strip-pages-from-links.py</code></a></li>
+<li><a href="#flt-template.py"><span class="toc-section-number">15.20</span> <code>flt-template.py</code></a></li>
 </ul></li>
-<li><a href="#scripts"><span class="toc-section-number">15</span> Scripts</a><ul>
-<li><a href="#check_build_env.sh"><span class="toc-section-number">15.1</span> <code>check_build_env.sh</code></a></li>
-<li><a href="#dec-headers.sh"><span class="toc-section-number">15.2</span> <code>dec-headers.sh</code></a></li>
-<li><a href="#escape-jinja-brackets.sh"><span class="toc-section-number">15.3</span> <code>escape-jinja-brackets.sh</code></a></li>
-<li><a href="#inc-headers.sh"><span class="toc-section-number">15.4</span> <code>inc-headers.sh</code></a></li>
-<li><a href="#install_deps_1604_py.sh"><span class="toc-section-number">15.5</span> <code>install_deps_1604+_py.sh</code></a></li>
-<li><a href="#install_deps_arch_py.sh"><span class="toc-section-number">15.6</span> <code>install_deps_arch_py.sh</code></a></li>
-<li><a href="#install_deps_macos_py.sh"><span class="toc-section-number">15.7</span> <code>install_deps_macos_py.sh</code></a></li>
-<li><a href="#mktechdocs"><span class="toc-section-number">15.8</span> <code>mktechdocs</code></a></li>
+<li><a href="#scripts"><span class="toc-section-number">16</span> Scripts</a><ul>
+<li><a href="#check_build_env.sh"><span class="toc-section-number">16.1</span> <code>check_build_env.sh</code></a></li>
+<li><a href="#dec-headers.sh"><span class="toc-section-number">16.2</span> <code>dec-headers.sh</code></a></li>
+<li><a href="#escape-jinja-brackets.sh"><span class="toc-section-number">16.3</span> <code>escape-jinja-brackets.sh</code></a></li>
+<li><a href="#inc-headers.sh"><span class="toc-section-number">16.4</span> <code>inc-headers.sh</code></a></li>
+<li><a href="#install_deps_1604_py.sh"><span class="toc-section-number">16.5</span> <code>install_deps_1604+_py.sh</code></a></li>
+<li><a href="#install_deps_arch_py.sh"><span class="toc-section-number">16.6</span> <code>install_deps_arch_py.sh</code></a></li>
+<li><a href="#install_deps_macos_py.sh"><span class="toc-section-number">16.7</span> <code>install_deps_macos_py.sh</code></a></li>
+<li><a href="#mktechdocs"><span class="toc-section-number">16.8</span> <code>mktechdocs</code></a></li>
 </ul></li>
-<li><a href="#addendum"><span class="toc-section-number">16</span> Addendum</a><ul>
-<li><a href="#understanding-the-build-process"><span class="toc-section-number">16.1</span> Understanding the build process</a></li>
-<li><a href="#contact"><span class="toc-section-number">16.2</span> Contact</a></li>
+<li><a href="#addendum"><span class="toc-section-number">17</span> Addendum</a><ul>
+<li><a href="#understanding-the-build-process"><span class="toc-section-number">17.1</span> Understanding the build process</a></li>
+<li><a href="#contact"><span class="toc-section-number">17.2</span> Contact</a></li>
 </ul></li>
-<li><a href="#document-change-log"><span class="toc-section-number">17</span> Document change log</a></li>
+<li><a href="#document-change-log"><span class="toc-section-number">18</span> Document change log</a></li>
 </ul>
 </div><!-- TOC -->
 </div><!-- sidebar -->
@@ -218,10 +219,7 @@ Pandodc templates can be customized on a per-project basis</li>
 </ol>
 <p>In either case, the best way to start is to create a new MkTechDocs project and import existing files. This way, you automatically gain access to all the complex command-lines, CSS styling, PDF templates, Pandoc filters, and so on.</p>
 <h2 id="the-executive-summary"><span class="header-section-number">2.1</span> The executive summary</h2>
-<p>The <code>docsbuild</code> project is a good example of how to use MkTechDocs to manage your documentation projects effectively. Poke around in the directory, starting with the <code>master.md</code> master document.</p>
-<p>If you're impatient, follow the <a href="#setting-up-your-environment">dependency installation instructions</a> and then build the <code>$MKTECHDOCSHOME/bin/docsbuild</code> project (this website):</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> <span class="va">$MKTECHDOCSHOME</span>/docsbuild
-<span class="ex">mktechdocs</span></code></pre></div>
+<p>The easiest way to learn how to use MkTechDocs effectively is to study and build the example project on <a href="https://github.com/jsseidel/ExampleMkTechDocs">this GitHub page</a>. Unlike this comprehensive usage guide, the example project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.</p>
 <h2 id="markdown"><span class="header-section-number">2.2</span> Markdown</h2>
 <p>MkTechDocs uses Markdown exclusively, although support for additional syntaxes may be added in the future. More specifically, it uses standard Markdown syntax <a href="http://pandoc.org/MANUAL.html#pandocs-markdown">with Pandoc extensions</a>. In this documentation, assume that any file with a <code>.md</code> extension is a file that contains Markdown. Markdown is easy to learn, read, and edit and is easily transformable into a myriad of output formats. To use MkTechDocs effectively, take a few minutes to familiarize yourself with <a href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax</a>.</p>
 <h2 id="creating-a-new-project"><span class="header-section-number">2.3</span> Creating a new project</h2>
@@ -375,9 +373,18 @@ $</code></pre>
     <span class="fu">cp</span> -r ./mystuff <span class="va">$OUT_DIR</span>/.
 <span class="kw">fi</span></code></pre></div>
 <p>You don't need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a <a href="#simple-configuration">configuration option</a> where you can specify the path to your the directory that holds your images.</p>
-<h1 id="configuration"><span class="header-section-number">4</span> Configuration</h1>
+<h1 id="building-your-document-with-docker"><span class="header-section-number">4</span> Building your document with Docker</h1>
+<p>MkTechDocs is a complex set of code and dependencies, so it can be difficult to set up to run locally. Fortunately, MkTechDocs is available as a Docker image on <a href="https://hub.docker.com/r/jsseidel/mktechdocs/">Docker Hub</a>: <code>jsseidel/mktechdocs</code>.</p>
+<p>To use it, you need to have Docker installed. Then, building projects is relatively simple:</p>
+<pre><code>docker run --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs</code></pre>
+<p>Here's the breakdown of the command:</p>
+<p><code>--rm</code>: Remove the container after it exits. Otherwise, it will hang around in the <code>Exited</code> state, which can be useful if there were problems.</p>
+<p><code>-v</code>: Create a volume and map <code>/home/ubuntu/MyMkTechDocsProject</code> <em>outside</em> the container to <code>/project</code> <em>inside</em> the container. <code>/project</code> is where the entry script inside the container looks for a project to build.</p>
+<p><code>jsseidel/mktechdocs</code>: This is the docker image to use to run the container. Since no tag is specified (e.g. <code>jsseidel/mktechdocs:0.0.1</code>), docker will use the <code>latest</code> tag.</p>
+<p>When you run it, an entry script inside the <code>mktechdocs</code> container will <code>cd</code> into <code>/project</code> and run <code>mktechdocs</code>. For this to work, your project must contain both a <code>mktechdocs.conf</code> and a <code>master.md</code> file.</p>
+<h1 id="configuration"><span class="header-section-number">5</span> Configuration</h1>
 <p>You configure MkTechDocs projects with variables contained in a configuration file in your project directory. By default, the name of this file is <code>mktechdocs.conf</code>, and if you choose to use this name, you won't have to provide the configuration file and directory when you run MkTechDocs.</p>
-<h2 id="simple-configuration"><span class="header-section-number">4.1</span> Simple configuration</h2>
+<h2 id="simple-configuration"><span class="header-section-number">5.1</span> Simple configuration</h2>
 <p>For the majority of relatively simple documents and websites, the simple configuration options should suffice.</p>
 <table>
 <colgroup>
@@ -450,7 +457,7 @@ $</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="advanced-configuration"><span class="header-section-number">4.2</span> Advanced configuration</h2>
+<h2 id="advanced-configuration"><span class="header-section-number">5.2</span> Advanced configuration</h2>
 <p>More complex documents may require finer-grain control over how documents are rendered and stylized.</p>
 <table>
 <colgroup>
@@ -488,14 +495,14 @@ $</code></pre>
 </tr>
 </tbody>
 </table>
-<h1 id="title-pages"><span class="header-section-number">5</span> Title pages</h1>
+<h1 id="title-pages"><span class="header-section-number">6</span> Title pages</h1>
 <p>There are three ways to create a title page for your <code>pdf</code> or <code>pdffloat</code> document. In all three cases, you must create a standalone file and assign that filename to the <code>TITLE_PAGE</code> variable in your project's configuration.</p>
-<h2 id="title-metadata-block"><span class="header-section-number">5.1</span> Title metadata block</h2>
+<h2 id="title-metadata-block"><span class="header-section-number">6.1</span> Title metadata block</h2>
 <pre><code>% My Document Title
 % John Doe; Jane Doe
 % January 1, 2000</code></pre>
 <p>For more information about this syntax: <code>man pandoc</code> and search for &quot;Metadata block.&quot;</p>
-<h2 id="yaml-metadata-block"><span class="header-section-number">5.2</span> YAML metadata block</h2>
+<h2 id="yaml-metadata-block"><span class="header-section-number">6.2</span> YAML metadata block</h2>
 <pre><code>---
 title: My Document Title
 author:
@@ -503,17 +510,17 @@ author:
   - Jane Doe
 date: January 1, 2001
 ---</code></pre>
-<h2 id="templates"><span class="header-section-number">5.3</span> Templates</h2>
+<h2 id="templates"><span class="header-section-number">6.3</span> Templates</h2>
 <p>If your title page requires dynamic content (e.g. non-static date, version number) you can create a Python template to output information as in the above two exmaples. Follow along with the example in <a href="#python-templates">Python templates</a> section.</p>
-<h1 id="useful-blocks"><span class="header-section-number">6</span> Useful Blocks</h1>
+<h1 id="useful-blocks"><span class="header-section-number">7</span> Useful Blocks</h1>
 <p>MkTechDocs contains built-in blocks that are useful when creating documentation.</p>
-<h2 id="comment"><span class="header-section-number">6.1</span> Comment</h2>
+<h2 id="comment"><span class="header-section-number">7.1</span> Comment</h2>
 <p>Comment blocks are ignored by MkTechDocs.</p>
 <p>E.g.</p>
 <pre><code>```comment
 This text will be ignored.
 ```</code></pre>
-<h2 id="include"><span class="header-section-number">6.2</span> Include</h2>
+<h2 id="include"><span class="header-section-number">7.2</span> Include</h2>
 <p>The <code>include</code> block was introduced in the <a href="#master-document">basics</a> section.</p>
 <table>
 <colgroup>
@@ -541,7 +548,7 @@ myinclude.md
 mysecondinclude.md
 ```</code></pre>
 <p><code>include</code> blocks support infinte recursion, so included documents can contain included documents and so on.</p>
-<h2 id="include-code"><span class="header-section-number">6.3</span> Include-code</h2>
+<h2 id="include-code"><span class="header-section-number">7.3</span> Include-code</h2>
 <p>The <code>include-code</code> block is used to include source-code files with syntax highlighting.</p>
 <table>
 <colgroup>
@@ -582,7 +589,7 @@ mysecondinclude.md
 }</code></pre></div>
 <p class="note"><b>Note</b>: Paths are an issue here. Because MkTechDocs projects are built inside your project directory, for files to be included correctly a full path or a path relative to the project directory must be given. MkTechDocs does its best to copy image files and directories to the output directory, but you may need to create a post-build script for more complex operations.</p>
 
-<h2 id="note"><span class="header-section-number">6.4</span> Note</h2>
+<h2 id="note"><span class="header-section-number">7.4</span> Note</h2>
 <p><code>note</code> blocks are used to create documentation &quot;notes&quot; that appear highlighted in documentation text for HTML output formats. For PDF output, the content of the <code>note</code> block is prepended with &quot;Note:&quot;.</p>
 <p>E.g.</p>
 <pre><code>```note
@@ -591,7 +598,7 @@ This text will appear inside its own highlighted block and be prepended with &qu
 <p>Produces:</p>
 <p class="note"><b>Note</b>: This text will appear inside its own highlighted block and be prepended with "Note:".</p>
 
-<h2 id="plantuml"><span class="header-section-number">6.5</span> Plantuml</h2>
+<h2 id="plantuml"><span class="header-section-number">7.5</span> Plantuml</h2>
 <p><code>plantuml</code> blocks let you include <a href="http://plantuml.com">PlantUML</a> diagramming UML directly in your documentation.</p>
 <table>
 <colgroup>
@@ -621,7 +628,7 @@ A-&gt;B
 <p><img src="plantuml-e7803b184aedf80b4d3cb31403a34d3e.svg" title="Fig:" alt="My Diagram" /></p>
 <p class="note"><b>Note</b>: TBD: This is currently not working.</p>
 
-<h2 id="tip"><span class="header-section-number">6.6</span> Tip</h2>
+<h2 id="tip"><span class="header-section-number">7.6</span> Tip</h2>
 <p><code>tip</code> blocks are used to create documentation &quot;tips&quot; that appear highlighted in documentation text for HTML output formats. For PDF output, the content of the <code>tip</code> block is prepended with &quot;Tip:&quot;.</p>
 <p>E.g.</p>
 <pre><code>```tip
@@ -630,13 +637,13 @@ This text will appear inside its own highlighted block and be prepended with &qu
 <p>Produces:</p>
 <p class="tip"><b>Tip</b>: This text will appear inside its own highlighted block and be prepended with "Tip:".</p>
 
-<h1 id="document-links"><span class="header-section-number">7</span> Document links</h1>
-<h2 id="pandoc-links"><span class="header-section-number">7.1</span> Pandoc links</h2>
+<h1 id="document-links"><span class="header-section-number">8</span> Document links</h1>
+<h2 id="pandoc-links"><span class="header-section-number">8.1</span> Pandoc links</h2>
 <p>Pandoc automatically creates anchor names for every heading within your documents. Therefore, generating internal links is theoretically easy thanks to Pandoc's naming convention. For example, suppose you create the following header:</p>
 <pre><code># My New Header</code></pre>
 <p>Here's how you'd normally create a link to it using Pandoc naming conventions:</p>
 <pre><code>Some markdown text that contains a [link](#my-new-header)</code></pre>
-<h2 id="mktechdocs-links"><span class="header-section-number">7.2</span> MkTechDocs links</h2>
+<h2 id="mktechdocs-links"><span class="header-section-number">8.2</span> MkTechDocs links</h2>
 <p>Because MkTechDocs can generate documents that require internal links that cross pages as well as documents that contain only internal relative links (as illustrated above), some thought has to be given to how links are created. When you generate internal links in your document, assume that your top-level included documents exist as HTML documents. For example, consider the following master document:</p>
 <pre><code>```{.include heading-level=0}
 introduction.md
@@ -656,10 +663,10 @@ Some more interesting text.</code></pre>
 
 Here is a [link](introduction.html#some-heading) that points to another file.</code></pre>
 <p>If you follow this convention, MkTechDocs will produce correct links for every available format.</p>
-<h1 id="python-templates"><span class="header-section-number">8</span> Python templates</h1>
+<h1 id="python-templates"><span class="header-section-number">9</span> Python templates</h1>
 <p>MkTechDocs contains built-in support for <a href="http://jinja.pocoo.org">Jinja2 templates</a>. Using jinja2 templates is simply a matter of creating templates (plain text files containing Jinja2 markup code) and adding a <code>.pyt</code> extension, or, in the case of your header, landing page, and footer, a <code>.htmlt</code> extension, so MkTechDocs knows how to build them.</p>
 <p>To use templates in MkTechDocs, you'll need to create both a renderer and a template to render.</p>
-<h2 id="the-template"><span class="header-section-number">8.1</span> The template</h2>
+<h2 id="the-template"><span class="header-section-number">9.1</span> The template</h2>
 <p>A template is nothing more than plain text with some special Jinja2 markup thrown in. For example, let's create a dynamic title page using templates. First, we'll create a template that represents a dynamic YAML title block in our project directory:</p>
 <p><strong>title-page.pyt</strong>:</p>
 <pre><code>---
@@ -670,7 +677,7 @@ author:
 date: Built on {{ currentDateTime }}
 ---</code></pre>
 <p>The Jinja2 templating engine will replace the variables in the double curly brackets with values you provide in the renderer.</p>
-<h2 id="the-renderer"><span class="header-section-number">8.2</span> The renderer</h2>
+<h2 id="the-renderer"><span class="header-section-number">9.2</span> The renderer</h2>
 <p>Now, in your project directory, create a renderer with the same name as the template, but replace <code>.pyt</code> with <code>.renderer</code>. MkTechDocs will automatically use the renderer associated with the template name. Renderers are built with pure Python code. Continuing with our title-page example, here is a renderer that will properly render our title page template.</p>
 <p><strong>title-page.renderer</strong>:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co">#!/usr/bin/env python</span>
@@ -706,14 +713,14 @@ date: Built on {{ currentDateTime }}
 <p>Next, set the <code>TITLE_PAGE</code> variable in your project makefile to <code>title-page.md</code>. Why the <code>.md</code> extension? MkTeckDocs automatically converts anything with a <code>.pyt</code> extension to markdown before building your documents. Here's a diagram that illustrates the process:</p>
 <p><img src="plantuml-2697328e27cbb82edab5163837c46ceb.svg" title="Fig:" alt="Template Rendering" /></p>
 <p>Since title pages are only used in PDF documents (currently), you should also set <code>FORMAT</code> to <code>pdf</code> or <code>pdffloat</code>.</p>
-<h2 id="referencing-templates-in-include-blocks"><span class="header-section-number">8.3</span> Referencing templates in include blocks</h2>
+<h2 id="referencing-templates-in-include-blocks"><span class="header-section-number">9.3</span> Referencing templates in include blocks</h2>
 <p>MkTechDocs automatically detects <code>*.pyt</code> templates and converts them into markdown before processing include blocks. So, if you need to include the contents of a template's output in another markdown file, simply treat the template as if it were markown. For example, if your template's name is <code>mytemplate.pyt</code> reference the output in include blocks like:</p>
 <pre><code>```include
 mytemplate.md
 ```</code></pre>
-<h2 id="footer.html-header.html-and-landing.html-as-templates"><span class="header-section-number">8.4</span> <code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates</h2>
+<h2 id="footer.html-header.html-and-landing.html-as-templates"><span class="header-section-number">9.4</span> <code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates</h2>
 <p>MkTechDocs will recognize <code>footer.htmlt</code>, <code>header.htmlt</code>, and <code>landing.htmlt</code> as templates and process into corresponding <code>.html</code> files, using similarly named renderers. E.g. <code>footer.renderer</code>.</p>
-<h2 id="for-more-information"><span class="header-section-number">8.5</span> For more information</h2>
+<h2 id="for-more-information"><span class="header-section-number">9.5</span> For more information</h2>
 <p>For real-world examples of how to use Jinja2 templates with MkTechDocs, see the following files in the MkTechDocs directory:</p>
 <pre><code>docsbuild/runningfilters.pyt
 docsbuild/runningfilters.renderer
@@ -721,10 +728,10 @@ docsbuild/scripts.pyt
 docsbuild/scripts.renderer</code></pre>
 <p>These templates and renderers incorporate some pythondoc-like markup in the <a href="#running-filters">filters</a> and <a href="#scripts">scripts</a> that come with MkTechDocs.</p>
 <p>Jinja2 templates can be powerful documentation tools. Please reference the <a href="http://jinja.pocoo.org/docs/2.9/templates/">Jinja2 template documentation</a> for more information.</p>
-<h1 id="managing-document-versions"><span class="header-section-number">9</span> Managing document versions</h1>
+<h1 id="managing-document-versions"><span class="header-section-number">10</span> Managing document versions</h1>
 <p>For some documentation projects, managing document versions is vital. It is helpful if you define your document version in one place, so that any sub-documents that reference the version number get it from the same place.</p>
 <p>The following is one reasonable way of doing this.</p>
-<h2 id="global_vars"><span class="header-section-number">9.1</span> <code>global_vars</code></h2>
+<h2 id="global_vars"><span class="header-section-number">10.1</span> <code>global_vars</code></h2>
 <p>Whether you're using Python or Groovy, it's probably a good idea to create a module (file) called <code>global_vars.py</code> to hold any static variables or functions you need to build your project, such as a version string. Here are the steps:</p>
 <ol style="list-style-type: decimal">
 <li>Add your project's directory to <code>PYTHONPATH</code>.</li>
@@ -732,15 +739,15 @@ docsbuild/scripts.renderer</code></pre>
 <li><code>import global_vars</code> as a module in your renderer and include it in your variable dictionary.</li>
 <li>Now, you can access global variables and functions in glob.py in your templates that have imported it: e.g. <code>version=global_vars.VERS</code>.</li>
 </ol>
-<h1 id="incorporating-groovy-code-and-templates"><span class="header-section-number">10</span> Incorporating Groovy code and templates</h1>
+<h1 id="incorporating-groovy-code-and-templates"><span class="header-section-number">11</span> Incorporating Groovy code and templates</h1>
 <p>Groovy integration is an optional step and only necessary if you want to access existing Java libraries.</p>
-<h2 id="installation-of-groovy-components"><span class="header-section-number">10.1</span> Installation of groovy components</h2>
+<h2 id="installation-of-groovy-components"><span class="header-section-number">11.1</span> Installation of groovy components</h2>
 <p>First, start by examining and then running whichever <code>install_deps_*_groovy.sh</code> script in <code>$MKTECHDOCSHOME/bin/groovy</code> is appropriate for your architecture.</p>
 <p>They install two packages, groovy and gradle. Then, they download a Groovy library called <code>groovy-pandoc</code> from GitHub and install the resulting jar file in <code>$MKTECHDOCSHOME/lib</code>.</p>
-<h3 id="environment"><span class="header-section-number">10.1.1</span> Environment</h3>
+<h3 id="environment"><span class="header-section-number">11.1.1</span> Environment</h3>
 <p>Next, add <code>$MKTECHDOCSHOME/bin/groovy</code> to your <code>PATH</code> environment variable. Here's an example in Bash:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">export</span> <span class="va">PATH=$PATH</span>:<span class="va">$MKTECHDOCSHOME</span>/bin/groovy</code></pre></div>
-<h3 id="testing-the-integration"><span class="header-section-number">10.1.2</span> Testing the integration</h3>
+<h3 id="testing-the-integration"><span class="header-section-number">11.1.2</span> Testing the integration</h3>
 <p>Finally, run <code>$MKTECHDOCSHOME/test/testgroovyintegration.sh</code>. Your output should look something like this:</p>
 <pre><code>[~/MkTechDocs/test]$ testgroovyintegration.sh
 Generating &#39;svg&#39; plantuml diagram named &#39;Diagram&#39;
@@ -765,7 +772,7 @@ Checking groovy...
 If this prints with no error, you are good to go
 Groovy seems ok.
 [~/MkTechDocs/test]$</code></pre>
-<h2 id="groovy-templates"><span class="header-section-number">10.2</span> Groovy templates</h2>
+<h2 id="groovy-templates"><span class="header-section-number">11.2</span> Groovy templates</h2>
 <p>You can use Groovy templates (<code>*.gt</code>) as you would Jinja2 Python templates, except that Groovy templates do not require a renderer, which makes them somewhat more convenient. However, this comes at a price. Groovy templates are far slower than Jinja2 to generate, even with <a href="https://kobo.github.io/groovyserv/">GroovyServ</a> installed.</p>
 <p>Groovy templates work like PHP or JSP files. You can include plain text markdown and Groovy clode blocks. Here's an example:</p>
 <pre class="groovy"><code># An example Groovy template
@@ -797,7 +804,7 @@ Let&#39;s count to 10:
 
 $</code></pre>
 <p>Notice that <code>gtp</code> is a standalone template renderer that MkTechDocs uses to render <code>*.gt</code> files.</p>
-<h2 id="groovy-classes"><span class="header-section-number">10.3</span> Groovy classes</h2>
+<h2 id="groovy-classes"><span class="header-section-number">11.3</span> Groovy classes</h2>
 <p>You might need standalone classes for your Groovy templates. To do this, create *.groovy files in your documentation directory. MkTechDocs will automatically detect and compile these into *.class files.</p>
 <p>For example, MkTechDocs includes a class called <code>MarkdownUtils</code>, a utility class. Even though you wouldn't likely use it in a real project, the following demonstrates the concept.</p>
 <p>test.md:</p>
@@ -825,15 +832,15 @@ out &lt;&lt; MarkdownUtils.getMarkdownFileAndChangeHeader(f, 2)
 
 [~/MkTechDocs/docs]$</code></pre>
 <p>Note how the heading levels were increased by two levels, which is exactly what the <code>getMarkdownFileAndChangeHeader</code> function does.</p>
-<h2 id="classpath"><span class="header-section-number">10.4</span> <code>CLASSPATH</code></h2>
+<h2 id="classpath"><span class="header-section-number">11.4</span> <code>CLASSPATH</code></h2>
 <p>MkTechDocs creates a <code>CLASSPATH</code> automatically in order to process templates. However, if you need to add jars or directories to your CLASSPATH outside of MkTechDocs, simply create an environment variable. Here is an example in Bash:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">export</span> <span class="va">CLASSPATH=</span>/path/to/my.jar</code></pre></div>
 <p>Now, when MkTechDocs runs, it will build a <code>CLASSPATH</code> that includes any existing <code>CLASSPATH</code>.</p>
-<h1 id="team-documentation"><span class="header-section-number">11</span> Team documentation</h1>
+<h1 id="team-documentation"><span class="header-section-number">12</span> Team documentation</h1>
 <p>MkTechDocs is ideal for incorporating team-contributed documentation. Because MkTechDocs documentation is simple Markdown, team members can contribute or edit documents via Git (for example) and let a single technical writer manage the pull requests to keep things as simple and as clear as possible.</p>
 <p>This makes scaling documentation easier because the technical writer is no longer limited to his or her own domain knowledge or learned knowledge.</p>
 <p>That's a simple case. The following describes a different scenario that lets agile developers contribute to documentation in a more specific and controlled way.</p>
-<h2 id="case-study"><span class="header-section-number">11.1</span> Case study</h2>
+<h2 id="case-study"><span class="header-section-number">12.1</span> Case study</h2>
 <p>In this study, a number of different agile development teams are responsible for individual components of a larger system. A configuration repository maintained by the larger system consists of a number of YAML files that describe the general deployment of each component.</p>
 <p>Here, components could be Docker containers, VMs, micro-services, or whatever. Each component could have a different but similar set of deployment instructions for each category below, or it could simply conform to some generic set of instructions and require no extra documentation.</p>
 <ol style="list-style-type: decimal">
@@ -862,11 +869,11 @@ out &lt;&lt; MarkdownUtils.getMarkdownFileAndChangeHeader(f, 2)
         .
         .</code></pre></div>
 <p>Now, we can create a template that loads the YAML containing the list of components, and looks for files with the same name in the directories listed above. If we find specialized instructions, we output them for a particular stage (e.g. Overview, Undeployment). If we find no specialized instructions, we output some generic ones.</p>
-<h2 id="managing-git-commit-messages"><span class="header-section-number">11.2</span> Managing git commit messages</h2>
+<h2 id="managing-git-commit-messages"><span class="header-section-number">12.2</span> Managing git commit messages</h2>
 <p>Often, it is useful for your document's audience to understand what has changed from version to version. Rather than keeping track of this manually, in a &quot;change log,&quot; for example, you can leverage Git's commit system.</p>
 <p>The <code>git log</code> command shows a list of all commits to a respository. Each commit has a unique ID associated with it (SHA1 collisions not withstanding). This means that you can create &quot;versions&quot; by recording specific commit messages that represent the beginning and ending of a document version, pulling out all relevant commit messages dynamically when the document is built.</p>
 <p>MkTechDocs includes this functionality in the <code>mktechdocslib.py</code> module. Here's an example of how to use it.</p>
-<h3 id="gitcommitdb"><span class="header-section-number">11.2.1</span> GitCommitDB</h3>
+<h3 id="gitcommitdb"><span class="header-section-number">12.2.1</span> GitCommitDB</h3>
 <p>What we'd like to do is create a simple database of Git messages that exist between two arbitrary Git commit IDs. First, we examine the output of <code>git log</code> to determine the first and last commit IDs that frame the version of the document we're interested in creating. Note that the output of <code>git log</code> is ordered by commit date, so the most recent dates appear first.</p>
 <p>Here is a sample Git log:</p>
 <pre><code>commit 20de5c8bf2a53efe54a71ae06e5b0b2a813d5176
@@ -1013,10 +1020,10 @@ Looks like no changes have been committed.
 
 <span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:
     render()</code></pre></div>
-<h1 id="download"><span class="header-section-number">12</span> Download</h1>
+<h1 id="download"><span class="header-section-number">13</span> Download</h1>
 <p>To download MkTechDocs, clone the repo:</p>
 <p><code>git clone https://github.com/att/MkTechDocs</code></p>
-<h1 id="setting-up-your-environment"><span class="header-section-number">13</span> Setting up your environment</h1>
+<h1 id="setting-up-your-environment"><span class="header-section-number">14</span> Setting up your environment</h1>
 <p>Please export the following variables. Here is an example in Bash:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># MkTechDocs libraries and scripts require the following variable:</span>
 <span class="bu">export</span> <span class="va">MKTECHDOCSHOME=</span>/path/to/cloned/repo/MkTechDocs
@@ -1026,10 +1033,10 @@ Looks like no changes have been committed.
 
 <span class="co"># Let Python know where to find MkTechDocs libraries:</span>
 <span class="bu">export</span> <span class="va">PYTHONPATH=$MKTECHDOCSHOME</span>/bin</code></pre></div>
-<h2 id="running-the-dependencies-installation-script"><span class="header-section-number">13.1</span> Running the dependencies installation script</h2>
+<h2 id="running-the-dependencies-installation-script"><span class="header-section-number">14.1</span> Running the dependencies installation script</h2>
 <p>Install MkTechDocs dependencies using the (admittedly imperfect) installation script. Consider the script more of a guide.</p>
 <p>Examine the contents of the <code>$MKTECHDOCSHOME/bin/install_deps*sh</code> script appropriate for your architecture (Ubuntu, Arch, Fedora, and macOS are currently supported). For Groovy support, please also see the <code>install_deps*sh</code> scripts in the <code>bin/groovy</code> directory. The install script simply tries to install the various dependencies using an architecture-appropriate package manager and in some cases checks version numbers of installed binaries. You can also install the dependencies manually.</p>
-<h3 id="dependencies"><span class="header-section-number">13.1.1</span> Dependencies</h3>
+<h3 id="dependencies"><span class="header-section-number">14.1.1</span> Dependencies</h3>
 <p>MkTechDocs requires the following:</p>
 <table>
 <thead>
@@ -1130,7 +1137,7 @@ MkTechDocs with existing Java libraries. Note that Groovy pandoc filters
 are orders of magnitude slower than their Python counterparts. To
 shorten build time, you might want to try
 <a href="https://kobo.github.io/groovyserv/userguide.html">GroovyServ</a>.</p>
-<h2 id="testing-your-environment"><span class="header-section-number">13.2</span> Testing your environment</h2>
+<h2 id="testing-your-environment"><span class="header-section-number">14.2</span> Testing your environment</h2>
 <p>After installing the dependencies, run this:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> <span class="va">$MKTECHDOCSHOME</span>/test
 <span class="ex">./testinstall.sh</span></code></pre></div>
@@ -1159,7 +1166,7 @@ If this prints with no error, you are good to go!
 Python seems ok.
 [~/MkTechDocs/test]$</code></pre>
 <p>If you get errors, examine the output of the installation script to see where something went wrong.</p>
-<h2 id="a-note-about-titlesec"><span class="header-section-number">13.3</span> A note about titlesec</h2>
+<h2 id="a-note-about-titlesec"><span class="header-section-number">14.3</span> A note about titlesec</h2>
 <p>MkTechDocs uses a TeX package named <code>titlesec</code> to do various things with PDF section numbers (e.g. 6.1.3.2). Unfortunately, Ubuntu 16.04 LTS ships with a buggy version of this package, which causes section numbers to be empty in various situations, so replacing it will be necessary if you plan to use section numbering in PDF documents. To replace it, first download the latest titlesec from <code>https://www.ctan.org/tex-archive/macros/latex/contrib/titlesec</code>.</p>
 <p>Now:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">unzip</span> titlesec.zip
@@ -1167,13 +1174,13 @@ Python seems ok.
 <span class="fu">sudo</span> mkdir /usr/share/texlive/texmf-dist/tex/latex/titlesec
 <span class="fu">sudo</span> cp -r titlesec/* /usr/share/texlive/texmf-dist/tex/latex/titlesec/.</code></pre></div>
 <p>Section numbering should work as expected.</p>
-<h1 id="running-filters"><span class="header-section-number">14</span> Running filters</h1>
+<h1 id="running-filters"><span class="header-section-number">15</span> Running filters</h1>
 <p>Running MkTechDocs Pandoc filters outside of the normal build environment is easy if you've <a href="#setting-up-your-environment">set up your environment</a> properly:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">pandoc</span> --filter <span class="op">&lt;</span>flt-filtername.py<span class="op">&gt;</span> -f markdown -t some-other-format inputfile.md <span class="op">&gt;</span>outputfile.fmt</code></pre></div>
 <p>In some cases, MkTechDocs filters produce artifacts on STDERR. In these cases use something like the following:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">pandoc</span> --filter <span class="op">&lt;</span>flt-filtername.py<span class="op">&gt;</span> -f markdown -t some-other-format inputfile.md <span class="op">&gt;</span>outputfile.fmt <span class="op">2&gt;</span>artifacts.out</code></pre></div>
 <p>The following Pandoc python filters come with MkTechDocs. Groovy versions are available as well in <code>$MKTECHDOCSHOME/bin/groovy</code>. They are run in the same way (but have a .groovy extension).</p>
-<h2 id="flt-comment-block.py"><span class="header-section-number">14.1</span> <code>flt-comment-block.py</code></h2>
+<h2 id="flt-comment-block.py"><span class="header-section-number">15.1</span> <code>flt-comment-block.py</code></h2>
 <p>Adapted from https://github.com/jgm/pandocfilters/blob/master/examples/comments.py</p>
 <p>Pandoc filter that causes everything between
 '&lt;!-- BEGIN COMMENT --&gt;' and '&lt;!-- END COMMENT --&gt;'
@@ -1186,26 +1193,26 @@ them.</p>
  This text will be ignored.
  
  &lt;!-- END COMMENT --&gt;</code></pre>
-<h2 id="flt-comment.py"><span class="header-section-number">14.2</span> <code>flt-comment.py</code></h2>
+<h2 id="flt-comment.py"><span class="header-section-number">15.2</span> <code>flt-comment.py</code></h2>
 <p>Ignores all text contained in the comment block. E.g.</p>
 <pre><code> ```comment
  This text will be ignored.
  ````</code></pre>
-<h2 id="flt-decrement-header-1.py"><span class="header-section-number">14.3</span> <code>flt-decrement-header-1.py</code></h2>
+<h2 id="flt-decrement-header-1.py"><span class="header-section-number">15.3</span> <code>flt-decrement-header-1.py</code></h2>
 <p>Decrements all headers by 1 level</p>
-<h2 id="flt-decrement-header-2.py"><span class="header-section-number">14.4</span> <code>flt-decrement-header-2.py</code></h2>
+<h2 id="flt-decrement-header-2.py"><span class="header-section-number">15.4</span> <code>flt-decrement-header-2.py</code></h2>
 <p>Decrements all headers by 2 levels</p>
-<h2 id="flt-decrement-header-3.py"><span class="header-section-number">14.5</span> <code>flt-decrement-header-3.py</code></h2>
+<h2 id="flt-decrement-header-3.py"><span class="header-section-number">15.5</span> <code>flt-decrement-header-3.py</code></h2>
 <p>Decrements all headers by 3 levels</p>
-<h2 id="flt-decrement-header-4.py"><span class="header-section-number">14.6</span> <code>flt-decrement-header-4.py</code></h2>
+<h2 id="flt-decrement-header-4.py"><span class="header-section-number">15.6</span> <code>flt-decrement-header-4.py</code></h2>
 <p>Decrements all headers by 4 levels</p>
-<h2 id="flt-decrement-header-5.py"><span class="header-section-number">14.7</span> <code>flt-decrement-header-5.py</code></h2>
+<h2 id="flt-decrement-header-5.py"><span class="header-section-number">15.7</span> <code>flt-decrement-header-5.py</code></h2>
 <p>Decrements all headers by 5 levels</p>
-<h2 id="flt-get-includes.py"><span class="header-section-number">14.8</span> <code>flt-get-includes.py</code></h2>
+<h2 id="flt-get-includes.py"><span class="header-section-number">15.8</span> <code>flt-get-includes.py</code></h2>
 <p>Outputs all files referenced in any include blocks in
 a file to stderr. Used internally by MkTechDocs to
 build dependency lists.</p>
-<h2 id="flt-include-code.py"><span class="header-section-number">14.9</span> <code>flt-include-code.py</code></h2>
+<h2 id="flt-include-code.py"><span class="header-section-number">15.9</span> <code>flt-include-code.py</code></h2>
 <p>This filter allows you to include source-code files in
 your markdown.</p>
 <p>You can provide one file per line. If you include the
@@ -1226,7 +1233,7 @@ which you may or may not want.</p>
 <p>The filter will produce 3 code blocks with the
 language property automatically set based on the extension
 of the files within.</p>
-<h2 id="flt-include-doc-map.py"><span class="header-section-number">14.10</span> <code>flt-include-doc-map.py</code></h2>
+<h2 id="flt-include-doc-map.py"><span class="header-section-number">15.10</span> <code>flt-include-doc-map.py</code></h2>
 <p>This filter is identical to the include filter, except
 that while building a document, it outputs a document
 map on stderr so that a script can figure out where each part of
@@ -1236,7 +1243,7 @@ the document came from. E.g.</p>
      ```</code></pre>
 <p>This filter is recursive, so you markdown can include
 other markdown to any level.</p>
-<h2 id="flt-include.py"><span class="header-section-number">14.11</span> <code>flt-include.py</code></h2>
+<h2 id="flt-include.py"><span class="header-section-number">15.11</span> <code>flt-include.py</code></h2>
 <p>This filter allows you to include other markdown in
 your markdown. E.g.</p>
 <pre><code>     ```include
@@ -1273,17 +1280,17 @@ and so are all the inclusions.</p>
 <p>This results in the innermost include's headers being
 adjusted upwards by however many levels of recursion
 there are.</p>
-<h2 id="flt-increment-header-1.py"><span class="header-section-number">14.12</span> <code>flt-increment-header-1.py</code></h2>
+<h2 id="flt-increment-header-1.py"><span class="header-section-number">15.12</span> <code>flt-increment-header-1.py</code></h2>
 <p>Increments all headers by 1 level to a maximum of 6 levels.</p>
-<h2 id="flt-increment-header-2.py"><span class="header-section-number">14.13</span> <code>flt-increment-header-2.py</code></h2>
+<h2 id="flt-increment-header-2.py"><span class="header-section-number">15.13</span> <code>flt-increment-header-2.py</code></h2>
 <p>Increments all headers by 2 levels to a maximum of 6 levels.</p>
-<h2 id="flt-increment-header-3.py"><span class="header-section-number">14.14</span> <code>flt-increment-header-3.py</code></h2>
+<h2 id="flt-increment-header-3.py"><span class="header-section-number">15.14</span> <code>flt-increment-header-3.py</code></h2>
 <p>Increments all headers by 3 levels to a maximum of 6 levels.</p>
-<h2 id="flt-increment-header-4.py"><span class="header-section-number">14.15</span> <code>flt-increment-header-4.py</code></h2>
+<h2 id="flt-increment-header-4.py"><span class="header-section-number">15.15</span> <code>flt-increment-header-4.py</code></h2>
 <p>Increments all headers by 4 levels to a maximum of 6 levels.</p>
-<h2 id="flt-increment-header-5.py"><span class="header-section-number">14.16</span> <code>flt-increment-header-5.py</code></h2>
+<h2 id="flt-increment-header-5.py"><span class="header-section-number">15.16</span> <code>flt-increment-header-5.py</code></h2>
 <p>Increments all headers by 5 levels to a maximum of 6 levels.</p>
-<h2 id="flt-notetip.py"><span class="header-section-number">14.17</span> <code>flt-notetip.py</code></h2>
+<h2 id="flt-notetip.py"><span class="header-section-number">15.17</span> <code>flt-notetip.py</code></h2>
 <p>This filter replaces 'note' and 'tip' blocks with
 div tags of either a note or tip class</p>
 <p>E.g.</p>
@@ -1294,7 +1301,7 @@ div tags of either a note or tip class</p>
 <pre><code> &lt;div class=&#39;tip&#39;&gt;**Tip**: My tip&lt;/div&gt;</code></pre>
 <p>for markdown and html. For other output formats:</p>
 <p>TIP: My tip</p>
-<h2 id="flt-plantuml.py"><span class="header-section-number">14.18</span> <code>flt-plantuml.py</code></h2>
+<h2 id="flt-plantuml.py"><span class="header-section-number">15.18</span> <code>flt-plantuml.py</code></h2>
 <p>Adapted from: <a href="https://github.com/jgm/pandocfilters/blob/master/examples/plantuml.py" class="uri">https://github.com/jgm/pandocfilters/blob/master/examples/plantuml.py</a></p>
 <p>Turns PlantUML, e.g.:</p>
 <pre><code> ```plantuml
@@ -1313,18 +1320,18 @@ div tags of either a note or tip class</p>
 <pre><code> pandoc -M umlformat=[eps,svg] . . .</code></pre>
 <p>If no umlformat is indicated, the filter will default to svg.</p>
 <p>Needs <code>plantuml.jar</code> from http://plantuml.com/.</p>
-<h2 id="flt-strip-pages-from-links.py"><span class="header-section-number">14.19</span> <code>flt-strip-pages-from-links.py</code></h2>
+<h2 id="flt-strip-pages-from-links.py"><span class="header-section-number">15.19</span> <code>flt-strip-pages-from-links.py</code></h2>
 <p>This filter turns links like this:</p>
 <pre><code> [foo link](somepage.html#some-heading)</code></pre>
 <p>into:</p>
 <pre><code> [foo link](#some-heading)</code></pre>
 <p>This is necessary to transform documents from multi-page
 to single page.</p>
-<h2 id="flt-template.py"><span class="header-section-number">14.20</span> <code>flt-template.py</code></h2>
+<h2 id="flt-template.py"><span class="header-section-number">15.20</span> <code>flt-template.py</code></h2>
 <p>A starting point for building new filters.</p>
-<h1 id="scripts"><span class="header-section-number">15</span> Scripts</h1>
+<h1 id="scripts"><span class="header-section-number">16</span> Scripts</h1>
 <p>Several potentially useful scripts come with MkTechDocs.</p>
-<h2 id="check_build_env.sh"><span class="header-section-number">15.1</span> <code>check_build_env.sh</code></h2>
+<h2 id="check_build_env.sh"><span class="header-section-number">16.1</span> <code>check_build_env.sh</code></h2>
 <p>This script does a simplistic check on your build environment
 to make sure that a MkTechDocs project can build.</p>
 <table style="width:99%;">
@@ -1348,7 +1355,7 @@ to make sure that a MkTechDocs project can build.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="dec-headers.sh"><span class="header-section-number">15.2</span> <code>dec-headers.sh</code></h2>
+<h2 id="dec-headers.sh"><span class="header-section-number">16.2</span> <code>dec-headers.sh</code></h2>
 <p>A utility script that decrements the headers in a given
 markdown file by a given number of levels.</p>
 <p>A copy of the original file is kept using the origial
@@ -1374,7 +1381,7 @@ file name and a PID as the extension.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="escape-jinja-brackets.sh"><span class="header-section-number">15.3</span> <code>escape-jinja-brackets.sh</code></h2>
+<h2 id="escape-jinja-brackets.sh"><span class="header-section-number">16.3</span> <code>escape-jinja-brackets.sh</code></h2>
 <p>This script escapes opening Jinja2 template brackets, <code>{#</code>
 to avoid internal build problems. Generally, you won't need to run this
 script directly.</p>
@@ -1398,7 +1405,7 @@ script directly.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="inc-headers.sh"><span class="header-section-number">15.4</span> <code>inc-headers.sh</code></h2>
+<h2 id="inc-headers.sh"><span class="header-section-number">16.4</span> <code>inc-headers.sh</code></h2>
 <p>A utility script that increments the headers in a given
 markdown file by a given number of levels.</p>
 <p>A copy of the original file is kept using the origial
@@ -1424,7 +1431,7 @@ file name and a PID as the extension.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="install_deps_1604_py.sh"><span class="header-section-number">15.5</span> <code>install_deps_1604+_py.sh</code></h2>
+<h2 id="install_deps_1604_py.sh"><span class="header-section-number">16.5</span> <code>install_deps_1604+_py.sh</code></h2>
 <p>This script will install all MkTechDocs dependencies in an Ubuntu
 16.04 environment. It is not currently suited for using in a
 docker container or vagrantfile, although it would be easy enough
@@ -1449,7 +1456,7 @@ to adapt it for such use.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="install_deps_arch_py.sh"><span class="header-section-number">15.6</span> <code>install_deps_arch_py.sh</code></h2>
+<h2 id="install_deps_arch_py.sh"><span class="header-section-number">16.6</span> <code>install_deps_arch_py.sh</code></h2>
 <p>This script will install all MkTechDocs dependencies in an Arch
 environment. It is not currently suited for using in a
 docker container or vagrantfile, although it would be easy enough
@@ -1474,7 +1481,7 @@ to adapt it for such use.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="install_deps_macos_py.sh"><span class="header-section-number">15.7</span> <code>install_deps_macos_py.sh</code></h2>
+<h2 id="install_deps_macos_py.sh"><span class="header-section-number">16.7</span> <code>install_deps_macos_py.sh</code></h2>
 <p>This script will install all MkTechDocs dependencies in a macOS
 environment. It is not currently suited for using in a
 docker container or vagrantfile, although it would be easy enough
@@ -1499,9 +1506,9 @@ to adapt it for such use.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="mktechdocs"><span class="header-section-number">15.8</span> <code>mktechdocs</code></h2>
-<h1 id="addendum"><span class="header-section-number">16</span> Addendum</h1>
-<h2 id="understanding-the-build-process"><span class="header-section-number">16.1</span> Understanding the build process</h2>
+<h2 id="mktechdocs"><span class="header-section-number">16.8</span> <code>mktechdocs</code></h2>
+<h1 id="addendum"><span class="header-section-number">17</span> Addendum</h1>
+<h2 id="understanding-the-build-process"><span class="header-section-number">17.1</span> Understanding the build process</h2>
 <p>The MkTechDocs build process is complex. The following is a step-by-step guide towards understanding how it works.</p>
 <ol style="list-style-type: decimal">
 <li>MkTechDocs consists of a BASH control script and a library of Python and Groovy filters.</li>
@@ -1510,9 +1517,19 @@ to adapt it for such use.</p>
 <li>MkTechDocs exploits this with a couple of libraries, <a href="https://github.com/jsseidel/groovy-pandoc">GroovyPandoc</a>, for Groovy template integration, and <a href="https://github.com/jgm/pandocfilters">PandocFilters</a>, for Python integration.</li>
 <li>Every time you run <code>mktechdocs</code>, the control script calls <code>pandoc</code> on your project's master document. Some Bash scripting then takes care of some little details, which you can see for yourself by examining the script.</li>
 </ol>
-<h2 id="contact"><span class="header-section-number">16.2</span> Contact</h2>
+<h2 id="contact"><span class="header-section-number">17.2</span> Contact</h2>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer Seidel</a>.</p>
-<h1 id="document-change-log"><span class="header-section-number">17</span> Document change log</h1>
+<h1 id="document-change-log"><span class="header-section-number">18</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Thu Jul 5 11:15:26 2018 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Added section for doing docker builds [doc]
+<br /></p>
+<p>
+<p><strong>Date</strong>: Mon May 21 12:26:48 2018 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Added a 'doesn't work' note to the section about plantuml images titles. [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Mon May 21 11:41:47 2018 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
