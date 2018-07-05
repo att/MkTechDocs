@@ -73,13 +73,12 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#downloading-and-setting-up-your-environment"><span class="toc-section-number">1.5</span> Downloading and setting up your environment</a></li>
 </ul></li>
 <li><a href="#the-basics"><span class="toc-section-number">2</span> The basics</a><ul>
-<li><a href="#the-executive-summary"><span class="toc-section-number">2.1</span> The executive summary</a></li>
-<li><a href="#markdown"><span class="toc-section-number">2.2</span> Markdown</a></li>
-<li><a href="#creating-a-new-project"><span class="toc-section-number">2.3</span> Creating a new project</a></li>
-<li><a href="#mktechdocs-projects"><span class="toc-section-number">2.4</span> MkTechDocs projects</a><ul>
-<li><a href="#master-document"><span class="toc-section-number">2.4.1</span> Master document</a></li>
-<li><a href="#sub-documents"><span class="toc-section-number">2.4.2</span> Sub documents</a><ul>
-<li><a href="#images"><span class="toc-section-number">2.4.2.1</span> Images</a></li>
+<li><a href="#markdown"><span class="toc-section-number">2.1</span> Markdown</a></li>
+<li><a href="#creating-a-new-project"><span class="toc-section-number">2.2</span> Creating a new project</a></li>
+<li><a href="#mktechdocs-projects"><span class="toc-section-number">2.3</span> MkTechDocs projects</a><ul>
+<li><a href="#master-document"><span class="toc-section-number">2.3.1</span> Master document</a></li>
+<li><a href="#sub-documents"><span class="toc-section-number">2.3.2</span> Sub documents</a><ul>
+<li><a href="#images"><span class="toc-section-number">2.3.2.1</span> Images</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -206,24 +205,17 @@ Pandodc templates can be customized on a per-project basis</li>
 <li>Agile and continuous-integration friendly</li>
 </ul>
 <h2 id="can-i-see-an-example"><span class="header-section-number">1.3</span> Can I see an example?</h2>
-<p>You're looking at one! Now, check out the source in the <a href="https://github.com/att/MkTechDocs/tree/master/docsbuild"><code>docsbuild</code></a> directory to see what a MkTechDocs project looks like. Start with <a href="https://raw.githubusercontent.com/att/MkTechDocs/master/docsbuild/master.md"><code>master.md</code></a>. That's the master document. Every MkTechDocs project has one.</p>
+<p>You're looking at one!</p>
 <h2 id="supported-architectures"><span class="header-section-number">1.4</span> Supported architectures</h2>
 <p>MkTechDocs currently supports Arch and Ubuntu (16.04+,18.04+) Linux and macOS. It may work in Windows under Cygwin, MinGW, or Ubuntu Bash for Windows.</p>
 <h2 id="downloading-and-setting-up-your-environment"><span class="header-section-number">1.5</span> Downloading and setting up your environment</h2>
 <p>See the <a href="#download">Download</a> and <a href="#setting-up-your-environment">Setting up your environment</a> sections at the end of this document for more information.</p>
 <h1 id="the-basics"><span class="header-section-number">2</span> The basics</h1>
-<p>There are a couple of different use cases for MkTechDocs:</p>
-<ol style="list-style-type: decimal">
-<li>You want to build and maintain a complex documentation project.</li>
-<li>You want to use MkTechDoc tools to process one-off documents for previewing or ingesting into some other documentation scheme.</li>
-</ol>
-<p>In either case, the best way to start is to create a new MkTechDocs project and import existing files. This way, you automatically gain access to all the complex command-lines, CSS styling, PDF templates, Pandoc filters, and so on.</p>
-<h2 id="the-executive-summary"><span class="header-section-number">2.1</span> The executive summary</h2>
 <p>The easiest way to learn how to use MkTechDocs effectively is with a tutorial project. <a href="https://github.com/jsseidel/GettingStartedWithMkTechDocs">Here's one on GitHub</a>.</p>
 <p>Unlike the comprehensive usage guide, the tutorial project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.</p>
-<h2 id="markdown"><span class="header-section-number">2.2</span> Markdown</h2>
+<h2 id="markdown"><span class="header-section-number">2.1</span> Markdown</h2>
 <p>MkTechDocs uses Markdown exclusively, although support for additional syntaxes may be added in the future. More specifically, it uses standard Markdown syntax <a href="http://pandoc.org/MANUAL.html#pandocs-markdown">with Pandoc extensions</a>. In this documentation, assume that any file with a <code>.md</code> extension is a file that contains Markdown. Markdown is easy to learn, read, and edit and is easily transformable into a myriad of output formats. To use MkTechDocs effectively, take a few minutes to familiarize yourself with <a href="https://daringfireball.net/projects/markdown/syntax">Markdown syntax</a>.</p>
-<h2 id="creating-a-new-project"><span class="header-section-number">2.3</span> Creating a new project</h2>
+<h2 id="creating-a-new-project"><span class="header-section-number">2.2</span> Creating a new project</h2>
 <p>To create a new MkTechDocs project, <code>cd</code> inside the directory where you want to create it and run <code>mktechdocs</code>. For example:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">mkdir</span> mynewproject
 <span class="bu">cd</span> mynewproject
@@ -269,8 +261,8 @@ Pandodc templates can be customized on a per-project basis</li>
 </table>
 <p>* NOTE 1: Optional. If you don't need this HTML content, for example, if you're producing PDF content only, you can safely delete these files.</p>
 <p>* NOTE 2: If you need more dynamic content in your header, footer, or main content, dates, database information, etc., please read the <a href="#footer.html-header.html-and-landing.html-as-templates"><code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates section</a></p>
-<h2 id="mktechdocs-projects"><span class="header-section-number">2.4</span> MkTechDocs projects</h2>
-<h3 id="master-document"><span class="header-section-number">2.4.1</span> Master document</h3>
+<h2 id="mktechdocs-projects"><span class="header-section-number">2.3</span> MkTechDocs projects</h2>
+<h3 id="master-document"><span class="header-section-number">2.3.1</span> Master document</h3>
 <p>MkTechDocs projects consist of a &quot;master&quot; document &#8212; a single markdown document that defines your project, always named <code>master.md</code>&#8212; and any number of sub documents. Building a master document is simple:</p>
 <pre><code>```comment
 Define one or more include blocks to include all the major subdocuments that
@@ -283,7 +275,7 @@ more-things.md
 the-end.md
 ```</code></pre>
 <p>Note the <code>heading-level=0</code> attribute. This tells MkTechDocs that the current heading level at the point of the include block is '0'. This will result in each included document starting with heading level of 1, or &lt;H1&gt; in HTML parlance. If you want to keep all your heading-level ones in the master document, that's okay, too. Simply use <code>heading-level=1</code> when including subdocuments. More information on this follows.</p>
-<h3 id="sub-documents"><span class="header-section-number">2.4.2</span> Sub documents</h3>
+<h3 id="sub-documents"><span class="header-section-number">2.3.2</span> Sub documents</h3>
 <p>Every sub document you include should start with a heading level of 1 (i.e. &lt;H1&gt;). MkTechDocs automatically increases the heading level of included documents (even multi-level recursive includes, where a document includes another document that includes another document, and so on). The heading-level adjustments will work provided that you give MkTechDocs a hint about the current heading level at the point of inclusion, as we have already seen:</p>
 <pre><code>### A level three header
 
@@ -293,7 +285,7 @@ myincludeddoc.md
 <p>Now, regardless of how many included documents appear in <code>myincludedoc.md</code> and in documents included in <em>those</em> documents, the heading levels should be consistent, provided you remember that all sub documents should start with a heading level of 1, as if they were a standalone document.</p>
 <p class="tip"><b>Tip</b>: Creating every sub document such that it can exist on its own has the added benefit of allowing you to assemble different combinations of documents for different audiences. For example, you might want to build a small section of a much larger document as a standalone PDF.</p>
 
-<h4 id="images"><span class="header-section-number">2.4.2.1</span> Images</h4>
+<h4 id="images"><span class="header-section-number">2.3.2.1</span> Images</h4>
 <p>If you want to include images in your project document, include them inline using standard Markdown:</p>
 <p>E.g.</p>
 <pre><code>```
