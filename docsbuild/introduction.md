@@ -25,7 +25,7 @@
 
 ## Can I see an example?
 
-You're looking at one! Now, check out the source in the [`docsbuild`](https://github.com/att/MkTechDocs/tree/master/docsbuild) directory to see what a MkTechDocs project looks like. Start with [`master.md`](https://raw.githubusercontent.com/att/MkTechDocs/master/docsbuild/master.md). That's the master document. Every MkTechDocs project has one.
+You're looking at one!
 
 ## Supported architectures
 

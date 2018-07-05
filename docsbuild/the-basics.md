@@ -1,14 +1,5 @@
 # The basics
 
-There are a couple of different use cases for MkTechDocs:
-
-1. You want to build and maintain a complex documentation project.
-2. You want to use MkTechDoc tools to process one-off documents for previewing or ingesting into some other documentation scheme.
-
-In either case, the best way to start is to create a new MkTechDocs project and import existing files. This way, you automatically gain access to all the complex command-lines, CSS styling, PDF templates, Pandoc filters, and so on.
-
-## The executive summary
-
 The easiest way to learn how to use MkTechDocs effectively is with a tutorial project. [Here's one on GitHub](https://github.com/jsseidel/GettingStartedWithMkTechDocs).
 
 Unlike the comprehensive usage guide, the tutorial project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.
