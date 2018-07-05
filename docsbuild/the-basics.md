@@ -9,7 +9,9 @@ In either case, the best way to start is to create a new MkTechDocs project and 
 
 ## The executive summary
 
-The easiest way to learn how to use MkTechDocs effectively is to study and build the example project on [this GitHub page](https://github.com/jsseidel/ExampleMkTechDocs). Unlike this comprehensive usage guide, the example project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.
+The easiest way to learn how to use MkTechDocs effectively is with a tutorial project. [Here's one on GitHub](https://github.com/jsseidel/GettingStartedWithMkTechDocs).
+
+Unlike the comprehensive usage guide, the tutorial project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.
 
 ## Markdown
 
