@@ -326,22 +326,22 @@ table td {
 }
 
 #TOC ul ul {
-  margin-left: 3em;
+  margin-left: 1em;
 	margin-bottom: 0;
 }
 
 #TOC ul ul ul {
-  margin-left: 3em;
+  margin-left: 1em;
 	margin-bottom: 0;
 }
 
 #TOC ul ul ul ul {
-  margin-left: 3em;
+  margin-left: 1em;
 	margin-bottom: 0;
 }
 
 #TOC ul ul ul ul ul {
-  margin-left: 3em;
+  margin-left: 1em;
 	margin-bottom: 0;
 }
 
