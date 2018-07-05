@@ -6,6 +6,7 @@ the document to be level 1.
 introduction.md
 the-basics.md
 building-your-document.md
+docker-builds.md
 configuration-options.md
 title-pages.md
 blocks.md
