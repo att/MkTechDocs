@@ -406,8 +406,8 @@ $</code></pre>
 </tr>
 <tr class="odd">
 <td><code>FORMAT</code></td>
-<td>pdf, pdffloat, html, htmlsimple, cssframes, htmlmulti, markdown, docx</td>
-<td><em>Output format</em><br /><br /><strong>pdf</strong>: A PDF file with section numbers and a title page. Diagrams are positioned near where they are included.<br /><strong>pdffloat</strong>: A PDF file with section numbers and a title page. Diagrams are &quot;floated&quot; within the document.<br /><strong>html</strong>: A single CSS-styled HTML page with a hideable table of contents at the top.<br /><strong>htmlsimple</strong>: A single unstyled HTML page with no table of contents.<br /><strong>cssframes</strong>: A single CSS-styled HTML page with a CSS-locked navigation sidebar on the left-hand side and locked content on the right-hand side. A customizable header and footer (in header.html and footer.html) are used to frame the page.<br /><strong>htmlmulti</strong>: Multi-page CSS-styled HTML with a CSS-locked navigation bar on the left-hand side and content on the right-hand side. A customizable header and footer (in header.html and footer.html) are used to frame the page. In addition, landing.html is used as a landing page with the CSS-locked navigation sidebar on the left-hand side. Best for large projects.<br /><strong>markdown</strong>: A single markdown document.<br /><strong>docx</strong>: A single Microsoft Word document.</td>
+<td>pdf, pdffloat, html, htmlsimple, cssframes, htmlmulti, markdown, docx, epub, epub3</td>
+<td><em>Output format</em><br /><br /><strong>pdf</strong>: A PDF file with section numbers and a title page. Diagrams are positioned near where they are included.<br /><strong>pdffloat</strong>: A PDF file with section numbers and a title page. Diagrams are &quot;floated&quot; within the document.<br /><strong>html</strong>: A single CSS-styled HTML page with a hideable table of contents at the top.<br /><strong>htmlsimple</strong>: A single unstyled HTML page with no table of contents.<br /><strong>cssframes</strong>: A single CSS-styled HTML page with a CSS-locked navigation sidebar on the left-hand side and locked content on the right-hand side. A customizable header and footer (in header.html and footer.html) are used to frame the page.<br /><strong>htmlmulti</strong>: Multi-page CSS-styled HTML with a CSS-locked navigation bar on the left-hand side and content on the right-hand side. A customizable header and footer (in header.html and footer.html) are used to frame the page. In addition, landing.html is used as a landing page with the CSS-locked navigation sidebar on the left-hand side. Best for large projects.<br /><strong>markdown</strong>: A single markdown document.<br /><strong>docx</strong>: A single Microsoft Word document.<br /><strong>epub,epub</strong>: A single epub ebook.</td>
 </tr>
 <tr class="even">
 <td><code>HTML_STYLE</code></td>
@@ -442,7 +442,7 @@ $</code></pre>
 <tr class="even">
 <td><code>TITLE_PAGE</code></td>
 <td>Any. No spaces or puncutation.</td>
-<td>See the <a href="#title-pages">title pages</a> section for more information. Applies only to <code>pdf</code> and <code>pdffloat</code> output formats.</td>
+<td>See the <a href="#title-pages">title pages</a> section for more information. Applies only to <code>pdf</code>, <code>pdffloat</code>, <code>docx</code>, <code>epub</code>, and <code>epub3</code> output formats.</td>
 </tr>
 <tr class="odd">
 <td><code>IMAGES</code></td>
@@ -490,7 +490,7 @@ $</code></pre>
 </tbody>
 </table>
 <h1 id="title-pages"><span class="header-section-number">6</span> Title pages</h1>
-<p>There are three ways to create a title page for your <code>pdf</code> or <code>pdffloat</code> document. In all three cases, you must create a standalone file and assign that filename to the <code>TITLE_PAGE</code> variable in your project's configuration.</p>
+<p>There are three ways to create a title page for your <code>pdf</code>, <code>pdffloat</code>, <code>docx</code>, <code>epub</code>, and <code>epub3</code> document. In all three cases, you must create a standalone file and assign that filename to the <code>TITLE_PAGE</code> variable in your project's configuration.</p>
 <h2 id="title-metadata-block"><span class="header-section-number">6.1</span> Title metadata block</h2>
 <pre><code>% My Document Title
 % John Doe; Jane Doe
@@ -706,7 +706,7 @@ date: Built on {{ currentDateTime }}
 <p>You can add as many variables to your <code>varDictionary</code> as necessary. You can even add entire modules and functions, if you need more logic in your templates.</p>
 <p>Next, set the <code>TITLE_PAGE</code> variable in your project makefile to <code>title-page.md</code>. Why the <code>.md</code> extension? MkTeckDocs automatically converts anything with a <code>.pyt</code> extension to markdown before building your documents. Here's a diagram that illustrates the process:</p>
 <p><img src="plantuml-2697328e27cbb82edab5163837c46ceb.svg" title="Fig:" alt="Template Rendering" /></p>
-<p>Since title pages are only used in PDF documents (currently), you should also set <code>FORMAT</code> to <code>pdf</code> or <code>pdffloat</code>.</p>
+<p>Since title pages are only used in PDF, docx, and epub documents, you should also set <code>FORMAT</code> to <code>pdf</code>, <code>pdffloat</code>, <code>docx</code>, <code>epub</code>, or <code>epub3</code>.</p>
 <h2 id="referencing-templates-in-include-blocks"><span class="header-section-number">9.3</span> Referencing templates in include blocks</h2>
 <p>MkTechDocs automatically detects <code>*.pyt</code> templates and converts them into markdown before processing include blocks. So, if you need to include the contents of a template's output in another markdown file, simply treat the template as if it were markown. For example, if your template's name is <code>mytemplate.pyt</code> reference the output in include blocks like:</p>
 <pre><code>```include

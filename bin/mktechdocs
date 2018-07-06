@@ -330,6 +330,12 @@ case $FORMAT in
   docx)
     # NOP
   ;;
+  epub)
+    # NOP
+  ;;
+  epub3)
+    # NOP
+  ;;
   *)
     clog ERROR "Sorry, FORMAT $FORMAT is not supported."
     exit 1
@@ -543,16 +549,30 @@ normal_exit $?
 elif [[ "$FORMAT" == "docx" ]] ; then
   clog INFO "Building main docx document $OUTPUT_FILE_NAME_BASE_ARG.docx"
   pandoc -s --ascii --highlight-style tango -f markdown -t docx --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.docx
-normal_exit $?
+	normal_exit $?
+#############################################################################
+# EPUB OUTPUT
+#############################################################################
+elif [[ "$FORMAT" == "epub" ]] ; then
+  clog INFO "Building main epub document $OUTPUT_FILE_NAME_BASE_ARG.epub"
+  pandoc -s --ascii --highlight-style tango -f markdown -t epub --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.epub
+	normal_exit $?
+#############################################################################
+# EPUB3 OUTPUT
+#############################################################################
+elif [[ "$FORMAT" == "epub3" ]] ; then
+  clog INFO "Building main epub document $OUTPUT_FILE_NAME_BASE_ARG.epub"
+  pandoc -s --ascii --highlight-style tango -f markdown -t epub3 --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.epub
+	normal_exit $?
 fi
 
 # Run any post-build jobs
 if [[ "$BUILD_SCRIPT" != "" ]] ; then
   if [[ -e $BUILD_SCRIPT ]] ; then
     clog INFO "Running post-build job $BUILD_SCRIPT"
-    $BUILD_SCRIPT post ${OUTPUT_FILE_NAME_BASE_ARG}_pages >$$.pre-build.out 2>$$.pre-build.err
-		OUT=$(cat $$.pre-build.out)
-		ERR=$(cat $$.pre-build.err)
+    $BUILD_SCRIPT post ${OUTPUT_FILE_NAME_BASE_ARG}_pages >$$.post-build.out 2>$$.post-build.err
+		OUT=$(cat $$.post-build.out)
+		ERR=$(cat $$.post-build.err)
 		[[ ! -z $OUT ]] && clog INFO "Post-build job stdout: $OUT"
 		[[ ! -z $ERR ]] && clog WARN "Post-build job stderr: $OUT"
   else

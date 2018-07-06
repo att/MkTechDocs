@@ -1,6 +1,6 @@
 # Title pages
 
-There are three ways to create a title page for your `pdf` or `pdffloat` document. In all three cases, you must create a standalone file and assign that filename to the `TITLE_PAGE` variable in your project's configuration.
+There are three ways to create a title page for your `pdf`, `pdffloat`, `docx`, `epub`, and `epub3` document. In all three cases, you must create a standalone file and assign that filename to the `TITLE_PAGE` variable in your project's configuration.
 
 ## Title metadata block
 

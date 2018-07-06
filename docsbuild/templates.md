@@ -77,7 +77,7 @@ MTD --> MD
 MD --> FD
 ```
 
-Since title pages are only used in PDF documents (currently), you should also set `FORMAT` to `pdf` or `pdffloat`.
+Since title pages are only used in PDF, docx, and epub documents, you should also set `FORMAT` to `pdf`, `pdffloat`, `docx`, `epub`, or `epub3`.
 
 ## Referencing templates in include blocks
 

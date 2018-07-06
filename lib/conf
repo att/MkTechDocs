@@ -1,22 +1,40 @@
-#############################################################################
-# SIMPLE CONFIGURATION
-TITLE="My Project"
-OUTPUT_FILE_NAME_BASE=myproject
-# pdf, pdffloat, html, htmlsimple, cssframes, htmlmulti, markdown, docx
+# The title of your final document
+TITLE="Getting Started with MkTechDocs"
+# Where MkTechDocs should put the built project. In this case, the output will be copied into "getting_started_pages". MkTechDocs appends "_pages" to avoid confusion.
+OUTPUT_FILE_NAME_BASE=getting_started
+# Here, select an output format:
+#
+# html: A single long html page with a toggle-able table of contents at the top
+# htmlsimple: A single long html page with static table of contents at the top
+# cssframes: Static table of contents on the left, scrollable content in the middle, static header and footer
+# htmlmulti: Static landing page with static table of contents on the left. Each section has it's own separate HTML page.
+# markdown: Collage everything in master.md into a single markdown file.
+# docx: A standard Microsoft Word docx document.
+# epub: An epub ebook. 
+# epub3: An epub3 ebook.
 FORMAT=cssframes
-# Style only applies to HTML format. Custom requires updating the CUSTOM_CSS
-# variable below with a path to your custom CSS.
-# archwiki, github, custom
+# Select your style.
+#
+# archwiki: In the style of the Arch Linux Wiki
+# github: Like GitHub documentation
+# custom: Do your own thing. Start with the sample mktechdocs.css included in this project. Note that if you use this option you must provide a value for CUSTOM_CSS below.
 HTML_STYLE=archwiki
-PDF_MAIN_FONT=Verdana
-PDF_MONO_FONT=Monaco
-TABLE_OF_CONTENTS_MAIN_DEPTH=3
-TABLE_OF_CONTENTS_SUB_DEPTH=6
+# This controls how many levels of headings to include in the table of contents. Here, six levels of headers will be visible.
+TABLE_OF_CONTENTS_MAIN_DEPTH=6
+# This controls how many levels of headings to include in the table of contents on "sub" pages, which are only applicable when using the "htmlmulti" format.
+TABLE_OF_CONTENTS_SUB_DEPTH=3
+# If true, headers will automatically contain section numbers.
 SECTION_NUMBERS=true
-#TITLE_PAGE=title-page.md
+# Put all your images in the following directory so MkTechDocs knows to copy it into the output directory.
 #IMAGES=./images
-#BUILD_SCRIPT=build.sh
-CUSTOM_CSS=
-CUSTOM_TEMPLATE=
-
+# Use a build script to do things both before and after a build. MkTechDocs calls this script if present like:
+#
+# mybuildscript.sh pre
+# mybuildscript.sh post
+#BUILD_SCRIPT=mybuildscript.sh
+# If you use the "custom" HTML_STYLE, apply the following css file. Leave it empty to use the default.
+#CUSTOM_CSS=my.css
+# You can use your own custom HTML template to build pages. Leave it empty to use a template consisten with FORMAT. This one is for demo purposes. 
+#CUSTOM_TEMPLATE=mytemplate.html
+# During the build, MkTechDocs creates many temporary files. You can set this to true if you want to understand why a build is failing.
 KEEP_TEMP_FILES=false
