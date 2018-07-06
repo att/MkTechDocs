@@ -113,7 +113,8 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#the-renderer"><span class="toc-section-number">9.2</span> The renderer</a></li>
 <li><a href="#referencing-templates-in-include-blocks"><span class="toc-section-number">9.3</span> Referencing templates in include blocks</a></li>
 <li><a href="#footer.html-header.html-and-landing.html-as-templates"><span class="toc-section-number">9.4</span> <code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates</a></li>
-<li><a href="#for-more-information"><span class="toc-section-number">9.5</span> For more information</a></li>
+<li><a href="#escaping-curly-brackets"><span class="toc-section-number">9.5</span> Escaping curly brackets</a></li>
+<li><a href="#for-more-information"><span class="toc-section-number">9.6</span> For more information</a></li>
 </ul></li>
 <li><a href="#managing-document-versions"><span class="toc-section-number">10</span> Managing document versions</a><ul>
 <li><a href="#global_vars"><span class="toc-section-number">10.1</span> <code>global_vars</code></a></li>
@@ -713,14 +714,26 @@ mytemplate.md
 ```</code></pre>
 <h2 id="footer.html-header.html-and-landing.html-as-templates"><span class="header-section-number">9.4</span> <code>footer.html</code>, <code>header.html</code>, and <code>landing.html</code> as templates</h2>
 <p>MkTechDocs will recognize <code>footer.htmlt</code>, <code>header.htmlt</code>, and <code>landing.htmlt</code> as templates and process into corresponding <code>.html</code> files, using similarly named renderers. E.g. <code>footer.renderer</code>.</p>
-<h2 id="for-more-information"><span class="header-section-number">9.5</span> For more information</h2>
+<h2 id="escaping-curly-brackets"><span class="header-section-number">9.5</span> Escaping curly brackets</h2>
+<p>Because every MkTechDocs document is ultimately converted into a large Python Jinja2 template, if you want to include double curly brackets as curly brackets in your document, for example, if you're documenting Jinja2, you will need to escape them.</p>
+<p>Here's how:</p>
+<pre><code>    {% raw %}
+ 
+    {{somevar}}
+ 
+    {% endraw %}</code></pre>
+<p>If you need to escape a single curly bracket, you can use:</p>
+<p>
+<code>{{openCurlyBracket}}</code> and <code>{{closeCurlyBracket}}</code>
+</p>
+<h2 id="for-more-information"><span class="header-section-number">9.6</span> For more information</h2>
 <p>For real-world examples of how to use Jinja2 templates with MkTechDocs, see the following files in the MkTechDocs directory:</p>
 <pre><code>docsbuild/runningfilters.pyt
 docsbuild/runningfilters.renderer
 docsbuild/scripts.pyt
 docsbuild/scripts.renderer</code></pre>
 <p>These templates and renderers incorporate some pythondoc-like markup in the <a href="#running-filters">filters</a> and <a href="#scripts">scripts</a> that come with MkTechDocs.</p>
-<p>Jinja2 templates can be powerful documentation tools. Please reference the <a href="http://jinja.pocoo.org/docs/2.9/templates/">Jinja2 template documentation</a> for more information.</p>
+<p>Jinja2 templates can be powerful documentation tools. Please reference the <a href="http://jinja.pocoo.org/docs/2.9/templates/">Jinja2 template documentation</a> for more information 2&gt;$template.err.</p>
 <h1 id="managing-document-versions"><span class="header-section-number">10</span> Managing document versions</h1>
 <p>For some documentation projects, managing document versions is vital. It is helpful if you define your document version in one place, so that any sub-documents that reference the version number get it from the same place.</p>
 <p>The following is one reasonable way of doing this.</p>
@@ -1513,6 +1526,11 @@ to adapt it for such use.</p>
 <h2 id="contact"><span class="header-section-number">17.2</span> Contact</h2>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer Seidel</a>.</p>
 <h1 id="document-change-log"><span class="header-section-number">18</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Fri Jul 6 10:31:15 2018 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Added section about how to escape curly brackets [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Thu Jul 5 15:03:43 2018 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
