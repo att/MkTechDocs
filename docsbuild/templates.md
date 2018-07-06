@@ -91,6 +91,24 @@ MkTechDocs automatically detects `*.pyt` templates and converts them into markdo
 
 MkTechDocs will recognize `footer.htmlt`, `header.htmlt`, and `landing.htmlt` as templates and process into corresponding `.html` files, using similarly named renderers. E.g. `footer.renderer`.
 
+## Escaping curly brackets
+
+Because every MkTechDocs document is ultimately converted into a large Python Jinja2 template, if you want to include double curly brackets as curly brackets in your document, for example, if you're documenting Jinja2, you will need to escape them.
+
+Here's how:
+
+		{{openCurlyBracket}}% raw %{{closeCurlyBracket}}
+   	{%raw%} 
+		{{somevar}}
+   	{%endraw%} 
+		{{openCurlyBracket}}% endraw %{{closeCurlyBracket}}
+
+If you need to escape a single curly bracket, you can use:
+
+{%raw%}
+`{{openCurlyBracket}}` and `{{closeCurlyBracket}}`
+{%endraw%}
+
 ## For more information
 
 For real-world examples of how to use Jinja2 templates with MkTechDocs, see the following files in the MkTechDocs directory:
@@ -104,4 +122,4 @@ docsbuild/scripts.renderer
 
 These templates and renderers incorporate some pythondoc-like markup in the [filters](#running-filters) and [scripts](#scripts) that come with MkTechDocs.
 
-Jinja2 templates can be powerful documentation tools. Please reference the [Jinja2 template documentation](http://jinja.pocoo.org/docs/2.9/templates/) for more information.
+Jinja2 templates can be powerful documentation tools. Please reference the [Jinja2 template documentation](http://jinja.pocoo.org/docs/2.9/templates/) for more information 2>$template.err.
