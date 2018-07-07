@@ -2,7 +2,9 @@
 
 MkTechDocs is a complex set of code and dependencies, so it can be difficult to set up to run locally. Fortunately, MkTechDocs is available as a Docker image on [Docker Hub](https://hub.docker.com/r/jsseidel/mktechdocs/): `jsseidel/mktechdocs`.
 
-To use it, you need to have Docker installed. Then, building projects is relatively simple:
+Please note that the Docker version of MkTechDocs does not currently support PDF output. Adding in this support makes the Docker image unreasonably large, and the image is already too big. 
+
+To get started, you'll need to have Docker installed. Then, building projects is relatively simple:
 
 ```
 docker run --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs
