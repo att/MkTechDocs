@@ -331,7 +331,7 @@ $</code></pre>
 <span class="ex">mktechdocs</span> config2.conf /Users/mylogin/myproject</code></pre></div>
 <h2 id="pre--and-post-build-activities"><span class="header-section-number">3.2</span> Pre- and post-build activities</h2>
 <p>Suppose you have a set of static documents as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.</p>
-<p>Use the <code>BUILD_SCRIPT</code> <a href="#advanced-configuration">configuration</a> variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:</p>
+<p>Use the <code>BUILD_SCRIPT</code> <a href="#advanced-configuration">configuration</a> variable to provide the name of a script to run pre-build and post-build. The script should accept 2 arguments:</p>
 <table style="width:83%;">
 <colgroup>
 <col width="15%" />
@@ -360,16 +360,17 @@ $</code></pre>
 <span class="va">ACTIVITY=$1</span>
 <span class="va">OUT_DIR=$2</span>
 
-<span class="kw">if [[</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;pre&quot;</span><span class="kw"> ]]</span> ; <span class="kw">then</span>
+<span class="kw">if [[</span> <span class="st">&quot;</span><span class="va">$ACTIVITY</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;pre&quot;</span><span class="kw"> ]]</span> ; <span class="kw">then</span>
     <span class="bu">echo</span> <span class="st">&quot;Creating some new stuff in ./mystuff...&quot;</span>
-<span class="kw">elif [[</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;post&quot;</span><span class="kw"> ]]</span> ; <span class="kw">then</span>
+<span class="kw">elif [[</span> <span class="st">&quot;</span><span class="va">$ACTIVITY</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;post&quot;</span><span class="kw"> ]]</span> ; <span class="kw">then</span>
     <span class="bu">echo</span> <span class="st">&quot;Copying ./mystuff to </span><span class="va">$OUT_DIR</span><span class="st">...&quot;</span>
     <span class="fu">cp</span> -r ./mystuff <span class="va">$OUT_DIR</span>/.
 <span class="kw">fi</span></code></pre></div>
 <p>You don't need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a <a href="#simple-configuration">configuration option</a> where you can specify the path to your the directory that holds your images.</p>
 <h1 id="building-your-document-with-docker"><span class="header-section-number">4</span> Building your document with Docker</h1>
 <p>MkTechDocs is a complex set of code and dependencies, so it can be difficult to set up to run locally. Fortunately, MkTechDocs is available as a Docker image on <a href="https://hub.docker.com/r/jsseidel/mktechdocs/">Docker Hub</a>: <code>jsseidel/mktechdocs</code>.</p>
-<p>To use it, you need to have Docker installed. Then, building projects is relatively simple:</p>
+<p>Please note that the Docker version of MkTechDocs does not currently support PDF output. Adding in this support makes the Docker image unreasonably large, and the image is already too big.</p>
+<p>To get started, you'll need to have Docker installed. Then, building projects is relatively simple:</p>
 <pre><code>docker run --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs</code></pre>
 <p>Here's the breakdown of the command:</p>
 <p><code>--rm</code>: Remove the container after it exits. Otherwise, it will hang around in the <code>Exited</code> state, which can be useful if there were problems.</p>
@@ -1526,6 +1527,11 @@ to adapt it for such use.</p>
 <h2 id="contact"><span class="header-section-number">17.2</span> Contact</h2>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer Seidel</a>.</p>
 <h1 id="document-change-log"><span class="header-section-number">18</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Sat Sep 15 13:53:53 2018 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Updated build script docs. It was out of date. [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Fri Jul 6 10:31:15 2018 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
