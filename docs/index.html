@@ -86,7 +86,11 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#multiple-configurations"><span class="toc-section-number">3.1</span> Multiple configurations</a></li>
 <li><a href="#pre--and-post-build-activities"><span class="toc-section-number">3.2</span> Pre- and post-build activities</a></li>
 </ul></li>
-<li><a href="#building-your-document-with-docker"><span class="toc-section-number">4</span> Building your document with Docker</a></li>
+<li><a href="#building-your-document-with-docker"><span class="toc-section-number">4</span> Building your document with Docker</a><ul>
+<li><a href="#pdf-output-and-docker"><span class="toc-section-number">4.1</span> PDF output and docker</a></li>
+<li><a href="#the-build-command"><span class="toc-section-number">4.2</span> The build command</a></li>
+<li><a href="#considerations"><span class="toc-section-number">4.3</span> Considerations</a></li>
+</ul></li>
 <li><a href="#configuration"><span class="toc-section-number">5</span> Configuration</a><ul>
 <li><a href="#simple-configuration"><span class="toc-section-number">5.1</span> Simple configuration</a></li>
 <li><a href="#advanced-configuration"><span class="toc-section-number">5.2</span> Advanced configuration</a></li>
@@ -368,15 +372,48 @@ $</code></pre>
 <span class="kw">fi</span></code></pre></div>
 <p>You don't need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a <a href="#simple-configuration">configuration option</a> where you can specify the path to your the directory that holds your images.</p>
 <h1 id="building-your-document-with-docker"><span class="header-section-number">4</span> Building your document with Docker</h1>
-<p>MkTechDocs is a complex set of code and dependencies, so it can be difficult to set up to run locally. Fortunately, MkTechDocs is available as a Docker image on <a href="https://hub.docker.com/r/jsseidel/mktechdocs/">Docker Hub</a>: <code>jsseidel/mktechdocs</code>.</p>
-<p>Please note that the Docker version of MkTechDocs does not currently support PDF output. Adding in this support makes the Docker image unreasonably large, and the image is already too big.</p>
-<p>To get started, you'll need to have Docker installed. Then, building projects is relatively simple:</p>
+<p>MkTechDocs is a complex set of code and dependencies, so it can be difficult to
+set up to run locally. Fortunately, MkTechDocs is available as a Docker image on
+<a href="https://hub.docker.com/r/jsseidel/mktechdocs/">Docker Hub</a>:
+<code>jsseidel/mktechdocs</code>.</p>
+<h2 id="pdf-output-and-docker"><span class="header-section-number">4.1</span> PDF output and docker</h2>
+<p>Please note that the Docker version of MkTechDocs does not currently support PDF
+output. Adding in this support makes the Docker image unreasonably large, and
+the image is already too big.</p>
+<h2 id="the-build-command"><span class="header-section-number">4.2</span> The build command</h2>
+<p>To get started, you'll need to have Docker installed. Then, building projects is
+relatively simple:</p>
 <pre><code>docker run --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs</code></pre>
 <p>Here's the breakdown of the command:</p>
-<p><code>--rm</code>: Remove the container after it exits. Otherwise, it will hang around in the <code>Exited</code> state, which can be useful if there were problems.</p>
-<p><code>-v</code>: Create a volume and map <code>/home/ubuntu/MyMkTechDocsProject</code> <em>outside</em> the container to <code>/project</code> <em>inside</em> the container. <code>/project</code> is where the entry script inside the container looks for a project to build.</p>
-<p><code>jsseidel/mktechdocs</code>: This is the docker image to use to run the container. Since no tag is specified (e.g. <code>jsseidel/mktechdocs:0.0.1</code>), docker will use the <code>latest</code> tag.</p>
-<p>When you run it, an entry script inside the <code>mktechdocs</code> container will <code>cd</code> into <code>/project</code> and run <code>mktechdocs</code>. For this to work, your project must contain both a <code>mktechdocs.conf</code> and a <code>master.md</code> file.</p>
+<p><code>--rm</code>: Remove the container after it exits. Otherwise, it will hang around in
+the <code>Exited</code> state, which can be useful if there were problems.</p>
+<p><code>-v</code>: Create a volume and map <code>/home/ubuntu/MyMkTechDocsProject</code> <em>outside</em> the
+container to <code>/project</code> <em>inside</em> the container. <code>/project</code> is where the entry
+script inside the container looks for a project to build.</p>
+<p><code>jsseidel/mktechdocs</code>: This is the docker image to use to run the container.
+Since no tag is specified (e.g. <code>jsseidel/mktechdocs:0.0.1</code>), docker will use
+the <code>latest</code> tag.</p>
+<p>When you run it, an entry script inside the <code>mktechdocs</code> container will <code>cd</code>
+into <code>/project</code> and run <code>mktechdocs</code>. For this to work, your project must
+contain both a <code>mktechdocs.conf</code> and a <code>master.md</code> file.</p>
+<h2 id="considerations"><span class="header-section-number">4.3</span> Considerations</h2>
+<p>MkTechDocs uses a volume inside the Docker container (<code>/project</code>) and maps it to
+the contents to your MkTechDoc project directory. As such, it isn't possible to
+access directories outside your MkTechDoc project directory inside the
+container.</p>
+<p>If you therefore have any <a href="https://att.github.io/MkTechDocs/#pre--and-post-build-activities">pre- or post-build
+scripts</a>,
+please note that the script will only have access to the contents of your
+MkTechDocs project directory.</p>
+<p>For example, suppose you wanted to copy the contents of your output directory to
+some other directory and map that to your GitHub IO website. The following
+command will not work in a post-build script during a Docker build:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">cp</span> <span class="va">$OUTPUT_DIR</span>/* ../docs/.</code></pre></div>
+<p>Inside the Docker container, when MkTechDocs is building, <code>../docs</code> doesn't
+exist.</p>
+<p>To fix this, you need <code>docs</code> inside your project directory. Then, the following
+will work:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">cp</span> <span class="va">$OUTPUT_DIR</span> ./docs/.</code></pre></div>
 <h1 id="configuration"><span class="header-section-number">5</span> Configuration</h1>
 <p>You configure MkTechDocs projects with variables contained in a configuration file in your project directory. By default, the name of this file is <code>mktechdocs.conf</code>, and if you choose to use this name, you won't have to provide the configuration file and directory when you run MkTechDocs.</p>
 <h2 id="simple-configuration"><span class="header-section-number">5.1</span> Simple configuration</h2>
@@ -1527,6 +1564,11 @@ to adapt it for such use.</p>
 <h2 id="contact"><span class="header-section-number">17.2</span> Contact</h2>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer Seidel</a>.</p>
 <h1 id="document-change-log"><span class="header-section-number">18</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Sat Sep 15 14:11:33 2018 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Added a caveat about docker builds [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Sat Sep 15 13:53:53 2018 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
