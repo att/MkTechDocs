@@ -16,11 +16,10 @@
 
 ACTIVITY=$1
 BUILD_DIR=$2
-OUT_DIR=$3
 
-if [[ "$1" == "pre" ]] ; then
-	echo "Pre-build activities: NOP"
-elif [[ "$1" == "post" ]] ; then
+if [[ "$ACTIVITY" == "pre" ]] ; then
+  echo "Pre-build activities: NOP"
+elif [[ "$ACTIVITY" == "post" ]] ; then
   echo "Post-build activities: Copying output to public_html..."
-  cp -r ./usage_guide_pages/* ../docs/.
+  cp -r ./$BUILD_DIR/* ../docs/.
 fi

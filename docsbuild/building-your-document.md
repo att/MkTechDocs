@@ -40,7 +40,7 @@ mktechdocs config2.conf /Users/mylogin/myproject
 
 Suppose you have a set of static documents as part of your documentation. You'll need to copy these to both the build and output directories in order for the images to appear inline.
 
-Use the `BUILD_SCRIPT` [configuration](configuration.html#advanced-configuration) variable to provide the name of a script to run pre-build and post-build. The script should accept 3 arguments:
+Use the `BUILD_SCRIPT` [configuration](configuration.html#advanced-configuration) variable to provide the name of a script to run pre-build and post-build. The script should accept 2 arguments:
 
 |Argument #|Description                                     |
 |----------|------------------------------------------------|
@@ -55,9 +55,9 @@ Here's an example build script that copies a directory of images into the build 
 ACTIVITY=$1
 OUT_DIR=$2
 
-if [[ "$1" == "pre" ]] ; then
+if [[ "$ACTIVITY" == "pre" ]] ; then
 	echo "Creating some new stuff in ./mystuff..."
-elif [[ "$1" == "post" ]] ; then
+elif [[ "$ACTIVITY" == "post" ]] ; then
 	echo "Copying ./mystuff to $OUT_DIR..."
 	cp -r ./mystuff $OUT_DIR/.
 fi
