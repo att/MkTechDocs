@@ -8,7 +8,7 @@ OUTPUT_FILE_NAME_BASE=getting_started
 # htmlsimple: A single long html page with static table of contents at the top
 # cssframes: Static table of contents on the left, scrollable content in the middle, static header and footer
 # htmlmulti: Static landing page with static table of contents on the left. Each section has it's own separate HTML page.
-# markdown: Collage everything in master.md into a single markdown file.
+# markdown: Collect everything in master.md into a single markdown file.
 # docx: A standard Microsoft Word docx document.
 # epub: An epub ebook. 
 # epub3: An epub3 ebook.
