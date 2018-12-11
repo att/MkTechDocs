@@ -47,7 +47,7 @@ Use the `BUILD_SCRIPT` [configuration](configuration.html#advanced-configuration
 |1|The activity being performed. Possible values given by MkTechDocs are `pre` and `post`. These indicate that any pre- or post-build activies should take place.|
 |2|The full path to the output directory.|
 
-Here's an example build script that copies a directory of images into the build and output directories when appropriate:
+Here's an example build script:
 
 ```bash
 #!/bin/bash

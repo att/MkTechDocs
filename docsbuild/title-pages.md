@@ -22,6 +22,6 @@ For more information about this syntax: `man pandoc` and search for "Metadata bl
 
 ## Templates
 
-If your title page requires dynamic content (e.g. non-static date, version number) you can create a Python template to output information as in the above two exmaples. Follow along with the example in [Python templates](templates.html#python-templates) section.
+If your title page requires dynamic content (e.g. non-static date, version number) you can create a Python template to output information as in the above two examples. Follow along with the example in [Python templates](templates.html#python-templates) section.
 
 

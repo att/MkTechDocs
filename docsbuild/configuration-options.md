@@ -29,5 +29,5 @@ More complex documents may require finer-grain control over how documents are re
 |`BUILD_SCRIPT`  |Any                             |See the [Pre- and post-build activities](building-your-document.html#pre--and-post-build-activities) section for for information.|
 |`CUSTOM_CSS`|Absolute or relative path to CSS file|If you provide a file path here to a CSS file, MkTechDocs will copy that file into your \*\_pages output directory. To understand MkTechDocs CSS, see the `$MKTECHDOCSHOME/lib/*.css` files.|
 |`CUSTOM_TEMPLATE`|Absolute or relative path to pandoc template|If you provide a file path here to a template file, MkTechDocs will use that template instead of one of the defaults. To understand MkTechDocs template files, see the `$MKTECHDOCSHOME/*_template.html` files. In addition, please see `man pandoc` -> "Variables set by pandoc" for a listing of pandoc variables available to template files. For more complex use of variables, see the [Python Templates](templates.html#python-templates) section.|
-|`KEEP_TEMP_FILES`|true,false|If true, mktechdocs will delete all temporary build files after completing a build.|
+|`KEEP_TEMP_FILES`|true,false|If true, mktechdocs will not delete all temporary build files after completing a build.|
 
