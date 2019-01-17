@@ -443,8 +443,11 @@ if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
   clog INFO "Building main tex $OUTPUT_FILE_NAME_BASE_ARG.tex"
   pandoc $FILTERS -F flt-strip-pages-from-links.py -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE --latex-engine=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_MAIN_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
   if [[ "$FORMAT" == "pdf" ]] ; then
-    clog INFO "Fixing floating diagrams to appear inline." 
-    sed -i "" 's/\\begin{figure}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
+    clog INFO "Fixing floating diagrams to appear inline."
+    # Removed this and replaced with perl because sed isn't the same on macos and linux with regard
+    # to how backups are created -- we don't want a backup and how that's done differs between mac and linux.
+    #sed -i "" 's/\\begin{figure}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
+    perl -i -p -e 's/\\begin\{figure\}/\\begin{figure}\[H\]/g' $OUTPUT_FILE_NAME_BASE_ARG.tex
     normal_exit $?
   fi
 
