@@ -31,6 +31,7 @@ Now, in your project directory, create a renderer with the same name as the temp
 ```python
 #!/usr/bin/env python
 
+import os
 import sys
 import datetime
 from mktechdocslib import render_mktechdocs_jinja2_template
