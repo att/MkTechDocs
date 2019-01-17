@@ -24,6 +24,11 @@ OUTPUT_FILE_NAME_BASE=my_mktechdocs_project
 #      epub3: An epub3 ebook.
 FORMAT=cssframes
 
+# These apply only to the 'pdf' and 'pdffloat' output formats. Select the fonts
+# to use for regular and monospaced output.
+#PDF_MAIN_FONT=NotoSans-Regular
+#PDF_MONO_FONT=NotoMono
+
 # Select your style.
 #
 # archwiki: In the style of the Arch Linux Wiki
