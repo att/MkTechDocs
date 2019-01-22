@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -16,7 +16,7 @@
 
 import sys
 
-from mktechdocs import renderMkTechDocsPythonTemplate
+from mktechdocslib import render_mktechdocs_jinja2_template
 
 ##
 # This is a sample MkTechDocs renderer that creates a list
@@ -25,19 +25,19 @@ from mktechdocs import renderMkTechDocsPythonTemplate
 #
 
 def render():
-	navlinks = {"Location 1":"#loc1", "Location 2":"#loc2", "Location 3":"#loc3"}
+    navlinks = {"Location 1":"#loc1", "Location 2":"#loc2", "Location 3":"#loc3"}
 
-	varDictionary = {"title":"A sample jinja2 python template", # <--- A simple variable
-									 "navlinks": navlinks,                      # <--- Another dictionary
-									 "sortit": sorted}                            # <--- We can even add functions
+    varDictionary = {"title":"A sample jinja2 python template", # <--- A simple variable
+                     "navlinks": navlinks,                      # <--- Another dictionary
+                     "sortit": sorted}                          # <--- We can even add functions
 
-	# Always use sys.argv[1] here since our makefile will
-	# always provide the name of the template that needs
-	# rendering.
-	print renderMkTechDocsPythonTemplate(sys.argv[1], varDictionary)
+    # Always use sys.argv[1] here since our makefile will
+    # always provide the name of the template that needs
+    # rendering.
+    print(render_mktechdocs_jinja2_template(sys.argv[1], varDictionary))
 
 if __name__ == "__main__":
-	if len(sys.argv) != 2:
-		sys.stderr.write("Usage: sample_template_renderer.py <template.pyt)\n")
-		sys.exit(1)
-	render()
+    if len(sys.argv) != 2:
+        sys.stderr.write("Usage: sample_template_renderer.py <template.pyt)\n")
+        sys.exit(1)
+    render()

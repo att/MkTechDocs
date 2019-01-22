@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -24,11 +24,11 @@ import sys
 from pandocfilters import toJSONFilter, Para, Str
 
 def my_filter(key, value, format, _):
-	if key == 'CodeBlock':
-		[[ident, classes, keyvals], code] = value
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
 
-		if "mytype" in classes:
-			return Para([Str("Found mytype!")])
+        if "mytype" in classes:
+            return Para([Str("Found mytype!")])
 
 if __name__ == "__main__":
-	toJSONFilter(my_filter)
+    toJSONFilter(my_filter)

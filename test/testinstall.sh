@@ -15,7 +15,7 @@
 # limitations under the License.
 
 function exit_ok {
-	[[ "$?" == "0" ]]
+    [[ "$?" == "0" ]]
 }
 
 # This simple test can usually track down installation problems
@@ -23,23 +23,23 @@ function exit_ok {
 pandoc -F flt-include.py -F flt-plantuml.py -f markdown -t markdown test_install.md
 
 if ! exit_ok ; then
-	echo "Something went wrong. Please check the output of the installation script. Also, make sure"
-	echo "that $MKTECHDOCSHOME/bin is in your PATH."
-	exit
+    echo "Something went wrong. Please check the output of the installation script. Also, make sure"
+    echo "that $MKTECHDOCSHOME/bin is in your PATH."
+    exit
 fi
 
 echo "Pandoc seems ok."
 
 echo
-echo 
+echo
 echo "Checking python..."
-echo 
+echo
 
-printf "import mktechdocslib\n\nprint 'If this prints with no error, you are good to go!'" | python
+printf "import mktechdocslib\n\nprint('If this prints with no error, you are good to go!')" | python3
 
 if ! exit_ok ; then
-	echo "Something went wrong. Please check the output of the installation script."
-	exit
+    echo "Something went wrong. Please check the output of the installation script."
+    exit
 fi
 
 echo "Python seems ok."

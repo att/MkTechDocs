@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -26,20 +26,20 @@ from mktechdocslib import render_mktechdocs_jinja2_template
 #
 
 def render():
-	# Here, we hard code a document version, but in a real-world example, we'd
-	# probably want to grab this from a configuration file or even a database.
-	docVersion = "0.9"
+    # Here, we hard code a document version, but in a real-world example, we'd
+    # probably want to grab this from a configuration file or even a database.
+    docVersion = "0.9"
 
-	# Now set up the date and time however you see fit
-	currentDateTime = datetime.datetime.now().strftime("%B %d, %Y")
+    # Now set up the date and time however you see fit
+    currentDateTime = datetime.datetime.now().strftime("%B %d, %Y")
 
-	varDictionary = {"docVersion":global_vars.VERS, "currentDateTime":currentDateTime}
-	
-	if not os.path.isfile(sys.argv[1]):
-		sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
-		sys.exit(1)
+    varDictionary = {"docVersion":global_vars.VERS, "currentDateTime":currentDateTime}
 
-	print render_mktechdocs_jinja2_template(sys.argv[1], varDictionary)
+    if not os.path.isfile(sys.argv[1]):
+        sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
+        sys.exit(1)
+
+    print(render_mktechdocs_jinja2_template(sys.argv[1], varDictionary))
 
 if __name__ == "__main__":
-	render()
+    render()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -44,59 +44,60 @@
 
 import os
 import sys
-import md5
+import hashlib
 
 from subprocess import call
 from pandocfilters import toJSONFilter, Para, Image, Str, get_filename4code, get_value, get_extension
 
 def get_md5(s):
-	m = md5.new()
-	m.update(s)
-	return m.hexdigest()
+    m = hashlib.md5()
+    m.update(s.encode())
+    return m.hexdigest()
 
 def get_title(kv):
-	title = []
-	typef = ""
-	value, res = get_value(kv, u"title")
-	if value is not None:
-		title = [Str(value)]
-		typef = "Fig:"
-	
-	return title, typef, res
+    title = []
+    typef = ""
+    value, res = get_value(kv, u"title")
+    if value is not None:
+        title = [Str(value)]
+        typef = "Fig:"
+
+    return title, typef, res
 
 def plantuml(key, value, format, meta):
-	if key == 'CodeBlock':
-		[[ident, classes, keyvals], code] = value
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
 
-		if "plantuml" in classes:
-			title, typef, keyvals = get_title(keyvals)
-			
-			filename = "plantuml-" + get_md5(code)
+        if "plantuml" in classes:
+            title, typef, keyvals = get_title(keyvals)
 
-			if 'umlformat' in meta:
-				filetype = meta['umlformat']['c']
-			else:
-				filetype = 'svg'
+            filename = "plantuml-" + get_md5(code)
 
-			#if filetype != "eps" and filetype != "svg":
-			#	sys.stderr.write("Unsupported plantuml format: " + filetype + ". Defaulting to svg.")
-			#	filetype = "svg"
+            if 'umlformat' in meta:
+                filetype = meta['umlformat']['c']
+            else:
+                filetype = 'svg'
 
-			src = filename + '.uml'
-			dest = filename + '.' + filetype
-			
-			if not os.path.isfile(dest):
-				txt = code.encode(sys.getfilesystemencoding())
-				if not txt.startswith("@start"):
-					txt = "@startuml\n" + txt + "\n@enduml\n"
-				
-				with open(src, "w") as f:
-					f.write(txt)
+            #if filetype != "eps" and filetype != "svg":
+            #    sys.stderr.write("Unsupported plantuml format: " + filetype + ". Defaulting to svg.")
+            #    filetype = "svg"
 
-			call(["plantuml", "-t"+filetype, src])
-			sys.stderr.write('Created image ' + dest + '\n')
-			
-			return Para([Image([ident, [], keyvals], title, [dest, typef])])
+            src = filename + '.uml'
+            dest = filename + '.' + filetype
+
+            if not os.path.isfile(dest):
+                #txt = code.encode(sys.getfilesystemencoding())
+                txt = code
+                if not txt.startswith("@start"):
+                    txt = "@startuml\n" + txt + "\n@enduml\n"
+
+                with open(src, "w") as f:
+                    f.write(txt)
+
+            call(["plantuml", "-t"+filetype, src])
+            sys.stderr.write('Created image ' + dest + '\n')
+
+            return Para([Image([ident, [], keyvals], title, [dest, typef])])
 
 if __name__ == "__main__":
-	toJSONFilter(plantuml)
+    toJSONFilter(plantuml)

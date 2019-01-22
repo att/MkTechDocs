@@ -40,17 +40,17 @@
 # #####################################
 # Functions
 function exit_ok {
-	[[ "$?" == "0" ]]
+    [[ "$?" == "0" ]]
 }
 
 # #####################################
 # INSTALL
 
 if [[ "$MKTECHDOCSHOME" == "" ]] ; then
-	echo "Please add the MkTechDocs installation directory to your environment and try again."
-	echo "E.g."
-	echo "        export MKTECHDOCSHOME=~/MkTechDocs"
-	exit
+    echo "Please add the MkTechDocs installation directory to your environment and try again."
+    echo "E.g."
+    echo "        export MKTECHDOCSHOME=~/MkTechDocs"
+    exit
 fi
 
 # Install all the necessary packages. Note
@@ -60,15 +60,15 @@ fi
 # don't want something installed.
 sudo dnf install -y git \
                     make \
-                    python2-pip \
+                    python3-pip \
                     graphviz \
                     plantuml \
-										pandoc \
+                    pandoc \
                     texlive-xetex
 
 if ! exit_ok ; then
-	echo "The installation failed. Bailing out."
-	exit
+    echo "The installation failed. Bailing out."
+    exit
 fi
 
 # Install pandocfilters
@@ -76,8 +76,8 @@ fi
 sudo pip install pandocfilters
 
 if ! exit_ok ; then
-	echo "Installation of pandocfilters failed. Bailing out."
-	exit
+    echo "Installation of pandocfilters failed. Bailing out."
+    exit
 fi
 
 # Install Jinja2 for python templates
@@ -85,8 +85,8 @@ fi
 sudo pip install Jinja2
 
 if ! exit_ok ; then
-	echo "Installation of Jinja2 failed. Bailing out."
-	exit
+    echo "Installation of Jinja2 failed. Bailing out."
+    exit
 fi
 
 echo "Finished without error."

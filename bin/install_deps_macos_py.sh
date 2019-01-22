@@ -39,17 +39,17 @@
 # #####################################
 # Functions
 function exit_ok {
-	[[ "$?" == "0" ]]
+    [[ "$?" == "0" ]]
 }
 
 # #####################################
 # INSTALL
 
 if [[ "$MKTECHDOCSHOME" == "" ]] ; then
-	echo "Please add the MkTechDocs installation directory to your environment and try again."
-	echo "E.g."
-	echo "        export MKTECHDOCSHOME=~/MkTechDocs"
-	exit
+    echo "Please add the MkTechDocs installation directory to your environment and try again."
+    echo "E.g."
+    echo "        export MKTECHDOCSHOME=~/MkTechDocs"
+    exit
 fi
 
 GIT=`which git`
@@ -81,27 +81,27 @@ brew install graphviz \
              coreutils
 
 if ! exit_ok ; then
-	echo "The installation failed. Bailing out."
-	exit
+    echo "The installation failed. Bailing out."
+    exit
 fi
 
 sudo easy_install pip
 if ! exit_ok ; then
-	echo "The installation failed. Bailing out."
-	exit
+    echo "The installation failed. Bailing out."
+    exit
 fi
 
 # Install pandocfilters and jinja2
 sudo pip install pandocfilters
 if ! exit_ok ; then
-	echo "The installation of pandocfilters failed. Bailing out."
-	exit
+    echo "The installation of pandocfilters failed. Bailing out."
+    exit
 fi
 
 sudo pip install Jinja2
 if ! exit_ok ; then
-	echo "The installation of Jinja2 failed. Bailing out."
-	exit
+    echo "The installation of Jinja2 failed. Bailing out."
+    exit
 fi
 
 echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"

@@ -38,17 +38,17 @@
 # #####################################
 # Functions
 function exit_ok {
-	[[ "$?" == "0" ]]
+    [[ "$?" == "0" ]]
 }
 
 # #####################################
 # INSTALL
 
 if [[ "$MKTECHDOCSHOME" == "" ]] ; then
-	echo "Please add the MkTechDocs installation directory to your environment and try again."
-	echo "E.g."
-	echo "        export MKTECHDOCSHOME=~/MkTechDocs"
-	exit
+    echo "Please add the MkTechDocs installation directory to your environment and try again."
+    echo "E.g."
+    echo "        export MKTECHDOCSHOME=~/MkTechDocs"
+    exit
 fi
 
 # Install all the necessary packages. Note
@@ -57,36 +57,36 @@ fi
 # no need to edit things out unless you
 # don't want something installed.
 sudo pacman -S git \
-							 pandoc \
+               pandoc \
                make \
-							 python-pip2 \
-						   graphviz \
-						   texlive-most \
-							 groovy \
-							 gradle
+               python-pip2 \
+               graphviz \
+               texlive-most \
+               groovy \
+               gradle
 
 if ! exit_ok ; then
-	echo "The installation failed. Bailing out."
-	exit
+    echo "The installation failed. Bailing out."
+    exit
 fi
 
 # PlantUML
 PUML=`sudo pacman -Q | grep plantuml`
 if [[ "$PUML" == "" ]] ; then
-	git clone https://aur.archlinux.org/plantuml
-	if ! exit_ok ; then
-		echo "Couldn't get plantuml from AUR."
-		exit
-	fi
-	
-	cd plantuml
-	
-	makepkg -sri
+    git clone https://aur.archlinux.org/plantuml
+    if ! exit_ok ; then
+        echo "Couldn't get plantuml from AUR."
+        exit
+    fi
 
-	if ! exit_ok ; then
-		echo "Couldn't install plantuml from AUR"
-		exit
-	fi
+    cd plantuml
+
+    makepkg -sri
+
+    if ! exit_ok ; then
+        echo "Couldn't install plantuml from AUR"
+        exit
+    fi
 fi
 
 # Install pandocfilters
@@ -94,8 +94,8 @@ fi
 sudo pip2 install pandocfilters
 
 if ! exit_ok ; then
-	echo "Installation of pandocfilters failed. Bailing out."
-	exit
+    echo "Installation of pandocfilters failed. Bailing out."
+    exit
 fi
 
 # Install Jinja2 for python templates
@@ -103,8 +103,8 @@ fi
 sudo pip2 install Jinja2
 
 if ! exit_ok ; then
-	echo "Installation of Jinja2 failed. Bailing out."
-	exit
+    echo "Installation of Jinja2 failed. Bailing out."
+    exit
 fi
 
 echo "Finished without error."

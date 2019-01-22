@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -39,20 +39,20 @@ import sys
 from pandocfilters import toJSONFilter, RawBlock, Str, Para
 
 def note_tip(key, value, format, _):
-	if key == 'CodeBlock':
-		[[ident, classes, keyvals], code] = value
-	
-		if "note" in classes or "tip" in classes:
-			blockType = ""	
-			if "note" in classes:
-				blockType = "note"
-			elif "tip" in classes:
-				blockType = "tip"
-	  		
-			if format == "html" or format == "markdown":	
-				return RawBlock("html", "<p class=\"" + blockType + "\"><b>" + blockType.title() + "</b>: " + code + "</p>\n")
-			else:
-				return Para([Str(blockType.upper() + ":" + code)])
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
+
+        if "note" in classes or "tip" in classes:
+            blockType = ""    
+            if "note" in classes:
+                blockType = "note"
+            elif "tip" in classes:
+                blockType = "tip"
+
+            if format == "html" or format == "markdown":    
+                return RawBlock("html", "<p class=\"" + blockType + "\"><b>" + blockType.title() + "</b>: " + code + "</p>\n")
+            else:
+                return Para([Str(blockType.upper() + ":" + code)])
 
 if __name__ == "__main__":
-	toJSONFilter(note_tip)
+    toJSONFilter(note_tip)

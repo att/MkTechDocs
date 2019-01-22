@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -32,29 +32,31 @@ def render():
   if os.path.isfile("header.html"):
     with open("header.html", "r") as f:
       head = f.read()
-  
+
   if os.path.isfile("footer.html"):
     with open("footer.html", "r") as f:
       foot = f.read()
-  
+
   if os.path.isfile("landing.html"):
     with open("landing.html", "r") as f:
       landing = f.read()
 
   varDictionary = {"headerContent":head,
-       "footerContent":foot,
+                   "footerContent":foot,
                    "landingContent":landing,
-       "openCurlyBrackets":"{{",
-                    "closeCurlyBrackets":"}}",
-       "openCurlyBracket":"{",
-       "closeCurlyBracket":"}"
-       }
+                   "openCurlyBrackets":"{{",
+                   "closeCurlyBrackets":"}}",
+                   "openCurlyBracket":"{",
+                   "closeCurlyBracket":"}"
+                  }
+  if len(sys.argv) > 1:
+    if not os.path.isfile(sys.argv[1]):
+      sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
+      sys.exit(1)
 
-  if not os.path.isfile(sys.argv[1]):
-    sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
-    sys.exit(1)
-
-  print render_mktechdocs_jinja2_template(sys.argv[1], varDictionary)
+    print(render_mktechdocs_jinja2_template(sys.argv[1], varDictionary))
+  else:
+    sys.stderr.write("No template given. Bailing.\n")
 
 if __name__ == "__main__":
   render()

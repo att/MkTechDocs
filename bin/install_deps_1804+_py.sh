@@ -40,17 +40,17 @@
 # #####################################
 # Functions
 function exit_ok {
-	[[ "$?" == "0" ]]
+    [[ "$?" == "0" ]]
 }
 
 # #####################################
 # INSTALL
 
 if [[ "$MKTECHDOCSHOME" == "" ]] ; then
-	echo "Please add the MkTechDocs installation directory to your environment and try again."
-	echo "E.g."
-	echo "        export MKTECHDOCSHOME=~/MkTechDocs"
-	exit
+    echo "Please add the MkTechDocs installation directory to your environment and try again."
+    echo "E.g."
+    echo "        export MKTECHDOCSHOME=~/MkTechDocs"
+    exit
 fi
 
 # Install all the necessary packages. Note
@@ -60,14 +60,14 @@ fi
 # don't want something installed.
 sudo apt install -y git \
                     make \
-                    python-pip \
+                    python3-pip \
                     graphviz \
                     plantuml \
                     texlive-xetex
 
 if ! exit_ok ; then
-	echo "The installation failed. Bailing out."
-	exit
+    echo "The installation failed. Bailing out."
+    exit
 fi
 
 # Now we need to make sure that a decent version of pandoc is installed and
@@ -77,48 +77,48 @@ fi
 PD=$(which pandoc)
 VERS=""
 if [[ "$PD" != "" ]] ; then
-	VERS=$($PD --version | grep "^pandoc " | awk '{print $2}' | awk -F\. '{print $1 " " $2}' | sed 's/\.//g')
+    VERS=$($PD --version | grep "^pandoc " | awk '{print $2}' | awk -F\. '{print $1 " " $2}' | sed 's/\.//g')
 fi
 
 read -r MAJ MIN <<< "$VERS"
 
 if [[ "$VERS" == "" ]] ; then
-	echo
-	echo "Please download and install pandoc. Then run this script again."
-	echo "https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
-	exit
+    echo
+    echo "Please download and install pandoc. Then run this script again."
+    echo "https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
+    exit
 elif ((MAJ == 2)) || (((MAJ == 1)) && ((MIN < 18))); then
-	echo
-	echo
-	echo "The version of pandoc currently installed (${MAJ}.${MIN}) needs to be updated or downgraded to version 1.19"
-	echo "in order to run MkTechDocs. Please do the following:"
-	echo
-	echo "    sudo apt remove --purge pandoc"
-	echo "    wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
-	echo "    sudo apt install ./pandoc-1.19.2.1-1-amd64.deb" 
-	echo
-	echo "Then, run this script again. You can also visit the github pandoc page and install"
-	echo "any other version that is appropriate, so long as the version is at least 1.18."
-	exit
+    echo
+    echo
+    echo "The version of pandoc currently installed (${MAJ}.${MIN}) needs to be updated or downgraded to version 1.19"
+    echo "in order to run MkTechDocs. Please do the following:"
+    echo
+    echo "    sudo apt remove --purge pandoc"
+    echo "    wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
+    echo "    sudo apt install ./pandoc-1.19.2.1-1-amd64.deb" 
+    echo
+    echo "Then, run this script again. You can also visit the github pandoc page and install"
+    echo "any other version that is appropriate, so long as the version is at least 1.18."
+    exit
 fi
 
 
 # Install pandocfilters
 
-sudo pip install pandocfilters
+sudo pip3 install pandocfilters
 
 if ! exit_ok ; then
-	echo "Installation of pandocfilters failed. Bailing out."
-	exit
+    echo "Installation of pandocfilters failed. Bailing out."
+    exit
 fi
 
 # Install Jinja2 for python templates
 
-sudo pip install Jinja2
+sudo pip3 install Jinja2
 
 if ! exit_ok ; then
-	echo "Installation of Jinja2 failed. Bailing out."
-	exit
+    echo "Installation of Jinja2 failed. Bailing out."
+    exit
 fi
 
 echo "Finished without error."
