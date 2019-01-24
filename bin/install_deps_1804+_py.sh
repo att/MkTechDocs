@@ -16,12 +16,12 @@
 
 ##
 # This script will install all MkTechDocs dependencies in an Ubuntu
-# 16.04 environment. It is not currently suited for using in a
+# 18.04 environment. It is not currently suited for using in a
 # docker container or vagrantfile, although it would be easy enough
 # to adapt it for such use.
 #
 # --------------------- -------------------------------------------------
-# Example usage         `install_deps_1604+_py.sh`
+# Example usage         `install_deps_1804+_py.sh`
 #
 # Arguments             None
 #
@@ -32,7 +32,7 @@
 # #####################################
 # The following commands will install
 # all of the necessary MkTechDocs
-# dependencies on an Ubuntu 16.04 or
+# dependencies on an Ubuntu 18.04 or
 # greater system. Please edit to suit
 # your needs and system.
 #
@@ -63,7 +63,9 @@ sudo apt install -y git \
                     python3-pip \
                     graphviz \
                     plantuml \
-                    texlive-xetex
+                    texlive-xetex \
+                    ghostscript \
+                    pandoc
 
 if ! exit_ok ; then
     echo "The installation failed. Bailing out."
@@ -124,8 +126,4 @@ fi
 echo "Finished without error."
 echo
 echo "You might also want to install groovy (2+) and gradle (3+) to support Groovy templates."
-echo 
-echo "Ubuntu 16.04 LTS ships with a buggy TeX package named titlesec, consider updating it if"
-echo "you plan to create PDFs with MkTechDocs. See the following:"
-echo "    https://att.github.io/MkTechDocs/#a-note-about-titlesec"
 

@@ -25,14 +25,10 @@ from mktechdocslib import get_comment_from_pythondoc_desc, render_mktechdocs_jin
 #
 
 def render():
-    scripts = ["check_build_env.sh",
-               "dec-headers.sh",
+    scripts = ["dec-headers.sh",
                "escape-jinja-brackets.sh",
                "inc-headers.sh",
-               "install_deps_1604+_py.sh",
-               "install_deps_arch_py.sh",
-               "install_deps_macos_py.sh",
-               "mktechdocs"]
+               "install_deps_1804+_py.sh"]
     rawDocs = {}
     for file in scripts:
         rawDocs[file] =  get_comment_from_pythondoc_desc(os.environ['MKTECHDOCSHOME'] + "/bin/" + file);
