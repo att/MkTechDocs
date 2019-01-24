@@ -1,0 +1,5 @@
+<%
+    msg = "hello, groovy"
+%>
+
+${msg}
