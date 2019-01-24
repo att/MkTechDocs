@@ -15,31 +15,36 @@
 # limitations under the License.
 
 function exit_ok {
-    [[ "$?" == "0" ]]
+  [[ "$?" == "0" ]]
 }
 
-# This simple test can usually track down installation problems
-
-pandoc -F flt-include.py -F flt-plantuml.py -f markdown -t markdown test_install.md
-
+# Default test is master_no_groovy.md
+PASSFAIL=PASSED
+cp master_no_groovy.md master.md
+mktechdocs
+diff test_pages/test.md successful_render.md
 if ! exit_ok ; then
-    echo "Something went wrong. Please check the output of the installation script. Also, make sure"
-    echo "that $MKTECHDOCSHOME/bin is in your PATH."
-    exit
+    PASSFAIL=FAILED
 fi
 
-echo "Pandoc seems ok."
+echo "========================================"
+echo "basic python functionality $PASSFAIL"
+echo "========================================"
 
-echo
-echo
-echo "Checking python..."
-echo
+if [[ "$1" == "groovy" ]] ; then
+    PASSFAIL=PASSED
+    cp master_w_groovy.md master.md
+    cp test_template.groovy test_template_groovy.gt
+    mktechdocs
+    diff test_pages/test.md successful_render_w_groovy.md
+    if ! exit_ok ; then
+        PASSFAIL=FAILED
+    fi
 
-printf "import mktechdocslib\n\nprint('If this prints with no error, you are good to go!')" | python3
-
-if ! exit_ok ; then
-    echo "Something went wrong. Please check the output of the installation script."
-    exit
+    echo "========================================"
+    echo "basic groovy functionality $PASSFAIL"
+    echo "========================================"
+    rm -f test_template_groovy.gt
 fi
 
-echo "Python seems ok."
+rm -rf master.md test_pages

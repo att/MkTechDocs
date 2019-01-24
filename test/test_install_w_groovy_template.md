@@ -43,3 +43,9 @@ A->B
 ```include
 test_template.md
 ```
+
+## groovy template
+
+```include
+test_template_groovy.md
+```
