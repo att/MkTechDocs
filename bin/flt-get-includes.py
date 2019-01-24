@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -26,12 +26,12 @@ import sys
 from pandocfilters import toJSONFilter
 
 def get_includes(key, value, format, _):
-	if key == 'CodeBlock':
-		[[ident, classes, keyvals], code] = value
-		
-		if "include" in classes:
-			for line in code.splitlines():
-				sys.stderr.write(line + "\n")
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
+
+        if "include" in classes:
+            for line in code.splitlines():
+                sys.stderr.write(line + "\n")
 
 if __name__ == "__main__":
-	toJSONFilter(get_includes)
+    toJSONFilter(get_includes)

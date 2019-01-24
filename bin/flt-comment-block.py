@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -29,27 +29,27 @@ import re
 # E.g.
 #
 #     <!-- BEGIN COMMENT -->
-#     
+#
 #     This text will be ignored.
-#     
+#
 #     <!-- END COMMENT -->
 #
 
 incomment = False
 
 def comment(k, v, fmt, meta):
-	global incomment
-	if k == 'RawBlock':
-		fmt, s = v
-		if fmt == "html":
-			if re.search("<!-- BEGIN COMMENT -->", s):
-				incomment = True
-				return []
-			elif re.search("<!-- END COMMENT -->", s):
-				incomment = False
-				return []
-	if incomment:
-		return []  # suppress anything in a comment
+    global incomment
+    if k == 'RawBlock':
+        fmt, s = v
+        if fmt == "html":
+            if re.search("<!-- BEGIN COMMENT -->", s):
+                incomment = True
+                return []
+            elif re.search("<!-- END COMMENT -->", s):
+                incomment = False
+                return []
+    if incomment:
+        return []  # suppress anything in a comment
 
 if __name__ == "__main__":
-	toJSONFilter(comment)
+    toJSONFilter(comment)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -17,10 +17,10 @@
 ##
 # This filter allows you to include source-code files in
 # your markdown.
-# 
+#
 # You can provide one file per line. If you include the
 # "language" property:
-# 
+#
 #     ```{.include-code language="java"}
 #     myfile.java
 #     myfile.sh
@@ -28,9 +28,9 @@
 # The filter will use whatever language you specify in
 # the property regardless of what the file extensions are,
 # which you may or may not want.
-# 
+#
 # If you provide something like the following:
-# 
+#
 #     ```include-code
 #     myfile.java
 #     myfile.bash
@@ -47,31 +47,31 @@ import sys
 from pandocfilters import toJSONFilter, CodeBlock, get_value
 
 def include_code(key, value, format, _):
-	if key == 'CodeBlock':
-		[[ident, classes, keyvals], code] = value
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
 
-		if "include-code" in classes:
-			rv = []
-			
-			for l in code.splitlines():
-				l = l.strip()
-				(filename, ext) = os.path.splitext(l)
-				ext = ext.replace(".", "")
+        if "include-code" in classes:
+            rv = []
 
-				# Overide the file extension if we are given
-				# a language keyval
-				(givenExt, value) = get_value(keyvals, u"language")
-				if str(givenExt) != "None":
-					ext = str(givenExt)
+            for l in code.splitlines():
+                l = l.strip()
+                (filename, ext) = os.path.splitext(l)
+                ext = ext.replace(".", "")
 
-				if os.path.isfile(l):
-					with open(l, "r") as f:
-						contents = f.read()
-					rv.append(CodeBlock(["", [ext], []], contents))
-				else:
-					sys.stderr.write("WARNING: Can't read file '" + l + "'. Skipping.")
+                # Overide the file extension if we are given
+                # a language keyval
+                (givenExt, value) = get_value(keyvals, u"language")
+                if str(givenExt) != "None":
+                    ext = str(givenExt)
 
-			return rv
+                if os.path.isfile(l):
+                    with open(l, "r") as f:
+                        contents = f.read()
+                    rv.append(CodeBlock(["", [ext], []], contents))
+                else:
+                    sys.stderr.write("WARNING: Can't read file '" + l + "'. Skipping.")
+
+            return rv
 
 if __name__ == "__main__":
-	toJSONFilter(include_code)
+    toJSONFilter(include_code)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -28,11 +28,11 @@ import sys
 from pandocfilters import toJSONFilter
 
 def comment(key, value, format, _):
-	if key == 'CodeBlock':
-		[[ident, classes, keyvals], code] = value
-		
-		if "comment" in classes:
-			return []
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
+
+        if "comment" in classes:
+            return []
 
 if __name__ == "__main__":
-	toJSONFilter(comment)
+    toJSONFilter(comment)

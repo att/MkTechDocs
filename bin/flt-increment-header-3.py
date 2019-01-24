@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -27,11 +27,11 @@ LEVELS=3
 MAX_LEVEL=6
 
 def inc_header(key, value, format, _):
-	if key == 'Header':
-		[level, attr, inline] = value
-		if level+LEVELS <= MAX_LEVEL:
-			level += LEVELS 
-		return Header(level, attr, inline)
+    if key == 'Header':
+        [level, attr, inline] = value
+        if level+LEVELS <= MAX_LEVEL:
+            level += LEVELS 
+        return Header(level, attr, inline)
 
 if __name__ == "__main__":
-	toJSONFilter(inc_header)
+    toJSONFilter(inc_header)

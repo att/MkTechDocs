@@ -28,7 +28,7 @@
   <p>Here is a list of navigation links:</p>
 
   <ul>
-  {% for key in sortit(navlinks.iterkeys()) %}
+  {% for key in sortit(navlinks.items()) %}
     <li><a href="{{ navlinks[key] }}">{{ key }}</a></li>
   {% endfor %}
   </ul>

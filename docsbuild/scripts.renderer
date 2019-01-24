@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2017 AT&T Intellectual Property. All rights reserved.
 #
@@ -25,29 +25,25 @@ from mktechdocslib import get_comment_from_pythondoc_desc, render_mktechdocs_jin
 #
 
 def render():
-	scripts = ["check_build_env.sh",
-	           "dec-headers.sh",
-						 "escape-jinja-brackets.sh",
-						 "inc-headers.sh",
-						 "install_deps_1604+_py.sh",
-						 "install_deps_arch_py.sh",
-						 "install_deps_macos_py.sh",
-						 "mktechdocs"]
-	rawDocs = {}
-	for file in scripts:
-		rawDocs[file] =  get_comment_from_pythondoc_desc(os.environ['MKTECHDOCSHOME'] + "/bin/" + file);
+    scripts = ["dec-headers.sh",
+               "escape-jinja-brackets.sh",
+               "inc-headers.sh",
+               "install_deps_1804+_py.sh"]
+    rawDocs = {}
+    for file in scripts:
+        rawDocs[file] =  get_comment_from_pythondoc_desc(os.environ['MKTECHDOCSHOME'] + "/bin/" + file);
 
-	sortedDocs = []
-	for key in sorted(rawDocs.iterkeys()):
-		sortedDocs.append({"file":	key, "doc": rawDocs[key]})
+    sortedDocs = []
+    for key in sorted(rawDocs.keys()):
+        sortedDocs.append({"file": key, "doc": rawDocs[key]})
 
-	varDictionary = {"scripts":sortedDocs}
+    varDictionary = {"scripts":sortedDocs}
 
-	if not os.path.isfile(sys.argv[1]):
-		sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
-		sys.exit(1)
+    if not os.path.isfile(sys.argv[1]):
+        sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
+        sys.exit(1)
 
-	print render_mktechdocs_jinja2_template(sys.argv[1], varDictionary)
+    print(render_mktechdocs_jinja2_template(sys.argv[1], varDictionary))
 
 if __name__ == "__main__":
-	render()
+    render()
