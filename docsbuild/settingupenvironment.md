@@ -6,8 +6,8 @@ Please export the following variables. Here is an example in Bash:
 # MkTechDocs libraries and scripts require the following variable:
 export MKTECHDOCSHOME=/path/to/cloned/repo/MkTechDocs
 
-# Make sure the MkTechDocs bin directory is in your path:
-export PATH=$PATH:$MKTECHDOCSHOME/bin
+# Make sure the MkTechDocs bin directory is in your path. Here we add the current directory as well, `.`, because we want MkTechDocs to pick up templates in the project directories:
+export PATH=$PATH:$MKTECHDOCSHOME/bin:.
 
 # Let Python know where to find MkTechDocs libraries:
 export PYTHONPATH=$MKTECHDOCSHOME/bin
