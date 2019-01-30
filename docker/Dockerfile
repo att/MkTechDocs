@@ -1,9 +1,12 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:cwchien/gradle && apt-get update && apt-get install -y wget git python-pip graphviz openjdk-8-jdk groovy2 gradle maven pandoc ttf-freefont plantuml unzip && apt-get remove -y --purge pandoc && wget https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb && dpkg -i pandoc-1.19.2.1-1-amd64.deb && apt-get install -yf && pip install pandocfilters && pip install jinja2 && git clone https://github.com/att/MkTechDocs
+RUN apt-get update && apt-get install -y software-properties-common && apt-get install -y wget git python3-pip graphviz openjdk-8-jdk groovy gradle maven pandoc plantuml unzip && pip3 install pandocfilters jinja2 && git clone https://github.com/att/MkTechDocs
+
+# Update the alternatives to use java 8 JRE
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 # Install a slightly altered version of mktechdocs with PDF support removed
-ADD mktechdocs-html-only MkTechDocs/bin/mktechdocs
+ADD mktechdocs-for-docker MkTechDocs/bin/mktechdocs
 ADD docker-entry.sh /
 
 ENV MKTECHDOCSHOME /MkTechDocs
