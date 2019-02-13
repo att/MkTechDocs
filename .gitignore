@@ -3,3 +3,6 @@ usage_guide_pages/
 build
 *GroovyPandoc*jar
 .DS_Store
+debian/.debhelper/
+debian/mktechdocs/
+install_files/

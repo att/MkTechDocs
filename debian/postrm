@@ -1,5 +1,22 @@
 #!/bin/sh
 
-pip3 uninstall pandocfilters
-pip3 uninstall jinja2
+echo
+echo "###########################################################"
+echo "#          Package removal may NOT be complete!           #"
+echo "#                                                         #"
+echo "# You likely installed the following 2 python modules     #"
+echo "# during MkTechDocs installation:                         #"
+echo "#                                                         #"
+echo "#     pandocfilters                                       #"
+echo "#     jinja2                                              #"
+echo "#                                                         #"
+echo "# If you wish to remove them along with mktechdocs:       #"
+echo "#                                                         #"
+echo "#     sudo pip3 uninstall pandocfilters                   #"
+echo "#     sudo pip3 uninstall jinja2                          #"
+echo "#                                                         #"
+echo "# Note 1: Omit the 'sudo' if you chose to install the     #"
+echo "#         modules locally.                                #"
+echo "###########################################################"
+echo
 
