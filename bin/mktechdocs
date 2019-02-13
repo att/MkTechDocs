@@ -80,8 +80,8 @@ function clog {
 #
 function check_build_env {
   # Master document
-  if [[ ! -r ./master.md ]] ; then
-    clog ERROR "Cannot find master document $PROJECT_DIR/master.md"
+  if [[ ! -r $PROJECT_DIR/master.gt && ! -r $PROJECT_DIR/master.md ]] ; then
+    clog ERROR "Cannot find master document $PROJECT_DIR/master.md or master template $PROJECT_DIR/master.gt"
     exit 1
   fi
 
@@ -405,8 +405,11 @@ if [[ "$SECTION_NUMBERS" == "true" ]] ; then
   SECTION_NUMBERS_ARG="-V numbersections=1"
 fi
 
-# Render all templates (if we have any) in the current directory
-N=$(ls | grep -c *.pyt)
+# Render all templates (if we have any) in the current directory.  Note that we
+# use grep here instead of ls *.pyt because having no templates results in
+# errors from ls (which I realize could be redirected and thus hidden from the
+# user, but this seems cleaner to me).
+N=$(ls | grep -c "\.pyt$")
 if [[ "$N" != "0" ]] ; then
   ls *.pyt | sed 's/\.pyt//' | while read template ; do
     clog INFO "Rendering $template.pyt => $template.md"
@@ -416,7 +419,7 @@ if [[ "$N" != "0" ]] ; then
   [[ $? != 0 ]] && exit $?
 fi
 
-N=$(ls | grep -c *.htmlt)
+N=$(ls | grep -c "\.htmlt$")
 if [[ "$N" != "0" ]] ; then
   ls *.htmlt | sed 's/\.htmlt//' | while read template ; do
     clog INFO "Rendering $template.htmlt => $template.html"
@@ -426,7 +429,7 @@ if [[ "$N" != "0" ]] ; then
   [[ $? != 0 ]] && exit $?
 fi
 
-N=$(ls | grep -c *.gt)
+N=$(ls | grep -c "\.gt$")
 if [[ "$N" != "0" ]] ; then
   ls *.gt | sed 's/\.gt//' | while read template ; do
     clog INFO "Rendering $template.gt => $template.md"
@@ -437,7 +440,7 @@ if [[ "$N" != "0" ]] ; then
 fi
 
 #############################################################################
-# PDF OUTPUT 
+# PDF OUTPUT
 #############################################################################
 if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
   clog INFO "Building main tex $OUTPUT_FILE_NAME_BASE_ARG.tex"

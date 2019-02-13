@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t mktechdocs .
+docker build -t mktechdocs:0.0.2 .
