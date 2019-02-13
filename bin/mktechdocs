@@ -85,22 +85,31 @@ function check_build_env {
     exit 1
   fi
 
-	# Don't do this. User might not need java support or is using
-	# openjdk
-  #if [[ $(java -version 2>&1 | grep 1.8) == "" ]] ; then
-  #  clog ERROR "Can't find Java 8 (1.8)."
-  #  exit 1
-  #fi
+  # Basic executables
 
-  # Executables
-
-  #for exe in pandoc pd groovyc cg gtp flt_get_includes.groovy plantuml xelatex ; do
-  for exe in pandoc flt-get-includes.py plantuml xelatex ; do
+  for exe in pandoc flt-get-includes.py plantuml ; do
     if [[ $(which $exe) == "" ]] ; then
       clog ERROR "Can't find $exe. Did you add $MKTECHDOCSHOME/bin to your PATH? Did you install all the dependencies?"
       exit 1
     fi
   done
+
+  # We need to set a flag to indicate that this is a docker build
+  DOCKERFLAG=0
+  [[ -r /dockerflag ]] && DOCKERFLAG=1
+
+  # Need xelatex if format is pdf and we're not in docker mode
+  if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
+    if [[ "$DOCKERFLAG" == "1" ]] ; then
+      clog ERROR "Docker environments do not support PDF builds."
+      exit 1
+    else
+      if [[ $(which xelatex) == "" ]] ; then
+        clog ERROR "Cannot find xelatex. Did you install all the dependencies?"
+        exit 1
+      fi
+    fi
+  fi
 
   clog INFO "Build environment looks good."
 }
@@ -303,15 +312,6 @@ fi
 TITLE_PAGE_ARG=
 if [[ "$TITLE_PAGE" != "" ]] ; then
   TITLE_PAGE_ARG="$TITLE_PAGE"
-fi
-
-# We need to error out if format is pdf and we're in a docker environment
-DOCKERFLAG=0
-[[ -r /dockerflag ]] && DOCKERFLAG=1
-
-if [[ "$DOCKERFLAG" == "1" && ("$FORMAT" == "pdf" || "$FORMAT" == "pdffloat") ]] ; then
-  echo "PDF output is not supported with docker builds."
-  exit 1
 fi
 
 # Set up some variables based on FORMAT.

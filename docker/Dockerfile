@@ -7,7 +7,7 @@ RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jav
 
 # Add a flag file so that mktechdocs can error out about PDF building if it
 # finds that its in a docker environment
-ADD dockerflag /
+RUN echo 1 > /dockerflag
 ADD docker-entry.sh /
 
 ENV MKTECHDOCSHOME /MkTechDocs
