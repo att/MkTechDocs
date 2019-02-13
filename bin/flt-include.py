@@ -133,6 +133,9 @@ def include(key, value, format, _):
                     altered = walk(doc, include, format, meta)
 
                     rv.append(altered['blocks'])
+                elif l == '':
+                    # Empty lines are harmless
+                    next
                 else:
                     sys.stderr.write("WARNING: Can't read file '" + l + "'. Skipping.\n")
 
