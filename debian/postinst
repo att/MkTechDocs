@@ -1,0 +1,6 @@
+#!/bin/sh
+
+pip3 install pandocfilters
+pip3 install jinja2
+
+
