@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pip3 uninstall pandocfilters
+pip3 uninstall jinja2
+
