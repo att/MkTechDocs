@@ -305,6 +305,15 @@ if [[ "$TITLE_PAGE" != "" ]] ; then
   TITLE_PAGE_ARG="$TITLE_PAGE"
 fi
 
+# We need to error out if format is pdf and we're in a docker environment
+DOCKERFLAG=0
+[[ -r /dockerflag ]] && DOCKERFLAG=1
+
+if [[ "$DOCKERFLAG" == "1" && ("$FORMAT" == "pdf" || "$FORMAT" == "pdffloat") ]] ; then
+  echo "PDF output is not supported with docker builds."
+  exit 1
+fi
+
 # Set up some variables based on FORMAT.
 TEMPLATE_ARG=
 UML_FORMAT=svg

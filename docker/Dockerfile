@@ -5,8 +5,9 @@ RUN apt-get update && apt-get install -y software-properties-common && apt-get i
 # Update the alternatives to use java 8 JRE
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
-# Install a slightly altered version of mktechdocs with PDF support removed
-ADD mktechdocs-for-docker MkTechDocs/bin/mktechdocs
+# Add a flag file so that mktechdocs can error out about PDF building if it
+# finds that its in a docker environment
+ADD dockerflag /
 ADD docker-entry.sh /
 
 ENV MKTECHDOCSHOME /MkTechDocs
