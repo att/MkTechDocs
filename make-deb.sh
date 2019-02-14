@@ -17,5 +17,19 @@
 mkdir -p ./install_files/opt/mktechdocs
 cp -r ./bin ./test ./lib ./docs ./install_files/opt/mktechdocs/.
 
+git clone https://github.com/jsseidel/groovy-pandoc.git /tmp/groovy-pandoc
+(
+    cd /tmp/groovy-pandoc
+    gradle build
+)
+
+cp /tmp/groovy-pandoc/build/libs/GroovyPandoc-0.*.jar ./install_files/opt/mktechdocs/lib/.
+if [[ "$?" != "0" ]] ; then
+    echo "Something went wrong. Giving up."
+    exit 1
+fi
+
+rm -rf /tmp/groovy-pandoc
+
 dpkg-buildpackage
 

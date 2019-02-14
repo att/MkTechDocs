@@ -1,6 +1,25 @@
 #!/bin/sh
 
-pip3 install pandocfilters
-pip3 install jinja2
+#pip3 install pandocfilters
+#pip3 install jinja2
 
-
+echo
+echo "###########################################################"
+echo "#           Installation is NOT complete!                 #"
+echo "#                                                         #"
+echo "# In order to use mktechdocs, you'll need to complete the #"
+echo "# following steps:                                        #"
+echo "#                                                         #"
+echo "#     sudo pip3 install pandocfilters                     #"
+echo "#     sudo pip3 install jinja2                            #"
+echo "#     source /opt/mktechdocs/bin/mktechdocs.env           #"
+echo "#                                                         #"
+echo "# Note 1: Omit 'sudo' to install python modules locally.  #"
+echo "# Note 2: You'll need to add the source line to your      #"
+echo "#         .bashrc or .bash_profile or put the equivalent  #"
+echo "#         variables in your environment if you use        #"
+echo "#         a shell other than Bash.                        #"
+echo "#                                                         #"
+echo "#                Happy Documenting!                       #"
+echo "###########################################################"
+echo
