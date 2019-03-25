@@ -192,15 +192,15 @@ function cleanup {
     
     rm -f plantuml-*.uml plantuml-*.eps plantuml-*.svg $OUTPUT_FILE_NAME_BASE_ARG.pyt $OUTPUT_FILE_NAME_BASE_ARG.tex $OUTPUT_FILE_NAME_BASE_ARG.aux $OUTPUT_FILE_NAME_BASE_ARG.log $OUTPUT_FILE_NAME_BASE_ARG.toc $OUTPUT_FILE_NAME_BASE_ARG.out xelatex*.out $$.pre-build.out $$.pre-build.err $$.post-build.out $$.post-build.err missfont.log
     
-    ls *.pyt 2>/dev/null | sed 's/\.pyt//' | while read template ; do
+    find . -type f | grep "\.pyt$" | sed 's/\.pyt$//' | while read template ; do
       rm -f $template.md
     done
     
-    ls *.gt 2>/dev/null | sed 's/\.gt//' | while read template ; do
+    find . -type f | grep "\.gt$" | sed 's/\.gt$//' | while read template ; do
       rm -f $template.md
     done
 
-    ls *.htmlt 2>/dev/null | sed 's/\.htmlt//' | while read template ; do
+    find . -type f | grep "\.htmlt$" | sed 's/\.htmlt$//' | while read template ; do
       rm -f $template.html
     done
   fi
@@ -418,9 +418,9 @@ fi
 # use grep here instead of ls *.pyt because having no templates results in
 # errors from ls (which I realize could be redirected and thus hidden from the
 # user, but this seems cleaner to me).
-N=$(ls | grep -c "\.pyt$")
+N=$(find . -type f | grep -c "\.pyt$")
 if [[ "$N" != "0" ]] ; then
-  ls *.pyt | sed 's/\.pyt//' | while read template ; do
+  find . -type f | grep  "\.pyt$" | sed 's/\.pyt//' | while read template ; do
     clog INFO "Rendering $template.pyt => $template.md"
     $template.renderer $template.pyt > $template.md
     normal_exit $?
@@ -428,9 +428,9 @@ if [[ "$N" != "0" ]] ; then
   [[ $? != 0 ]] && exit $?
 fi
 
-N=$(ls | grep -c "\.htmlt$")
+N=$(find . -type f | grep -c "\.htmlt$")
 if [[ "$N" != "0" ]] ; then
-  ls *.htmlt | sed 's/\.htmlt//' | while read template ; do
+  find . -type f | grep "\.htmlt$" | sed 's/\.htmlt//' | while read template ; do
     clog INFO "Rendering $template.htmlt => $template.html"
     $template.renderer $template.htmlt > $template.html
     normal_exit $?
@@ -438,9 +438,9 @@ if [[ "$N" != "0" ]] ; then
   [[ $? != 0 ]] && exit $?
 fi
 
-N=$(ls | grep -c "\.gt$")
+N=$(find . -type f | grep -c "\.gt$")
 if [[ "$N" != "0" ]] ; then
-  ls *.gt | sed 's/\.gt//' | while read template ; do
+  find . -type f | grep "\.gt$" | sed 's/\.gt//' | while read template ; do
     clog INFO "Rendering $template.gt => $template.md"
     gtp $template.gt > $template.md
     normal_exit $?
