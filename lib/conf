@@ -71,3 +71,8 @@ SECTION_NUMBERS=true
 # During the build, MkTechDocs creates many temporary files. You can set this
 # to true if you want to understand why a build is failing.
 KEEP_TEMP_FILES=false
+
+# PlantUML diagrams look best in HTML when SVG output is used, which is the
+# default. The following can be any supported output of plantuml. Note that
+# plantuml defaults to png when it doesn't recognize the output format.
+#UML_OUTPUT_FORMAT=png

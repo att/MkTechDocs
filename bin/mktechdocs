@@ -316,7 +316,11 @@ fi
 
 # Set up some variables based on FORMAT.
 TEMPLATE_ARG=
-UML_FORMAT=svg
+
+if [[ "$UML_OUTPUT_FORMAT" == "" ]] ; then
+  UML_OUTPUT_FORMAT=svg
+fi
+
 case $FORMAT in
   cssframes)
     TEMPLATE_ARG="--template $MKTECHDOCSHOME/lib/css_frame_template.html"
@@ -331,7 +335,8 @@ case $FORMAT in
     # NOP
   ;;
   pdf|pdffloat)
-    UML_FORMAT=eps
+    # Override this here because eps is required in PDFs
+    UML_OUTPUT_FORMAT=eps
   ;;
   markdown)
     # NOP
@@ -352,7 +357,7 @@ case $FORMAT in
 esac
 
 # Setup the pandoc filter list with correct UML output format
-FILTERS="-F $MKTECHDOCSHOME/bin/flt-include.py -F $MKTECHDOCSHOME/bin/flt-comment-block.py -F $MKTECHDOCSHOME/bin/flt-comment.py -F $MKTECHDOCSHOME/bin/flt-plantuml.py -M umlformat=$UML_FORMAT -F $MKTECHDOCSHOME/bin/flt-notetip.py -F $MKTECHDOCSHOME/bin/flt-include-code.py"
+FILTERS="-F $MKTECHDOCSHOME/bin/flt-include.py -F $MKTECHDOCSHOME/bin/flt-comment-block.py -F $MKTECHDOCSHOME/bin/flt-comment.py -F $MKTECHDOCSHOME/bin/flt-plantuml.py -M umlformat=$UML_OUTPUT_FORMAT -F $MKTECHDOCSHOME/bin/flt-notetip.py -F $MKTECHDOCSHOME/bin/flt-include-code.py"
 
 # Override template setup if the user specifies their own template
 if [[ "$CUSTOM_TEMPLATE" != "" ]] ; then
@@ -491,10 +496,14 @@ normal_exit $?
   $MKTECHDOCSHOME/bin/page_renderer.py $OUTPUT_FILE_NAME_BASE_ARG.pyt > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/index.html
   normal_exit $?
 
-  clog INFO "Copying any necessary files to the output directory"
-  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  find . -type f | grep "plantuml-" | grep -v "\.uml" | while read ifile ; do
+    clog INFO "Copying ${ifile} to ${OUTPUT_FILE_NAME_BASE_ARG}_pages/."
+    cp -f ${ifile} ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  done
+
   if [[ "$IMAGES" != "" ]] ; then
     if [[ -d $IMAGES ]] ; then
+      clog INFO "Copying ${IMAGES} to ${OUTPUT_FILE_NAME_BASE_ARG}_pages/."
       cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
       normal_exit $?
     fi
@@ -535,10 +544,14 @@ elif [[ "$FORMAT" == "htmlmulti" ]] ; then
   rm -f 2cp.txt
   rm -rf $$-tmp 
 
-  clog INFO "Copying any necessary files to the output directory"
-  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  find . -type f | grep "plantuml-" | grep -v "\.uml" | while read ifile ; do
+    clog INFO "Copying ${ifile} to ${OUTPUT_FILE_NAME_BASE_ARG}_pages/."
+    cp -f ${ifile} ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  done
+
   if [[ "$IMAGES" != "" ]] ; then
     if [[ -d $IMAGES ]] ; then
+      clog INFO "Copying ${IMAGES} to ${OUTPUT_FILE_NAME_BASE_ARG}_pages/."
       cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
       normal_exit $?
     fi
@@ -551,12 +564,17 @@ elif [[ "$FORMAT" == "markdown" ]] ; then
   pandoc -s --ascii --highlight-style tango -f markdown -t markdown --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.md
 normal_exit $?
 
-  clog INFO "Copying any necessary files to the output directory"
-  cp -f *.svg *.png ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  find . -type f | grep "plantuml-" | grep -v "\.uml" | while read ifile ; do
+    clog INFO "Copying ${ifile} to ${OUTPUT_FILE_NAME_BASE_ARG}_pages/."
+    cp -f ${ifile} ${OUTPUT_FILE_NAME_BASE_ARG}_pages/. 2>/dev/null
+  done
+
   if [[ "$IMAGES" != "" ]] ; then
-    # TBD NEEDS TEST for existence
-    cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
-    normal_exit $?
+    if [[ -d $IMAGES ]] ; then
+      clog INFO "Copying ${IMAGES} to ${OUTPUT_FILE_NAME_BASE_ARG}_pages/."
+      cp -r $IMAGES ${OUTPUT_FILE_NAME_BASE_ARG}_pages/.
+      normal_exit $?
+    fi
   fi
 #############################################################################
 # DOCX OUTPUT
