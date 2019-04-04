@@ -46,7 +46,7 @@ import os
 import sys
 import hashlib
 
-from subprocess import call
+from subprocess import Popen, PIPE
 from pandocfilters import toJSONFilter, Para, Image, Str, get_filename4code, get_value, get_extension
 
 def get_md5(s):
@@ -94,8 +94,15 @@ def plantuml(key, value, format, meta):
                 with open(src, "w") as f:
                     f.write(txt)
 
-            call(["plantuml", "-t"+filetype, src])
-            sys.stderr.write('Created image ' + dest + '\n')
+            p = Popen(["plantuml", "-t" + filetype, src], stderr=PIPE, stdout=PIPE)
+            (stdout, stderr) = p.communicate()
+            if stderr.decode() != "":
+                sys.stderr.write("WARNING: failed to run plantuml: " + stderr.decode() + "\n")
+            else:
+                sys.stderr.write("Created image %s\n" % dest)
+
+            #call(["plantuml", "-t"+filetype, src])
+            #sys.stderr.write('Created image ' + dest + '\n')
 
             return Para([Image([ident, [], keyvals], title, [dest, typef])])
 
