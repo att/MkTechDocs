@@ -8,7 +8,7 @@ Homepage: https://att.github.io/MkTechDocs/
 
 Package: mktechdocs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python3-pip, graphviz, plantuml, texlive-xetex, ghostscript, pandoc (>=1.19), gradle (>=3.0), groovy (>=2.4)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3-jinja2, python3-pandocfilters, python3-pip, graphviz, plantuml, texlive-xetex, ghostscript, pandoc (>=1.19), gradle (>=3.0), groovy (>=2.4)
 Description: MkTechDocs is an open framework for collating and transforming markdown.
  MkTechDocs is an open framework for collating and transforming markdown. You
  can use it to manage complex technical documentation projects with
