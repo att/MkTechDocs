@@ -13,14 +13,20 @@ the image is already too big.
 
 ## The build command
 
-To get started, you'll need to have Docker installed. Then, building projects is
-relatively simple:
+To get started, you'll need to have Docker installed. Then, building projects
+is relatively simple. When you first run the command below,
+`MyMkTechDocsProject` should be an empty directory. MkTechDocs will recognize
+that it should create a new project there. Subsequent runs will build your
+project.
 
 ```
-docker run --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs
+docker run --user $(id -u):$(id -g) --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs
 ```
 
 Here's the breakdown of the command:
+
+`--user $(id -u):$(id -g)`: This tells docker to run the command under the
+current user and group id.
 
 `--rm`: Remove the container after it exits. Otherwise, it will hang around in
 the `Exited` state, which can be useful if there were problems.

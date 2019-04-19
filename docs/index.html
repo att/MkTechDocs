@@ -377,10 +377,15 @@ set up to run locally. Fortunately, MkTechDocs is available as a Docker image on
 output. Adding in this support makes the Docker image unreasonably large, and
 the image is already too big.</p>
 <h2 id="the-build-command"><span class="header-section-number">4.2</span> The build command</h2>
-<p>To get started, you'll need to have Docker installed. Then, building projects is
-relatively simple:</p>
-<pre><code>docker run --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs</code></pre>
+<p>To get started, you'll need to have Docker installed. Then, building projects
+is relatively simple. When you first run the command below,
+<code>MyMkTechDocsProject</code> should be an empty directory. MkTechDocs will recognize
+that it should create a new project there. Subsequent runs will build your
+project.</p>
+<pre><code>docker run --user $(id -u):$(id -g) --rm -v /home/ubuntu/MyMkTechDocsProject:/project jsseidel/mktechdocs</code></pre>
 <p>Here's the breakdown of the command:</p>
+<p><code>--user $(id -u):$(id -g)</code>: This tells docker to run the command under the
+current user and group id.</p>
 <p><code>--rm</code>: Remove the container after it exits. Otherwise, it will hang around in
 the <code>Exited</code> state, which can be useful if there were problems.</p>
 <p><code>-v</code>: Create a volume and map <code>/home/ubuntu/MyMkTechDocsProject</code> <em>outside</em> the
