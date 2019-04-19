@@ -1,7 +1,11 @@
 #!/bin/bash
 
 (
-	cd /project
-	mktechdocs
+  cd /project
+  if [[ ! -r mktechdocs.conf ]] ; then
+    mktechdocs init <<< $(echo y)
+  else
+    mktechdocs
+  fi
 )
 

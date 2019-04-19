@@ -94,14 +94,15 @@ function check_build_env {
     fi
   done
 
-  # We need to set a flag to indicate that this is a docker build
-  DOCKERFLAG=0
-  [[ -r /dockerflag ]] && DOCKERFLAG=1
+  # Use a semaphore to turn off PDF building, which is only possible
+  # in debs and PPAs.
+  NOPDFFLAG=0
+  [[ -r $MKTECHDOCSHOME/nopdf ]] && NOPDFFLAG=1
 
   # Need xelatex if format is pdf and we're not in docker mode
   if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
-    if [[ "$DOCKERFLAG" == "1" ]] ; then
-      clog ERROR "Docker environments do not support PDF builds."
+    if [[ "$NOPDFFLAG" == "1" ]] ; then
+      clog ERROR "This version of MkTechDocs does not support PDF builds."
       exit 1
     else
       if [[ $(which xelatex) == "" ]] ; then
