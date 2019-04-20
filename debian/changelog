@@ -1,27 +1,28 @@
+mktechdocs (1.0.8) bionic; urgency=medium
+
+  * PPA
+
+ -- Joseph Spencer Seidel <jsseidel@fastmail.com> Sat, 20 Apr 2019 12:37:32 -0500
 mktechdocs (1.0.4) bionic; urgency=medium
 
   * Fixing regression that made missing dependencies.
 
  -- Joseph Spencer Seidel <jsseidel@fastmail.com> Wed, 17 Apr 2019 09:07:32 -0500
-
 mktechdocs (1.0.3) bionic; urgency=medium
 
   * Added dependencies for jinja2 and pandocfilters from Canonical repos.
 
  -- Joseph Spencer Seidel <jsseidel@fastmail.com> Wed, 17 Apr 2019 09:07:32 -0500
-
 mktechdocs (1.0.2) bionic; urgency=medium
 
   * Added ability to use specify different output formats for plantUML diagrams.
 
  -- Joseph Spencer Seidel <jsseidel@fastmail.com> Wed, 27 Mar 2019 14:27:32 -0500
-
 mktechdocs (1.0.1) bionic; urgency=medium
 
   * Added ability to use templates in arbitrarily deep subdirectories.
 
  -- Joseph Spencer Seidel <jsseidel@fastmail.com>  Mon, 25 Mar 2019 14:52:20 -0500
-
 mktechdocs (1.0.0) bionic; urgency=medium
 
   * Initial Release.
