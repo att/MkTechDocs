@@ -1,8 +1,8 @@
 usage_guide_pages/
 *.pyc
 build
-*GroovyPandoc*jar
 .DS_Store
 debian/.debhelper/
 debian/mktechdocs/
 install_files/
+bin/__pycache__

@@ -90,33 +90,5 @@ elif ((MAJ == 2)) || (((MAJ == 1)) && ((MIN < 18))); then
 	exit
 fi
 
-
-# Now install the groovy-pandoc library
-(cd $MKTECHDOCSHOME/lib
-
-git clone https://github.com/jsseidel/groovy-pandoc
-
-if ! exit_ok ; then
-	echo "Couldn't clone the groovy-pandoc repository. Bailing out."
-	exit
-fi
-)
-
-(cd $MKTECHDOCSHOME/lib/groovy-pandoc
-
-gradle build
-
-if ! exit_ok ; then
-	echo "The gradle build failed. Bailing out."
-	exit
-fi)
-
-cp $MKTECHDOCSHOME/lib/groovy-pandoc/build/libs/GroovyPandoc-0.*.jar $MKTECHDOCSHOME/lib/.
-
-if ! exit_ok ; then
-	echo "Couldn't copy GroovyPandoc*jar. Is MKTECHDOCSHOME set correctly? Bailing out."
-	exit
-fi
-
 echo "Finished without error."
 echo "You might want to remove the $MKTECHDOCSHOME/lib/groovy-pandoc directory."
