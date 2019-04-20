@@ -190,13 +190,17 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <div id="content">
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
 <h2 id="what-is-it"><span class="header-section-number">1.1</span> What is it?</h2>
-<p><strong>MkTechDocs</strong> is an open framework for collating and transforming markdown. You can use it to manage complex technical documentation projects with dependencies, produce light documentation, or combine and transform existing Markdown files into a styled webpage or PDF document.</p>
+<p><strong>MkTechDocs</strong> is an open framework for collating and transforming markdown.
+You can use it to manage complex technical documentation projects with
+dependencies, produce light documentation, or combine and transform existing
+Markdown files into a styled webpage or PDF document.</p>
 <h2 id="features"><span class="header-section-number">1.2</span> Features</h2>
 <ul>
 <li>100% open source</li>
-<li>No proprietary, hard-to-read, or hard-to-learn input formats or configuration syntaxes</li>
-<li>Standardized to Markdown with Pandoc extensions, which is easy to learn and convertible
-into many other formats</li>
+<li>No proprietary, hard-to-read, or hard-to-learn input formats or
+configuration syntaxes</li>
+<li>Standardized to Markdown with Pandoc extensions, which is easy to learn and
+convertible into many other formats</li>
 <li>Shallow learning curve</li>
 <li>Builds CSS-styled HTML, PDF, Microsoft Word, and markdown documents
 from the same source documentation</li>
@@ -206,16 +210,21 @@ from the same source documentation</li>
 documentation work can be distributed like source code</li>
 <li>Python and Groovy/Java hooks provide easy access to pre-existing
 code libraries</li>
-<li>Jinja2 and Groovy template support is baked in for more complex documentation needs
-Pandodc templates can be customized on a per-project basis</li>
+<li>Jinja2 and Groovy template support is baked in for more complex
+documentation needs Pandodc templates can be customized on a per-project
+basis</li>
 <li>Agile and continuous-integration friendly</li>
 </ul>
 <h2 id="can-i-see-an-example"><span class="header-section-number">1.3</span> Can I see an example?</h2>
 <p>You're looking at one!</p>
 <h2 id="supported-architectures"><span class="header-section-number">1.4</span> Supported architectures</h2>
-<p>MkTechDocs currently supports Arch and Ubuntu (16.04+,18.04+) Linux and macOS. It may work in Windows under Cygwin, MinGW, or Ubuntu Bash for Windows.</p>
+<p>MkTechDocs was built in and is most frequently used in Ubuntu Linux 18.04 LTS;
+however, MkTechDocs should work in any environment that supports <a href="#dependencies">these
+dependencies</a>.</p>
 <h2 id="install"><span class="header-section-number">1.5</span> Install</h2>
-<p>See the <a href="#install-mktechdocs">Install MkTechDocs</a> and <a href="#setting-up-your-environment">Setting up your environment</a> sections at the end of this document for more information.</p>
+<p>See the <a href="#install-mktechdocs">Install MkTechDocs</a> and <a href="#setting-up-your-environment">Setting up your
+environment</a> sections at the end of this document
+for more information.</p>
 <h1 id="the-basics"><span class="header-section-number">2</span> The basics</h1>
 <p>The easiest way to learn how to use MkTechDocs effectively is with a tutorial project. <a href="https://github.com/jsseidel/GettingStartedWithMkTechDocs">Here's one on GitHub</a>.</p>
 <p>Unlike the comprehensive usage guide, the tutorial project uses a Docker image to build and provides a good overview of a MkTechDocs project without getting too far into the weeds.</p>
@@ -1511,17 +1520,35 @@ to adapt it for such use.</p>
 </table>
 <h1 id="addendum"><span class="header-section-number">17</span> Addendum</h1>
 <h2 id="understanding-the-build-process"><span class="header-section-number">17.1</span> Understanding the build process</h2>
-<p>The MkTechDocs build process is complex. The following is a step-by-step guide towards understanding how it works.</p>
+<p>The MkTechDocs build process is complex. The following is a step-by-step guide
+towards understanding how it works.</p>
 <ol style="list-style-type: decimal">
-<li>MkTechDocs consists of a BASH control script and a library of Python and Groovy filters.</li>
-<li>The control script is responsible for importing the project configuration and calling <code>pandoc</code> with the correct arguments to build reasonably formatted documents in a variety of formats.</li>
-<li>The &quot;magic&quot; behind it all is <code>pandoc</code> 's Abstract Syntax Tree (AST). Internally, <code>pandoc</code> converts all documents into AST, which can then be converted to JSON, which can then be manipulated by filters.</li>
-<li>MkTechDocs exploits this with a couple of libraries, <a href="https://github.com/jsseidel/groovy-pandoc">GroovyPandoc</a>, for Groovy template integration, and <a href="https://github.com/jgm/pandocfilters">PandocFilters</a>, for Python integration.</li>
-<li>Every time you run <code>mktechdocs</code>, the control script calls <code>pandoc</code> on your project's master document. Some Bash scripting then takes care of some little details, which you can see for yourself by examining the script.</li>
+<li>MkTechDocs consists of a BASH control script and a library of Python and
+Groovy filters.</li>
+<li>The control script is responsible for importing the project configuration
+and calling <code>pandoc</code> with the correct arguments to build reasonably
+formatted documents in a variety of formats.</li>
+<li>The &quot;magic&quot; behind it all is <code>pandoc</code> 's Abstract Syntax Tree (AST).
+Internally, <code>pandoc</code> converts all documents into AST, which can then be
+converted to JSON, which can then be manipulated by filters.</li>
+<li>MkTechDocs exploits this with a couple of libraries,
+<a href="https://github.com/jsseidel/groovy-pandoc">GroovyPandoc</a>, for Groovy
+template integration, and
+<a href="https://github.com/jgm/pandocfilters">PandocFilters</a>, for Python
+integration.</li>
+<li>Every time you run <code>mktechdocs</code>, the control script calls <code>pandoc</code> on your
+project's master document. Some Bash scripting then takes care of some
+little details, which you can see for yourself by examining the script.</li>
 </ol>
 <h2 id="contact"><span class="header-section-number">17.2</span> Contact</h2>
-<p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer Seidel</a>.</p>
+<p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer
+Seidel</a>.</p>
 <h1 id="document-change-log"><span class="header-section-number">18</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Sat Apr 20 16:50:43 2019 -0400<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Updated supported architectures section and reformatted a few paragraphs. [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Sat Apr 20 14:21:31 2019 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com">jsseidel@fastmail.com</a><br />
