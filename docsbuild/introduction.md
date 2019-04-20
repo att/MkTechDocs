@@ -31,8 +31,8 @@ You're looking at one!
 
 MkTechDocs currently supports Arch and Ubuntu (16.04+,18.04+) Linux and macOS. It may work in Windows under Cygwin, MinGW, or Ubuntu Bash for Windows.
 
-## Downloading and setting up your environment
+## Install
 
-See the [Download](#download) and [Setting up your environment](#setting-up-your-environment) sections at the end of this document for more information.
+See the [Install MkTechDocs](#install-mktechdocs) and [Setting up your environment](#setting-up-your-environment) sections at the end of this document for more information.
 
 

@@ -12,6 +12,13 @@ export PATH=$PATH:$MKTECHDOCSHOME/bin:.
 # Let Python know where to find MkTechDocs libraries:
 export PYTHONPATH=$MKTECHDOCSHOME/bin
 ```
+
+If you installed MkTechDocs from a Debian package or Launchpad PPA, you can simply source the following to add these variable to your shell environment:
+
+```bash
+. /opt/mktechdocs/bin/mktechdocs.env
+```
+
 ## Running the dependencies installation script
 
 Install MkTechDocs dependencies using the (admittedly imperfect) installation script. Consider the script more of a guide.
