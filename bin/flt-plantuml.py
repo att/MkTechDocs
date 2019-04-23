@@ -94,7 +94,7 @@ def plantuml(key, value, format, meta):
                 with open(src, "w") as f:
                     f.write(txt)
 
-            call(["which", "plantuml"]
+            call(["whereis", "plantuml"])
 
             p = Popen(["plantuml", "-t" + filetype, src], stderr=PIPE, stdout=PIPE)
             (stdout, stderr) = p.communicate()
