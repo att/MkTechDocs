@@ -46,7 +46,7 @@ import os
 import sys
 import hashlib
 
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, run
 from pandocfilters import toJSONFilter, Para, Image, Str, get_filename4code, get_value, get_extension
 
 def get_md5(s):
@@ -94,7 +94,7 @@ def plantuml(key, value, format, meta):
                 with open(src, "w") as f:
                     f.write(txt)
 
-            call(["whereis", "plantuml"])
+            run(["whereis", "plantuml"])
 
             p = Popen(["plantuml", "-t" + filetype, src], stderr=PIPE, stdout=PIPE)
             (stdout, stderr) = p.communicate()
