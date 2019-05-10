@@ -431,7 +431,7 @@ if [[ "$N" != "0" ]] ; then
     $template.renderer $template.pyt > $template.md
     normal_exit $?
   done
-  [[ $? != 0 ]] && exit $?
+  RV=$? ; [[ $RV != 0 ]] && exit $RV
 fi
 
 N=$(find . -type f | grep -c "\.htmlt$")
@@ -441,7 +441,7 @@ if [[ "$N" != "0" ]] ; then
     $template.renderer $template.htmlt > $template.html
     normal_exit $?
   done
-  [[ $? != 0 ]] && exit $?
+  RV=$? ; [[ $RV != 0 ]] && exit $RV
 fi
 
 N=$(find . -type f | grep -c "\.gt$")
@@ -451,7 +451,7 @@ if [[ "$N" != "0" ]] ; then
     gtp $template.gt > $template.md
     normal_exit $?
   done
-  [[ $? != 0 ]] && exit $?
+  RV=$? ; [[ $RV != 0 ]] && exit $RV
 fi
 
 #############################################################################
