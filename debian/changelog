@@ -1,3 +1,8 @@
+mktechdocs (1.0.9) bionic; urgency=medium
+
+  * Fix for https://github.com/att/MkTechDocs/issues/25
+
+ -- Joseph Spencer Seidel <jsseidel@fastmail.com> Fri, 10 Apr 2019 18:38:32 -0500
 mktechdocs (1.0.8) bionic; urgency=medium
 
   * PPA
