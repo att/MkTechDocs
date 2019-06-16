@@ -188,15 +188,15 @@ EOF
 
 function cleanup {
   # Clean up all the temporary build files unless keep is specified
-  if [[ "$KEEP_TEMP_FILES" != "true" ]] ; then
+  if [[ "$KEEP_TEMP_FILES" != "true" || "$MANUAL_CLEAN" == "1" ]] ; then
     clog INFO "Removing old temporary build files"
-    
+
     rm -f plantuml-*.uml plantuml-*.eps plantuml-*.svg $OUTPUT_FILE_NAME_BASE_ARG.pyt $OUTPUT_FILE_NAME_BASE_ARG.tex $OUTPUT_FILE_NAME_BASE_ARG.aux $OUTPUT_FILE_NAME_BASE_ARG.log $OUTPUT_FILE_NAME_BASE_ARG.toc $OUTPUT_FILE_NAME_BASE_ARG.out xelatex*.out $$.pre-build.out $$.pre-build.err $$.post-build.out $$.post-build.err missfont.log
-    
+
     find . -type f | grep "\.pyt$" | sed 's/\.pyt$//' | while read template ; do
       rm -f $template.md
     done
-    
+
     find . -type f | grep "\.gt$" | sed 's/\.gt$//' | while read template ; do
       rm -f $template.md
     done
@@ -243,9 +243,10 @@ if [[ "$CFG" == "init" ]] ; then
   fi
 fi
 
+MANUAL_CLEAN=0
 if [[ "$CFG" == "clean" ]] ; then
-  cleanup
-  exit 0
+  MANUAL_CLEAN=1
+  CFG=mktechdocs.conf
 fi
 
 if [[ "$PROJECT_DIR" == "" ]] ; then
@@ -269,6 +270,17 @@ fi
 # Source our configuration file
 . $CFG
 
+# Set up output file name
+OUTPUT_FILE_NAME_BASE_ARG=
+if [[ "$OUTPUT_FILE_NAME_BASE" != "" ]] ; then
+  OUTPUT_FILE_NAME_BASE_ARG="$OUTPUT_FILE_NAME_BASE"
+fi
+
+if [[ "$MANUAL_CLEAN" == "1" ]] ; then
+  cleanup
+  exit
+fi
+
 # Change our current working directory to the given project directory
 pushd $PROJECT_DIR 1>/dev/null 2>&1
 normal_exit $?
@@ -277,13 +289,7 @@ normal_exit $?
 check_build_env
 
 # Clean up old, possibly failed, builds
-cleanup
-
-# Set up output file name
-OUTPUT_FILE_NAME_BASE_ARG=
-if [[ "$OUTPUT_FILE_NAME_BASE" != "" ]] ; then
-  OUTPUT_FILE_NAME_BASE_ARG="$OUTPUT_FILE_NAME_BASE"
-fi
+MANUAL_CLEAN=1 cleanup
 
 # Remove and then create an output dir so we can put output files there
 clog INFO "Removing old ${OUTPUT_FILE_NAME_BASE_ARG}_pages (if it exists)"
