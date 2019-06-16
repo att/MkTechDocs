@@ -434,7 +434,7 @@ N=$(find . -type f | grep -c "\.pyt$")
 if [[ "$N" != "0" ]] ; then
   find . -type f | grep  "\.pyt$" | sed 's/\.pyt//' | while read template ; do
     clog INFO "Rendering $template.pyt => $template.md"
-    $template.renderer $template.pyt > $template.md
+    /usr/bin/env python3 $template.renderer $template.pyt > $template.md
     normal_exit $?
   done
   RV=$? ; [[ $RV != 0 ]] && exit $RV
@@ -444,7 +444,7 @@ N=$(find . -type f | grep -c "\.htmlt$")
 if [[ "$N" != "0" ]] ; then
   find . -type f | grep "\.htmlt$" | sed 's/\.htmlt//' | while read template ; do
     clog INFO "Rendering $template.htmlt => $template.html"
-    $template.renderer $template.htmlt > $template.html
+    /usr/bin/env python3 $template.renderer $template.htmlt > $template.html
     normal_exit $?
   done
   RV=$? ; [[ $RV != 0 ]] && exit $RV
