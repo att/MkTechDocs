@@ -193,6 +193,10 @@ function cleanup {
 
     rm -f plantuml-*.uml plantuml-*.eps plantuml-*.svg $OUTPUT_FILE_NAME_BASE_ARG.pyt $OUTPUT_FILE_NAME_BASE_ARG.tex $OUTPUT_FILE_NAME_BASE_ARG.aux $OUTPUT_FILE_NAME_BASE_ARG.log $OUTPUT_FILE_NAME_BASE_ARG.toc $OUTPUT_FILE_NAME_BASE_ARG.out xelatex*.out $$.pre-build.out $$.pre-build.err $$.post-build.out $$.post-build.err missfont.log
 
+    # This is created by java when mktechdocs is run via docker because it cannot determine a home directory.
+    # We can safely remove it.
+    rm -rf ./\?
+
     find . -type f | grep "\.pyt$" | sed 's/\.pyt$//' | while read template ; do
       rm -f $template.md
     done
