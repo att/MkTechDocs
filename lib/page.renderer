@@ -55,7 +55,7 @@ def render():
             sys.stderr.write("Cannot find " + sys.argv[1] + "\n")
             sys.exit(1)
 
-        print render_mktechdocs_jinja2_template(sys.argv[1], varDictionary)
+        print(render_mktechdocs_jinja2_template(sys.argv[1], varDictionary))
     else:
         sys.stderr.write("No template given. Bailing.\n")
 
