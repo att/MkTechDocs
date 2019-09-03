@@ -135,25 +135,31 @@ def heading_to_filename(heading):
 
     return "%s.md" % filename
 
+def slurp_file(file_path):
+    """Reads the given file into an array and returns it"""
+    return_array = []
+    my_file = open(file_path, "r")
+    if my_file:
+        return_array = my_file.readlines()
+    return return_array
+
+def write_buffer_to_file(buffer, path):
+    """Writes the given string to the file at path."""
+    my_file = open(path, "w")
+    if my_file:
+        num_chars = my_file.write(buffer)
+        if num_chars == 0:
+            sys.stderr.write("WARNING: wrote 0 characters\n" % num_chars)
+    else:
+        sys.stderr.write("WARNING: Couldn't open %s for writing\n" % path)
+
 def do_import(markdown_file, heading_level, output_dir):
     """Imports the given markdown_file using the heading_level as the basis
     for where to split the file and puts output files in the given output_dir.
     """
-    file_lines = []
-
-    # Sanity check
-    if not os.path.isfile(markdown_file):
-        sys.stderr.write("%s doesn't exist. Giving up.\n" % markdown_file)
-        sys.exit(1)
-
-    if not os.path.isdir(output_dir):
-        sys.stderr.write("%s doesn't exist. Giving up.\n" % output_dir)
-        sys.exit(1)
-
     # Read the given markdown file into an array. This is the easiest way to do
     # a 1 line lookahead.
-    with open(markdown_file, "r") as my_file:
-        file_lines = my_file.readlines()
+    file_lines = slurp_file(markdown_file)
 
     # Open our master file to keep track of includes
     master_file = open("%s/master.md" % output_dir, "w")
@@ -197,16 +203,14 @@ def do_import(markdown_file, heading_level, output_dir):
                     elif heading_level == 2:
                         underline = "-" * len(heading)
 
-                    file_buffer = "%s\n%s\n%s" % (heading, underline, file_buffer)
+                    file_buffer = "%s\n%s\n%s" % (heading,
+                                                  underline, file_buffer)
                 else:
                     file_buffer = "%s\n%s" % (heading, file_buffer)
 
                 # Blast the new file
-                path = "%s/%s" % (output_dir, file_to_create)
-                with open(path, "w") as my_file:
-                    num_chars = my_file.write(file_buffer)
-                    if num_chars == 0:
-                        sys.stderr.write("WARNING: wrote 0 characters\n" % num_chars)
+                write_buffer_to_file(file_buffer,
+                                     "%s/%s" % (output_dir, file_to_create))
 
                 # Clear the file buffer
                 file_buffer = ""
@@ -262,8 +266,17 @@ if __name__ == "__main__":
         elif opt in ("-o", "--output-dir"):
             ARG_DIR = arg
 
+    # Sanity checks
     if ARG_FILE == "":
         usage()
+        sys.exit(1)
+
+    if not os.path.isfile(ARG_FILE):
+        sys.stderr.write("%s doesn't exist. Giving up.\n" % ARG_FILE)
+        sys.exit(1)
+
+    if not os.path.isdir(ARG_DIR):
+        sys.stderr.write("%s doesn't exist. Giving up.\n" % ARG_DIR)
         sys.exit(1)
 
     do_import(ARG_FILE, int(ARG_LEVEL), ARG_DIR)
