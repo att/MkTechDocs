@@ -72,7 +72,11 @@ function clog {
       ;;
   esac
 
-  echo -e "${COL}${TYPEOUT}${NC}$MSG"
+  if [[ "$NO_COLOR_OUTPUT" == "0" ]] ; then
+    echo -e "${COL}${TYPEOUT}${NC}$MSG"
+  else
+    echo -e "${TYPEOUT}$MSG"
+  fi
 }
 
 #
@@ -215,21 +219,40 @@ function cleanup {
 # MAIN
 #############################################################################
 
+# Check for if we need to turn off colors in our output
+NO_COLOR_OUTPUT=0
+if [[ "$1" == "--no-color-output" || "$1" == "-n" ]] ; then
+  NO_COLOR_OUTPUT=1
+  shift
+fi
+
 # We need a project directory and configuration file
 CFG=$1
 PROJECT_DIR=$2
 
 if [[ "$CFG" == "help" || "$CFG" == "--help" || "$CFG" == "-?" || "$CFG" == "?" ]] ; then
-  echo "Usage: mtechdocs [help|clean|init]"
+  echo "Usage: mtechdocs [-n|--no-color-output] [help|clean|init]"
+  echo "  The optional -n or --no-color-output argument suppresses coloring"
+  echo "  in output to the terminal, useful for jenkins builds or other places"
+  echo "  where bash coloring information is not interpreted."
+  echo ""
   echo "  help : Display this help message"
   echo "  clean: Remove temporary build files"
   echo "  init : Create a new MkTechDocs project in the current directory"
   echo
-  echo "Usage: mtechdocs"
+  echo "Usage: mtechdocs [-n|--no-color-output]"
+  echo "  The optional -n or --no-color-output argument suppresses coloring"
+  echo "  in output to the terminal, useful for jenkins builds or other places"
+  echo "  where bash coloring information is not interpreted."
+  echo ""
   echo "  Builds the MkTechDocs project in the current directory. Assumes"
   echo "  that a mktechdocs.conf file and master.md file are present."
   echo
-  echo "Usage: mtechdocs <config> <directory>"
+  echo "Usage: mtechdocs [-n|--no-color-output] <config> <directory>"
+  echo "  The optional -n or --no-color-output argument suppresses coloring"
+  echo "  in output to the terminal, useful for jenkins builds or other places"
+  echo "  where bash coloring information is not interpreted."
+  echo ""
   echo "  Builds the MkTechDocs project in the given directory using the"
   echo "  given configuration."
   exit 0
