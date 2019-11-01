@@ -1,3 +1,10 @@
+mktechdocs (1.0.15) bionic; urgency=medium
+
+  * Fix for https://github.com/att/MkTechDocs/issues/33
+  * Fix for https://github.com/att/MkTechDocs/issues/26
+
+ -- Joseph Spencer Seidel <jsseidel@fastmail.com> Fri, 01 Nov 2019 18:33:00 -0500
+
 mktechdocs (1.0.14) bionic; urgency=medium
 
   * Fix for https://github.com/att/MkTechDocs/issues/29
