@@ -2,13 +2,9 @@
 
 (
   cd /project
-  if [[ ! -r mktechdocs.conf ]] ; then
-    mktechdocs init <<< $(echo y)
-    RV=$?
-  else
-    mktechdocs
-    RV=$?
-  fi
+  # We add the echo y business because mktechdocs confirms inits
+  mktechdocs $@ <<< $(echo y)
+  RV=$?
   exit $RV
 )
 RV=$? ; [[ $RV != 0 ]] && exit $RV
