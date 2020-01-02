@@ -13,11 +13,6 @@ version:
 ##########################################################################################3
 # Debian source package
 #
-# Update version in:
-#   debian/changelog
-#   debian/files
-#   draftman.glade
-#
 
 debian_source:
 	debuild -S
