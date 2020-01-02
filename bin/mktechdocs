@@ -38,8 +38,6 @@ export GREEN='\033[0;32m'
 export YELLOW='\033[1;33m'
 export NC='\033[0m'
 
-TEXLISTINGS=$MKTECHDOCSHOME/lib/listings.tex
-TEXTEMPLATE=$MKTECHDOCSHOME/lib/template.tex
 
 #############################################################################
 # FUNCTIONS
@@ -77,6 +75,21 @@ function clog {
   else
     echo -e "${TYPEOUT}$MSG"
   fi
+}
+
+#
+# Returns the major pandoc version so we can do things slightly
+# differently if > 2 is installed.
+#
+function pandoc_major_version {
+  VERS=$(pandoc --version | grep "pandoc [0-9]\." | awk -F. '
+    {
+      sub(/pandoc /, "");
+      split($0, a, ".");
+      print a[1]}
+  ')
+
+  echo $VERS
 }
 
 #
@@ -294,6 +307,8 @@ if [[ ! -d $PROJECT_DIR ]] ; then
   exit 1
 fi
 
+
+
 # Source our configuration file
 . $CFG
 
@@ -314,6 +329,38 @@ normal_exit $?
 
 # Check our build environment
 check_build_env
+
+#
+# Pandoc went through many changes since 1.19, the version in 18.04 LTS. We
+# need check a couple of things to remain backwards compatible.
+#
+PANDOC_VERS=$(pandoc_major_version)
+
+#
+# Since pandoc > 2, '--latex-engine' became '--pdf-engine', so we
+# need to special case this.
+#
+PDF_ENGINE_ARG='--pdf-engine'
+if ((PANDOC_VERS == 1)) ; then
+  PDF_ENGINE_ARG='--latex-engine'
+fi
+
+#
+# Since pandoc > 2, we also need to add a passthrough command in
+# our default tex template.
+#
+TEXLISTINGS=$MKTECHDOCSHOME/lib/listings.tex
+TEXTEMPLATE=$MKTECHDOCSHOME/lib/template.2.tex
+if ((PANDOC_VERS == 1)) ; then
+  TEXTEMPLATE=$MKTECHDOCSHOME/lib/template.1.tex
+fi
+
+#
+# Since pandoc > 2, we need to supply a title for html based output.
+# Fortunately, this also works with pandoc 1.19+, so we can just
+# always add it and not worry about the quoting, which is ugly.
+#
+TITLE_ARG="--metadata=title:$TITLE"
 
 # Clean up old, possibly failed, builds
 MANUAL_CLEAN=1 cleanup
@@ -492,7 +539,7 @@ fi
 #############################################################################
 if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
   clog INFO "Building main tex $OUTPUT_FILE_NAME_BASE_ARG.tex"
-  pandoc $FILTERS -F flt-strip-pages-from-links.py -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE --latex-engine=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_MAIN_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
+  pandoc $FILTERS -F flt-strip-pages-from-links.py -N --listings -H $TEXLISTINGS --template=$TEXTEMPLATE $PDF_ENGINE_ARG=xelatex -f markdown -t latex -V geometry:margin=1in -V mainfont="$PDF_MAIN_FONT" -V monofont="$PDF_MONO_FONT" $TOC_MAIN_ARG $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.tex
   if [[ "$FORMAT" == "pdf" ]] ; then
     clog INFO "Fixing floating diagrams to appear inline."
     # Removed this and replaced with perl because sed isn't the same on macos and linux with regard
@@ -519,7 +566,7 @@ if [[ "$FORMAT" == "pdf" || "$FORMAT" == "pdffloat" ]] ; then
 #############################################################################
 elif [[ "$FORMAT" == "html" || "$FORMAT" == "htmlsimple" || "$FORMAT" == "cssframes" ]] ; then
   clog INFO "Building main template $OUTPUT_FILE_NAME_BASE_ARG.pyt"
-  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG "$TITLE_ARG" master.md > $OUTPUT_FILE_NAME_BASE_ARG.pyt
 normal_exit $?
 
   clog INFO "Fixing jinja brackets"
@@ -547,7 +594,7 @@ normal_exit $?
 #############################################################################
 elif [[ "$FORMAT" == "htmlmulti" ]] ; then
   clog INFO "Building main multi-page HTML document."
-  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $SECTION_NUMBERS_ARG -F flt-include-doc-map.py --template $MKTECHDOCSHOME/lib/main_multipage.html $TOC_MAIN_ARG master.md 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $SECTION_NUMBERS_ARG -F flt-include-doc-map.py --template $MKTECHDOCSHOME/lib/main_multipage.html $TOC_MAIN_ARG "$TITLE_ARG" master.md 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > $OUTPUT_FILE_NAME_BASE_ARG.pyt
   normal_exit $?
   
   clog INFO "Fixing jinja brackets"
@@ -564,9 +611,9 @@ elif [[ "$FORMAT" == "htmlmulti" ]] ; then
   cat 2cp.txt | sed 's/\.html//' | while read f ; do
     clog INFO "Building $f template"
     if [[ "$SECTION_NUMBERS" == "true" ]] ; then
-      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html --number-offset=$HEADERDELTA $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html $f.md -o $$-tmp/$f.pyt
+      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html --number-offset=$HEADERDELTA $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html "$TITLE_ARG" $f.md -o $$-tmp/$f.pyt
     else
-      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html $f.md -o $$-tmp/$f.pyt
+      pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N -f markdown -t html $TOC_SUB_ARG --template $MKTECHDOCSHOME/lib/page_multipage.html "$TITLE_ARG" $f.md -o $$-tmp/$f.pyt
     fi
     
     clog INFO "Rendering $f template"
@@ -622,14 +669,14 @@ elif [[ "$FORMAT" == "docx" ]] ; then
 #############################################################################
 elif [[ "$FORMAT" == "epub" ]] ; then
   clog INFO "Building main epub document $OUTPUT_FILE_NAME_BASE_ARG.epub"
-  pandoc -s --ascii --highlight-style tango -f markdown -t epub --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.epub
+  pandoc -s --ascii --highlight-style tango -f markdown -t epub --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG "$TITLE_ARG" master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.epub
 	normal_exit $?
 #############################################################################
 # EPUB3 OUTPUT
 #############################################################################
 elif [[ "$FORMAT" == "epub3" ]] ; then
   clog INFO "Building main epub document $OUTPUT_FILE_NAME_BASE_ARG.epub"
-  pandoc -s --ascii --highlight-style tango -f markdown -t epub3 --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.epub
+  pandoc -s --ascii --highlight-style tango -f markdown -t epub3 --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG "$TITLE_ARG" master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.epub
 	normal_exit $?
 fi
 
