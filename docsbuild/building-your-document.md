@@ -67,7 +67,7 @@ fi
 
 You don't need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a [configuration option](configuration-options.html#simple-configuration) where you can specify the path to your the directory that holds your images.
 
-## Building your document with Docker
+## Docker
 
 MkTechDocs is a complex set of code and dependencies, so it can be difficult to
 set up to run locally. Fortunately, MkTechDocs is available as a Docker image on
