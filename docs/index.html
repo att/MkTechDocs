@@ -119,7 +119,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#multiple-configurations"><span class="toc-section-number">3.1.1</span> Multiple configurations</a></li>
 <li><a href="#pre--and-post-build-activities"><span class="toc-section-number">3.1.2</span> Pre- and post-build activities</a></li>
 </ul></li>
-<li><a href="#building-your-document-with-docker"><span class="toc-section-number">3.2</span> Building your document with Docker</a>
+<li><a href="#docker"><span class="toc-section-number">3.2</span> Docker</a>
 <ul>
 <li><a href="#pdf-output-and-docker"><span class="toc-section-number">3.2.1</span> PDF output and docker</a></li>
 <li><a href="#the-build-command"><span class="toc-section-number">3.2.2</span> The build command</a></li>
@@ -432,7 +432,7 @@ $</code></pre>
 <span id="cb8-10"><a href="#cb8-10"></a>    <span class="fu">cp</span> -r ./mystuff <span class="va">$OUT_DIR</span>/.</span>
 <span id="cb8-11"><a href="#cb8-11"></a><span class="kw">fi</span></span></code></pre></div>
 <p>You don&#x2019;t need to worry about copying images to your output directory. Because images are often associated with documentation, MkTechDocs provides a <a href="#simple-configuration">configuration option</a> where you can specify the path to your the directory that holds your images.</p>
-<h2 data-number="3.2" id="building-your-document-with-docker"><span class="header-section-number">3.2</span> Building your document with Docker</h2>
+<h2 data-number="3.2" id="docker"><span class="header-section-number">3.2</span> Docker</h2>
 <p>MkTechDocs is a complex set of code and dependencies, so it can be difficult to
 set up to run locally. Fortunately, MkTechDocs is available as a Docker image on
 <a href="https://hub.docker.com/r/jsseidel/mktechdocs/">Docker Hub</a>:
@@ -1612,6 +1612,11 @@ little details, which you can see for yourself by examining the script.</li>
 <p>MkTechDocs was built and is maintained by <a href="http://www.spencerseidel.com">Spencer
 Seidel</a>.</p>
 <h1 data-number="17" id="document-change-log"><span class="header-section-number">17</span> Document change log</h1>
+<p>
+<p><strong>Date</strong>: Tue Feb 18 09:30:41 2020 -0500<br />
+<strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com" class="email">jsseidel@fastmail.com</a><br />
+<strong>Message</strong>: Put docker builds and normal builds under same heading. [doc]
+<br /></p>
 <p>
 <p><strong>Date</strong>: Sat Apr 20 16:50:43 2019 -0400<br />
 <strong>Author</strong>: jsseidel <a href="mailto:jsseidel@fastmail.com" class="email">jsseidel@fastmail.com</a><br />
