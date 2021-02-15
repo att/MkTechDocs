@@ -15,6 +15,6 @@
 # limitations under the License.
 
 mkdir -p ./install_files/opt/mktechdocs
-cp -r ./VERSION ./bin ./test ./lib ./docs ./install_files/opt/mktechdocs/.
+cp -r ./VERSION ./bin ./test ./lib ./docs ./docsbuild ./install_files/opt/mktechdocs/.
 dpkg-buildpackage
 
