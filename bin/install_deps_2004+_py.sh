@@ -89,7 +89,7 @@ if [[ "$VERS" == "" ]] ; then
     echo "Please download and install pandoc. Then run this script again."
     echo "https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
     exit
-elif ((MAJ == 2)) || (((MAJ == 1)) && ((MIN < 18))); then
+elif (((MAJ == 1)) && ((MIN < 18))); then
     echo
     echo
     echo "The version of pandoc currently installed (${MAJ}.${MIN}) needs to be updated or downgraded to version 1.19"
