@@ -642,7 +642,7 @@ elif [[ "$FORMAT" == "htmlmulti" ]] ; then
 #############################################################################
 elif [[ "$FORMAT" == "markdown" ]] ; then
   clog INFO "Building main document $OUTPUT_FILE_NAME_BASE_ARG.md"
-  pandoc -s --ascii --highlight-style tango -f markdown -t markdown --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.md
+  pandoc -s --ascii --highlight-style tango -f markdown -t markdown-raw_attribute --wrap=preserve -N $TEMPLATE_ARG $SECTION_NUMBERS_ARG $TOC_MAIN_ARG $FILTERS -F flt-strip-pages-from-links.py $TITLE_PAGE_ARG master.md > ${OUTPUT_FILE_NAME_BASE_ARG}_pages/$OUTPUT_FILE_NAME_BASE_ARG.md
 normal_exit $?
 
   find . -type f | grep "plantuml-" | grep -v "\.uml" | while read ifile ; do
