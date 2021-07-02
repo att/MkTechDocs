@@ -24,7 +24,8 @@ Markdown files into a styled webpage or PDF document.
 -   Python and Groovy/Java hooks provide easy access to pre-existing
     code libraries
 -   Jinja2 and Groovy template support is baked in for more complex
-    documentation needs Pandodc templates can be customized on a per-project
+    documentation needs
+-   Pandodc templates can be customized on a per-project
     basis
 -   Agile and continuous-integration friendly
 
