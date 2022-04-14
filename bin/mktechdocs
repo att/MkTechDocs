@@ -594,7 +594,7 @@ normal_exit $?
 #############################################################################
 elif [[ "$FORMAT" == "htmlmulti" ]] ; then
   clog INFO "Building main multi-page HTML document."
-  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $SECTION_NUMBERS_ARG -F flt-include-doc-map.py --template $MKTECHDOCSHOME/lib/main_multipage.html $TOC_MAIN_ARG "$TITLE_ARG" master.md 2> 2cp.txt | sed 's/#~~\(.*\)~~/\1#/' > $OUTPUT_FILE_NAME_BASE_ARG.pyt
+  pandoc -s --ascii --highlight-style tango -f markdown -t html --wrap=preserve -N $SECTION_NUMBERS_ARG -F flt-include-doc-map.py --template $MKTECHDOCSHOME/lib/main_multipage.html $TOC_MAIN_ARG "$TITLE_ARG" master.md 2> 2cp.txt | perl -pe 's/#~~(.*?)~~/\1#/' > $OUTPUT_FILE_NAME_BASE_ARG.pyt
   normal_exit $?
   
   clog INFO "Fixing jinja brackets"
