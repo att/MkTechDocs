@@ -26,6 +26,8 @@
 # This filter is recursive, so you markdown can include
 # other markdown to any level.
 #
+# This filter is used internally by MkTechDocs.
+#
 
 import os
 import sys
