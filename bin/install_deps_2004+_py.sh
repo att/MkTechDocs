@@ -107,7 +107,7 @@ fi
 
 # Install pandocfilters
 
-sudo pip3 install pandocfilters
+pip3 install pandocfilters
 
 if ! exit_ok ; then
     echo "Installation of pandocfilters failed. Bailing out."
@@ -116,7 +116,7 @@ fi
 
 # Install Jinja2 for python templates
 
-sudo pip3 install Jinja2
+pip3 install Jinja2
 
 if ! exit_ok ; then
     echo "Installation of Jinja2 failed. Bailing out."
